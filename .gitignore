@@ -1,0 +1,14 @@
+# Godot 4 自动生成文件，不纳入版本控制
+.godot/
+
+# 平台构建产物
+export/
+android/
+ios/
+web/
+windows/
+linux/
+mac/
+
+# macOS 系统文件
+.DS_Store

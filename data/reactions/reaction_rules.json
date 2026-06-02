@@ -1,0 +1,347 @@
+{
+  "rules": [
+
+    {
+      "id": "na_cl_synthesis",
+      "name": "钠氯合成氯化钠",
+      "priority": 100,
+      "conditions": {
+        "a_requires": { "elements": ["Na"], "chem_tags": ["reducing"] },
+        "b_requires": { "elements": ["Cl"], "chem_tags": ["oxidizing"] }
+      },
+      "reaction_type": "exothermic",
+      "is_exothermic": true,
+      "temperature_sensitivity": 0.2,
+      "base_effect": {
+        "damage_multiplier": 3.5,
+        "status_effects": ["ionized"],
+        "env_delta": { "temp_delta": 20.0, "entropy_delta": -8.0 }
+      }
+    },
+
+    {
+      "id": "strong_acid_strong_base",
+      "name": "强酸强碱中和",
+      "priority": 95,
+      "conditions": {
+        "a_requires": { "chem_tags": ["acidic"] },
+        "b_requires": { "chem_tags": ["alkaline"] }
+      },
+      "reaction_type": "acid_base",
+      "is_acid_base": true,
+      "optimal_pH": 7.0,
+      "base_effect": {
+        "damage_multiplier": 2.5,
+        "status_effects": ["neutralized"],
+        "env_delta": { "pH_delta": 2.0, "temp_delta": 10.0, "entropy_delta": -6.0 }
+      }
+    },
+
+    {
+      "id": "sodium_water",
+      "name": "钠与水剧烈反应",
+      "priority": 90,
+      "conditions": {
+        "a_requires": { "elements": ["Na"], "chem_tags": ["reducing"] },
+        "b_requires": { "elements": ["H"] }
+      },
+      "reaction_type": "exothermic",
+      "is_exothermic": true,
+      "temperature_sensitivity": 0.35,
+      "base_effect": {
+        "damage_multiplier": 3.0,
+        "status_effects": ["burning", "hydrogen_released"],
+        "env_delta": { "temp_delta": 18.0, "pH_delta": 2.5, "entropy_delta": 10.0 }
+      }
+    },
+
+    {
+      "id": "h2o2_reducing",
+      "name": "过氧化氢强氧化",
+      "priority": 85,
+      "conditions": {
+        "a_requires": { "elements": ["H", "O"], "chem_tags": ["oxidizing"] },
+        "b_requires": { "chem_tags": ["reducing"] }
+      },
+      "reaction_type": "redox",
+      "base_effect": {
+        "damage_multiplier": 2.8,
+        "status_effects": ["oxidized", "structure_damaged"],
+        "env_delta": { "entropy_delta": 8.0, "temp_delta": 5.0 }
+      }
+    },
+
+    {
+      "id": "general_redox",
+      "name": "氧化还原反应",
+      "priority": 80,
+      "conditions": {
+        "a_requires": { "chem_tags": ["oxidizing"] },
+        "b_requires": { "chem_tags": ["reducing"] }
+      },
+      "reaction_type": "redox",
+      "base_effect": {
+        "damage_multiplier": 2.2,
+        "status_effects": ["electron_transferred"],
+        "env_delta": { "entropy_delta": 5.0 }
+      }
+    },
+
+    {
+      "id": "iron_acid_corrosion",
+      "name": "铁与酸腐蚀反应",
+      "priority": 75,
+      "conditions": {
+        "a_requires": { "elements": ["Fe"] },
+        "b_requires": { "chem_tags": ["acidic"] }
+      },
+      "reaction_type": "redox",
+      "base_effect": {
+        "damage_multiplier": 2.0,
+        "status_effects": ["corroded", "structure_damaged"],
+        "env_delta": { "pH_delta": 1.0, "entropy_delta": 6.0 }
+      }
+    },
+
+    {
+      "id": "cu_acid_oxidizing",
+      "name": "铜溶于氧化性酸",
+      "priority": 72,
+      "conditions": {
+        "a_requires": { "elements": ["Cu"] },
+        "b_requires": { "chem_tags": ["acidic", "oxidizing"] }
+      },
+      "reaction_type": "redox",
+      "base_effect": {
+        "damage_multiplier": 2.3,
+        "status_effects": ["dissolved", "structure_damaged"],
+        "env_delta": { "pH_delta": 0.8, "entropy_delta": 7.0 }
+      }
+    },
+
+    {
+      "id": "benzene_electrophilic",
+      "name": "苯环亲电取代",
+      "priority": 65,
+      "conditions": {
+        "a_requires": { "chem_tags": ["benzene_ring"] },
+        "b_requires": { "chem_tags": ["electrophilic"] }
+      },
+      "reaction_type": "stochastic",
+      "is_stochastic": true,
+      "base_effect": {
+        "damage_multiplier": 1.8,
+        "status_effects": ["substituted"],
+        "env_delta": { "entropy_delta": 4.0, "pH_delta": -0.5 }
+      }
+    },
+
+    {
+      "id": "amino_acid_salt",
+      "name": "氨基与酸成铵盐",
+      "priority": 62,
+      "conditions": {
+        "a_requires": { "elements": ["N"], "chem_tags": ["amino"] },
+        "b_requires": { "chem_tags": ["acidic"] }
+      },
+      "reaction_type": "acid_base",
+      "is_acid_base": true,
+      "optimal_pH": 9.0,
+      "base_effect": {
+        "damage_multiplier": 1.6,
+        "status_effects": ["protonated"],
+        "env_delta": { "pH_delta": -1.5, "temp_delta": 4.0, "entropy_delta": -3.0 }
+      }
+    },
+
+    {
+      "id": "zn_acid",
+      "name": "锌与酸反应",
+      "priority": 60,
+      "conditions": {
+        "a_requires": { "elements": ["Zn"] },
+        "b_requires": { "chem_tags": ["acidic"] }
+      },
+      "reaction_type": "redox",
+      "base_effect": {
+        "damage_multiplier": 1.9,
+        "status_effects": ["corroded"],
+        "env_delta": { "pH_delta": 0.8, "entropy_delta": 5.0 }
+      }
+    },
+
+    {
+      "id": "ester_formation",
+      "name": "羟基酸酯化反应",
+      "priority": 55,
+      "conditions": {
+        "a_requires": { "chem_tags": ["hydroxyl"] },
+        "b_requires": { "chem_tags": ["acidic"] }
+      },
+      "reaction_type": "endothermic",
+      "is_endothermic": true,
+      "temperature_sensitivity": 0.25,
+      "base_effect": {
+        "damage_multiplier": 1.5,
+        "status_effects": ["esterified"],
+        "env_delta": { "entropy_delta": 3.0, "pH_delta": -0.5 }
+      }
+    },
+
+    {
+      "id": "carbonyl_reduction",
+      "name": "羰基加氢还原",
+      "priority": 50,
+      "conditions": {
+        "a_requires": { "chem_tags": ["carbonyl"] },
+        "b_requires": { "chem_tags": ["reducing"] }
+      },
+      "reaction_type": "endothermic",
+      "is_endothermic": true,
+      "temperature_sensitivity": 0.2,
+      "base_effect": {
+        "damage_multiplier": 1.7,
+        "status_effects": ["reduced_carbonyl"],
+        "env_delta": { "temp_delta": -5.0, "entropy_delta": 2.0 }
+      }
+    },
+
+    {
+      "id": "halogen_reducing",
+      "name": "卤素氧化还原剂",
+      "priority": 45,
+      "conditions": {
+        "a_requires": { "chem_tags": ["halogen"] },
+        "b_requires": { "chem_tags": ["reducing"] }
+      },
+      "reaction_type": "redox",
+      "base_effect": {
+        "damage_multiplier": 1.6,
+        "status_effects": ["halogenated"],
+        "env_delta": { "entropy_delta": 4.0, "pH_delta": -0.3 }
+      }
+    },
+
+    {
+      "id": "weak_acid_base",
+      "name": "弱酸碱中和",
+      "priority": 40,
+      "conditions": {
+        "a_requires": { "chem_tags": ["acidic"] },
+        "b_requires": { "chem_tags": ["alkaline"] }
+      },
+      "reaction_type": "acid_base",
+      "is_acid_base": true,
+      "optimal_pH": 7.0,
+      "base_effect": {
+        "damage_multiplier": 1.4,
+        "status_effects": [],
+        "env_delta": { "pH_delta": 1.0, "temp_delta": 3.0, "entropy_delta": -2.0 }
+      }
+    },
+
+    {
+      "id": "exothermic_generic",
+      "name": "通用放热反应",
+      "priority": 30,
+      "conditions": {
+        "a_requires": { "chem_tags": ["exothermic"] },
+        "b_requires": {}
+      },
+      "reaction_type": "exothermic",
+      "is_exothermic": true,
+      "temperature_sensitivity": 0.3,
+      "base_effect": {
+        "damage_multiplier": 1.5,
+        "status_effects": ["burning"],
+        "env_delta": { "temp_delta": 12.0, "entropy_delta": 3.0 }
+      }
+    },
+
+    {
+      "id": "endothermic_generic",
+      "name": "通用吸热反应",
+      "priority": 28,
+      "conditions": {
+        "a_requires": { "chem_tags": ["endothermic"] },
+        "b_requires": {}
+      },
+      "reaction_type": "endothermic",
+      "is_endothermic": true,
+      "temperature_sensitivity": 0.2,
+      "base_effect": {
+        "damage_multiplier": 1.3,
+        "status_effects": ["chilled"],
+        "env_delta": { "temp_delta": -10.0, "entropy_delta": 2.0 }
+      }
+    },
+
+    {
+      "id": "metal_metal_competition",
+      "name": "金属离子配位竞争",
+      "priority": 15,
+      "conditions": {
+        "a_requires": { "elements": ["Cu"] },
+        "b_requires": { "elements": ["Fe"] }
+      },
+      "reaction_type": "stochastic",
+      "is_stochastic": true,
+      "base_effect": {
+        "damage_multiplier": 1.2,
+        "status_effects": ["destabilized"],
+        "env_delta": { "entropy_delta": 6.0 }
+      }
+    },
+
+    {
+      "id": "nitrogen_nitrogen",
+      "name": "含氮基团相互作用",
+      "priority": 10,
+      "conditions": {
+        "a_requires": { "elements": ["N"] },
+        "b_requires": { "elements": ["N"] }
+      },
+      "reaction_type": "stochastic",
+      "is_stochastic": true,
+      "base_effect": {
+        "damage_multiplier": 1.1,
+        "status_effects": [],
+        "env_delta": { "entropy_delta": 3.0 }
+      }
+    },
+
+    {
+      "id": "benzene_benzene_pi",
+      "name": "苯环π-π堆积干扰",
+      "priority": 8,
+      "conditions": {
+        "a_requires": { "chem_tags": ["benzene_ring"] },
+        "b_requires": { "chem_tags": ["benzene_ring"] }
+      },
+      "reaction_type": "stochastic",
+      "is_stochastic": true,
+      "base_effect": {
+        "damage_multiplier": 0.9,
+        "status_effects": ["pi_stacking"],
+        "env_delta": { "entropy_delta": 2.0 }
+      }
+    },
+
+    {
+      "id": "inert_fallback",
+      "name": "通用惰性接触",
+      "priority": 1,
+      "conditions": {
+        "a_requires": {},
+        "b_requires": {}
+      },
+      "reaction_type": "generic",
+      "base_effect": {
+        "damage_multiplier": 0.8,
+        "status_effects": [],
+        "env_delta": { "entropy_delta": 1.0 }
+      }
+    }
+
+  ]
+}
