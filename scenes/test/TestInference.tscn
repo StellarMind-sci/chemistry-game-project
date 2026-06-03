@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cfhv1u1dlklip"]
+
+[ext_resource type="Script" uid="uid://lhm3v2terjcl" path="res://scripts/test/TestInference.gd" id="1_osdk8"]
+
+[node name="Node" type="Node" unique_id=335965278]
+script = ExtResource("1_osdk8")

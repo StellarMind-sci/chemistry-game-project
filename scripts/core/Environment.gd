@@ -1,7 +1,7 @@
 # Environment.gd
 # 战场环境：承载 pH / 温度 / 熵 三个核心维度
-# 这是勒夏特列原理的物质载体——反应改变环境，环境反制反应
-class_name Environment
+# 注意：class_name 用 BattleEnvironment 避免与 Godot 内置 Environment 类冲突
+class_name BattleEnvironment
 extends RefCounted
 
 # ── 当前值 ───────────────────────────────────────────────
@@ -9,7 +9,7 @@ var pH:          float = 7.0    # 酸碱度，0-14
 var temperature: float = 25.0   # 温度（°C），-50 至 200
 var entropy:     float = 30.0   # 熵，0-100
 
-# ── 基准值（每个维度偏离基准后效率才开始衰减）────────────
+# ── 基准值 ───────────────────────────────────────────────
 var baseline_pH:          float = 7.0
 var baseline_temperature: float = 25.0
 var baseline_entropy:     float = 30.0
@@ -23,32 +23,29 @@ const ENTROPY_MIN:  float = 0.0
 const ENTROPY_MAX:  float = 100.0
 
 # ── 关键阈值 ─────────────────────────────────────────────
-const ENTROPY_CHAOS_THRESHOLD: float = 70.0   # 熵超过此值进入混乱态
-const PH_EXTREME_DELTA:        float = 3.0    # pH 偏离基准 ±3 触发显著效果
-const TEMP_EXTREME_DELTA:      float = 30.0   # 温度偏离基准 ±30 进入显著影响区
+const ENTROPY_CHAOS_THRESHOLD: float = 70.0
+const PH_EXTREME_DELTA:        float = 3.0
+const TEMP_EXTREME_DELTA:      float = 30.0
 
 # ── 更新 ─────────────────────────────────────────────────
 
-# 应用本回合反应产生的环境扰动
-# delta 格式：{"pH_delta": 0.5, "temp_delta": 8.0, "entropy_delta": 3.0}
 func apply_delta(delta: Dictionary) -> Array:
-	# 返回实际发生的变化（钳制后），供 BattleManager 记录日志
 	var changes: Array = []
 
 	if delta.has("pH_delta"):
-		var old_pH = pH
+		var old_pH: float = pH
 		pH = clamp(pH + float(delta["pH_delta"]), PH_MIN, PH_MAX)
 		if abs(pH - old_pH) > 0.01:
 			changes.append("pH %.1f → %.1f" % [old_pH, pH])
 
 	if delta.has("temp_delta"):
-		var old_t = temperature
+		var old_t: float = temperature
 		temperature = clamp(temperature + float(delta["temp_delta"]), TEMP_MIN, TEMP_MAX)
 		if abs(temperature - old_t) > 0.01:
 			changes.append("温度 %.0f°C → %.0f°C" % [old_t, temperature])
 
 	if delta.has("entropy_delta"):
-		var old_e = entropy
+		var old_e: float = entropy
 		entropy = clamp(entropy + float(delta["entropy_delta"]), ENTROPY_MIN, ENTROPY_MAX)
 		if abs(entropy - old_e) > 0.01:
 			changes.append("熵 %.0f → %.0f" % [old_e, entropy])
@@ -58,7 +55,6 @@ func apply_delta(delta: Dictionary) -> Array:
 # ── 状态查询 ─────────────────────────────────────────────
 
 func is_chaos_state() -> bool:
-	# 熵 > 70，进入混乱态：概率反应方差显著增大
 	return entropy > ENTROPY_CHAOS_THRESHOLD
 
 func is_extreme_pH() -> bool:
