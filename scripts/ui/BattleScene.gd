@@ -2,7 +2,7 @@
 # 新增：Boss 多形态支持，形态切换视觉反馈，特殊胜利条件
 extends Node
 
-enum Phase { INIT, PLAYER_INPUT, TARGET_SELECT, RESOLVING, BATTLE_END }
+enum Phase { INIT, PLAYER_INPUT, TARGET_SELECT, NODE_SELECT, RESOLVING, BATTLE_END }
 var phase: Phase = Phase.INIT
 
 const C_BG       := Color(0.055, 0.065, 0.100)
@@ -25,6 +25,7 @@ var select_queue: Array       = []
 var cur_selector: Character   = null
 var pending_action            = null
 var pending_char: Character   = null
+var pending_target: Character = null
 
 var env_label:  Label
 var player_col: VBoxContainer
@@ -37,8 +38,9 @@ var hp_bar_map:  Dictionary = {}
 var hp_txt_map:  Dictionary = {}
 var hand_lbl_map: Dictionary = {}
 # Boss 专用：形态名称标签
-var phase_lbl_map:  Dictionary = {}   # Boss → Label
-var status_lbl_map: Dictionary = {}   # Character → Label（状态效果）
+var phase_lbl_map:   Dictionary = {}   # Boss → Label
+var status_lbl_map:  Dictionary = {}   # Character → Label（状态效果）
+var node_display_map: Dictionary = {}   # Character → Label（结构节点）
 
 func _ready() -> void:
 	_build_ui()
@@ -188,6 +190,15 @@ func _make_char_panel(chara: Character, is_player: bool) -> Control:
 	status_lbl_map[chara] = sl
 	c.add_child(sl)
 
+	# 结构节点显示
+	var nl := Label.new()
+	nl.text = ""
+	nl.add_theme_font_size_override("font_size", 11)
+	nl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	nl.add_theme_color_override("font_color", Color(0.75, 0.55, 0.90))
+	node_display_map[chara] = nl
+	c.add_child(nl)
+
 	return c
 
 # ══════════════════════════════════════════════════════════
@@ -281,6 +292,17 @@ func _init_battle() -> void:
 
 	boss.phases = [p1, p2, p3]
 	boss.init_first_phase()
+	boss.load_nodes([
+		{"id":"defense_shell","label":"防御外壳 Cu²⁺","type":"cation",
+		 "stability":1.0,"active_sites":["oxidant_site"],
+		 "vulnerable_to":["acidic","reducing"]},
+		{"id":"oxide_layer","label":"氧化层 O²⁻","type":"anion",
+		 "stability":0.9,"active_sites":[],
+		 "vulnerable_to":["acidic"]},
+		{"id":"carbonate_core","label":"碳酸基 CO₃²⁻","type":"anion",
+		 "stability":0.8,"active_sites":["proton_acceptor"],
+		 "vulnerable_to":["acidic","alkaline"]},
+	])
 
 	bm = BattleManager.new()
 	bm.setup_teams([pa, pb], [boss])
@@ -339,16 +361,15 @@ func _on_action_picked(action, chara: Character) -> void:
 	if phase != Phase.PLAYER_INPUT: return
 	_clear_action_buttons()
 	if action.has_method("is_intervention") and action.is_intervention():
-		# 检查是否是催化剂部署行动（通过 description 判断，实际项目可用专用字段）
 		if "催化剂" in action.action_name or "催化" in action.action_name:
 			_deploy_catalyst_from_action(action, chara)
-		_finalize_selection(action, chara, null)
+		_finalize_selection(action, chara, null, "")
 		return
 	var alive_e := _alive_in(bm.enemy_team)
-	if alive_e.size() == 1:
-		_finalize_selection(action, chara, alive_e[0] as Character)
-	elif alive_e.is_empty():
-		_finalize_selection(action, chara, null)
+	if alive_e.is_empty():
+		_finalize_selection(action, chara, null, "")
+	elif alive_e.size() == 1:
+		_after_target_known(action, chara, alive_e[0] as Character)
 	else:
 		pending_action = action; pending_char = chara
 		phase = Phase.TARGET_SELECT
@@ -356,21 +377,74 @@ func _on_action_picked(action, chara: Character) -> void:
 
 func _on_target_picked(target: Character) -> void:
 	if phase != Phase.TARGET_SELECT: return
-	phase = Phase.PLAYER_INPUT
 	_clear_action_buttons()
-	_finalize_selection(pending_action, pending_char, target)
+	_after_target_known(pending_action, pending_char, target)
 
-func _finalize_selection(action, chara: Character, target) -> void:
-	p_selections[chara] = {"action": action, "target": target}
+func _finalize_selection(action, chara: Character, target, node_id: String = "") -> void:
+	p_selections[chara] = {"action": action, "target": target, "node_id": node_id}
 	var tn: String = (target as Character).char_name if target != null else "战场"
-	_log_append("  [color=#44ccff]%s[/color] → [color=#ffdd44]%s[/color]  目标：[color=#ffaa44]%s[/color]" % [
-		chara.char_name, action.action_name, tn])
+	var node_str: String = ""
+	if node_id != "" and target != null:
+		var node_lbl: String = (target as Character).get_node_label(node_id)
+		node_str = "  →节点[%s]" % node_lbl
+	_log_append("  [color=#44ccff]%s[/color] → [color=#ffdd44]%s[/color]  目标：[color=#ffaa44]%s[/color]%s" % [
+		chara.char_name, action.action_name, tn, node_str])
 	_next_selector()
 
 func _on_pass_pressed(chara: Character) -> void:
 	if phase != Phase.PLAYER_INPUT: return
 	_log_append("  [color=#888888]%s Pass[/color]" % chara.char_name)
 	_clear_action_buttons(); _next_selector()
+
+func _after_target_known(action, chara: Character, target: Character) -> void:
+	phase = Phase.PLAYER_INPUT
+	var is_strike: bool = not action.has_method("is_intervention") or action.is_strike()
+	var active_nodes := target.get_active_nodes() if target != null else []
+	if is_strike and not active_nodes.is_empty():
+		pending_action = action; pending_char = chara; pending_target = target
+		phase = Phase.NODE_SELECT
+		_show_node_selection(action, chara, target)
+	else:
+		_finalize_selection(action, chara, target, "")
+
+func _show_node_selection(action, chara: Character, target: Character) -> void:
+	_clear_action_buttons()
+	prompt_lbl.text = "%s — 选择攻击节点" % chara.char_name
+	for node in target.get_active_nodes():
+		var nid: String  = node.get("id", "")
+		var nlbl: String = node.get("label", "?")
+		var stab: float  = float(node.get("stability", 1.0))
+		var vulns: Array = node.get("vulnerable_to", [])
+		var atags: Array = action.chem_tags if "chem_tags" in action else []
+		var is_vuln := false
+		for tag in atags:
+			if tag in vulns: is_vuln = true; break
+		var btn := Button.new()
+		btn.text = "[%s]
+稳定 %.0f%%%s" % [nlbl, stab*100.0, "  ★克制" if is_vuln else ""]
+		btn.custom_minimum_size = Vector2(145, 58)
+		btn.modulate = Color(0.95, 0.75, 0.20) if is_vuln else Color(0.70, 0.55, 0.85)
+		var cn=nid; var ca=action; var cc=chara; var ct=target
+		btn.pressed.connect(func(): _on_node_picked(cn, ca, cc, ct))
+		action_row.add_child(btn)
+	var skip := Button.new()
+	skip.text = "不指定节点
+直接攻击"
+	skip.custom_minimum_size = Vector2(95, 58)
+	skip.modulate = Color(0.45, 0.45, 0.50)
+	var ca2=action; var cc2=chara; var ct2=target
+	skip.pressed.connect(func(): _on_skip_node(ca2, cc2, ct2))
+	action_row.add_child(skip)
+
+func _on_node_picked(node_id: String, action, chara: Character, target: Character) -> void:
+	if phase != Phase.NODE_SELECT: return
+	phase = Phase.PLAYER_INPUT; _clear_action_buttons()
+	_finalize_selection(action, chara, target, node_id)
+
+func _on_skip_node(action, chara: Character, target: Character) -> void:
+	if phase != Phase.NODE_SELECT: return
+	phase = Phase.PLAYER_INPUT; _clear_action_buttons()
+	_finalize_selection(action, chara, target, "")
 
 func _show_target_selection(attacker: Character) -> void:
 	_clear_action_buttons()
@@ -444,6 +518,28 @@ func _resolve_turn() -> void:
 	)
 
 	var results := bm.phase_resolution(clash_pairs)
+
+	# 活性位点：加成伤害 + 节点稳定性损耗
+	for i in range(results.size()):
+		var res: Dictionary = results[i]
+		var atk: Character = res.get("attacker")
+		var def: Character = res.get("defender")
+		if atk == null or def == null or def.structure_nodes.is_empty(): continue
+		var node_id: String = str(p_selections.get(atk, {}).get("node_id", ""))
+		if node_id == "": continue
+		var act = p_selections.get(atk, {}).get("action")
+		var act_tags: Array = act.chem_tags if act != null and "chem_tags" in act else []
+		var is_vuln := def.check_node_vulnerability(node_id, act_tags)
+		var mult: float = 1.45 if is_vuln else 1.0
+		res["attack_damage"] = float(res.get("attack_damage", 0.0)) * mult
+		var dmg_r := def.damage_node(node_id, 0.25)
+		if dmg_r.get("hit"):
+			if is_vuln:
+				_log_append("[color=#ffee44]  ★ 活性位点命中！[%s] 伤害×%.2f  稳定→%.0f%%[/color]" % [
+					dmg_r.get("label","?"), mult, float(dmg_r.get("remaining",0))*100])
+			if dmg_r.get("destroyed"):
+				_log_append("[color=#ff4444]  ❌ 节点[%s]摧毁！[/color]" % dmg_r.get("label","?"))
+
 	bm.phase_apply(results)
 
 	# ── 记录 Boss 被命中的规则（用于特殊胜利条件）────────
@@ -552,6 +648,16 @@ func _update_char_ui(c: Character) -> void:
 				var dur: int = int(eff.get("duration", 0))
 				parts.append("[%s×%d]" % [etype, dur])
 			sl.text = "状态：" + " ".join(parts)
+	if node_display_map.has(c) and not c.structure_nodes.is_empty():
+		var nl: Label = node_display_map[c]
+		var parts2: Array = []
+		for node in c.structure_nodes:
+			var stab: float = float(node.get("stability", 1.0))
+			var lbl: String = node.get("label", "?")
+			if stab <= 0.0:       parts2.append("[☠%s]" % lbl)
+			elif stab < 0.40:    parts2.append("[⚠%s %.0f%%]" % [lbl, stab*100])
+			else:                parts2.append("[%s %.0f%%]" % [lbl, stab*100])
+		nl.text = "节点：" + "  ".join(parts2)
 
 func _update_env_bar() -> void:
 	if not is_instance_valid(env_label): return

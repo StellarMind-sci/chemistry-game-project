@@ -204,3 +204,58 @@ func get_summary() -> String:
 		energy_pool[ENERGY_ACTIVATION],
 		behavior_spectrum.size(), standby.size(), sediment.size()
 	]
+
+# ══════════════════════════════════════════════════════════
+# 结构节点系统（活性位点攻击）
+# ══════════════════════════════════════════════════════════
+
+var structure_nodes: Array = []   # 结构节点列表（从物质档案加载或手动创建）
+
+# 从节点字典数组加载（支持来自 substance_registry 的 structure_nodes 格式）
+func load_nodes(nodes: Array) -> void:
+	structure_nodes = []
+	for n in nodes:
+		structure_nodes.append(n.duplicate(true))
+
+# 获取尚未被摧毁的活跃节点
+func get_active_nodes() -> Array:
+	var result: Array = []
+	for node in structure_nodes:
+		if float(node.get("stability", 1.0)) > 0.0:
+			result.append(node)
+	return result
+
+# 攻击某个节点：每次命中减少稳定性，归零则视为摧毁
+# dmg_fraction：本次命中减少的稳定性比例（0.25 = 减少25%）
+func damage_node(node_id: String, dmg_fraction: float) -> Dictionary:
+	for node in structure_nodes:
+		if node.get("id") == node_id:
+			var old_stab: float = float(node.get("stability", 1.0))
+			node["stability"] = max(0.0, old_stab - dmg_fraction)
+			var destroyed: bool = (old_stab > 0.0 and node["stability"] <= 0.0)
+			return {
+				"hit":       true,
+				"label":     node.get("label", node_id),
+				"remaining": node["stability"],
+				"destroyed": destroyed,
+			}
+	return {"hit": false}
+
+# 检查行动的化学特性标签是否与指定节点的 vulnerable_to 匹配
+# 用于判断是否触发活性位点命中加成
+func check_node_vulnerability(node_id: String, action_chem_tags: Array) -> bool:
+	for node in structure_nodes:
+		if node.get("id") == node_id:
+			var vulns: Array = node.get("vulnerable_to", [])
+			for tag in action_chem_tags:
+				if tag in vulns:
+					return true
+			return false
+	return false
+
+# 获取节点的显示标签
+func get_node_label(node_id: String) -> String:
+	for node in structure_nodes:
+		if node.get("id") == node_id:
+			return node.get("label", node_id)
+	return node_id
