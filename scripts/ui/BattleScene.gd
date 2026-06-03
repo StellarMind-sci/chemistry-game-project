@@ -37,7 +37,8 @@ var hp_bar_map:  Dictionary = {}
 var hp_txt_map:  Dictionary = {}
 var hand_lbl_map: Dictionary = {}
 # Boss 专用：形态名称标签
-var phase_lbl_map: Dictionary = {}   # Boss → Label
+var phase_lbl_map:  Dictionary = {}   # Boss → Label
+var status_lbl_map: Dictionary = {}   # Character → Label（状态效果）
 
 func _ready() -> void:
 	_build_ui()
@@ -178,6 +179,14 @@ func _make_char_panel(chara: Character, is_player: bool) -> Control:
 	hl.add_theme_color_override("font_color", Color(0.45, 0.45, 0.50))
 	hand_lbl_map[chara] = hl
 	c.add_child(hl)
+
+	# 状态效果显示行
+	var sl := Label.new()
+	sl.text = ""
+	sl.add_theme_font_size_override("font_size", 11)
+	sl.add_theme_color_override("font_color", Color(0.90, 0.65, 0.30))
+	status_lbl_map[chara] = sl
+	c.add_child(sl)
 
 	return c
 
@@ -388,11 +397,12 @@ func _resolve_turn() -> void:
 	prompt_lbl.text = "解算中..."
 	_clear_action_buttons()
 
-	var enemy_sel: Dictionary = {}
+	# ── 敌方智能AI：评分选行动 + 化学克制选目标 ────────────
+	var enemy_sel: Dictionary = {}   # Character → {action, target}
 	for c in bm.enemy_team:
 		if c.is_alive():
-			var act = bm._pick_action(c)
-			if act != null: enemy_sel[c] = act
+			var sel := _ai_pick_action_and_target(c as Character)
+			if not sel.is_empty(): enemy_sel[c] = sel
 
 	var clash_pairs: Array = []
 	for atk in bm.player_team:
@@ -404,15 +414,21 @@ func _resolve_turn() -> void:
 			var ae := _alive_in(bm.enemy_team)
 			tgt = ae[0] if not ae.is_empty() else null
 		if tgt == null: continue
-		clash_pairs.append(BattleManager.ClashPair.new(atk, act, tgt, enemy_sel.get(tgt)))
+		var enemy_counter = enemy_sel.get(tgt, {}).get("action")
+		clash_pairs.append(BattleManager.ClashPair.new(atk, act, tgt, enemy_counter))
 
 	for atk in bm.enemy_team:
 		if not atk.is_alive() or not enemy_sel.has(atk): continue
-		var ap := _alive_in(bm.player_team)
-		if ap.is_empty(): break
-		var tgt_p: Character = ap[randi() % ap.size()] as Character
+		var ai_sel: Dictionary = enemy_sel[atk]
+		var ai_act  = ai_sel.get("action")
+		var ai_tgt  = ai_sel.get("target")
+		if ai_tgt == null or not (ai_tgt as Character).is_alive():
+			var ap := _alive_in(bm.player_team)
+			if ap.is_empty(): break
+			ai_tgt = ap[randi() % ap.size()] as Character
+		var player_counter = p_selections.get(ai_tgt, {}).get("action")
 		clash_pairs.append(BattleManager.ClashPair.new(
-			atk, enemy_sel[atk], tgt_p, p_selections.get(tgt_p, {}).get("action")))
+			atk, ai_act, ai_tgt, player_counter))
 
 	clash_pairs.sort_custom(func(a, b) -> bool:
 		var ca := a as BattleManager.ClashPair
@@ -439,7 +455,9 @@ func _resolve_turn() -> void:
 	_check_boss_phase_transitions()
 
 	for atk in enemy_sel:
-		(atk as Character).use_action_from_standby(enemy_sel[atk])
+		var ai_act = enemy_sel[atk].get("action")
+		if ai_act != null:
+			(atk as Character).use_action_from_standby(ai_act)
 
 	# ── 特殊胜利条件检测 ──────────────────────────────────
 	for c in bm.enemy_team:
@@ -517,6 +535,18 @@ func _update_char_ui(c: Character) -> void:
 	hnd.text = "谱:%d 手:%d 沉:%d  AE:%.0f" % [
 		c.behavior_spectrum.size(), c.standby.size(), c.sediment.size(),
 		c.energy_pool.get(Character.ENERGY_ACTIVATION, 0.0)]
+	# 状态效果列表
+	if status_lbl_map.has(c):
+		var sl: Label = status_lbl_map[c]
+		if c.status_effects.is_empty():
+			sl.text = ""
+		else:
+			var parts: Array = []
+			for eff in c.status_effects:
+				var etype: String = str(eff.get("type", ""))
+				var dur: int = int(eff.get("duration", 0))
+				parts.append("[%s×%d]" % [etype, dur])
+			sl.text = "状态：" + " ".join(parts)
 
 func _update_env_bar() -> void:
 	if not is_instance_valid(env_label): return
@@ -553,6 +583,76 @@ func _rebuild_action_buttons(chara: Character) -> void:
 
 func _clear_action_buttons() -> void:
 	for ch in action_row.get_children(): ch.queue_free()
+
+# ── 敌方AI：综合评分选行动，化学克制关系选目标 ─────────────────
+func _ai_pick_action_and_target(enemy: Character) -> Dictionary:
+	if enemy.standby.is_empty():
+		enemy.draw_to_standby()
+	var affordable := enemy.get_affordable_standby()
+	if affordable.is_empty(): return {}
+
+	# 行动评分
+	var best_action = null
+	var best_action_score := -999.0
+	for action in affordable:
+		var score := 0.0
+		var intensity: float = action.base_intensity if "base_intensity" in action else 10.0
+		score += intensity
+		# 血量低于30%时更激进（优先高伤害）
+		if enemy.get_hp_ratio() < 0.30:
+			score += intensity * 0.6
+		# 携带先手关键字加分
+		if action.has_method("has_keyword") and action.has_keyword("先手"):
+			score += 12.0
+		# 调控型行动：根据战场状态决定是否值得
+		if action.has_method("is_intervention") and action.is_intervention():
+			# 熵过高时优先降熵，否则降低优先级
+			var entropy: float = bm.environment.entropy
+			score = 18.0 if entropy > 60.0 else 10.0
+		if score > best_action_score:
+			best_action_score = score
+			best_action = action
+
+	if best_action == null: return {}
+
+	# 目标评分：优先低血 + 化学克制
+	var alive_players := _alive_in(bm.player_team)
+	if alive_players.is_empty(): return {}
+
+	var best_target: Character = null
+	var best_target_score := -999.0
+	var action_tags: Array = best_action.chem_tags if "chem_tags" in best_action else []
+
+	for p in alive_players:
+		var pc := p as Character
+		# 基础分：血量越低越优先（瞄准快倒下的目标）
+		var tscore := (1.0 - pc.get_hp_ratio()) * 60.0
+		# 化学克制：如果敌方行动能克制这名玩家，额外加分
+		for tag in action_tags:
+			var weak_tag := _chemical_counter(tag)
+			if weak_tag != "" and pc.has_skill_with_tag(weak_tag):
+				tscore += 25.0
+				break
+		if tscore > best_target_score:
+			best_target_score = tscore
+			best_target = pc
+
+	if best_target == null:
+		best_target = alive_players[0] as Character
+
+	return {"action": best_action, "target": best_target}
+
+# 化学克制关系：氧化剂克制还原性目标，酸克制碱，等
+func _chemical_counter(attacker_tag: String) -> String:
+	match attacker_tag:
+		"oxidizing":   return "reducing"
+		"reducing":    return "oxidizing"
+		"acidic":      return "alkaline"
+		"alkaline":    return "acidic"
+		"halogen":     return "reducing"
+		"exothermic":  return "endothermic"
+		_:             return ""
+
 
 func _deploy_catalyst_from_action(action, chara: Character) -> void:
 	var cat: Catalyst
