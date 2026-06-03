@@ -146,8 +146,12 @@ func heal(amount: float) -> void:
 # ══════════════════════════════════════════════════════════
 
 func restore_energy_per_turn() -> void:
-	energy_pool[ENERGY_ACTIVATION] = min(100.0, energy_pool[ENERGY_ACTIVATION] + 15.0)
-	energy_pool[ENERGY_FREE]       = min(50.0,  energy_pool[ENERGY_FREE]       + 5.0)
+	# 活化能：每回合恢复 20（原15偏少，导致高费行动难以持续使用）
+	energy_pool[ENERGY_ACTIVATION] = min(100.0, energy_pool[ENERGY_ACTIVATION] + 20.0)
+	# 电子数：每回合恢复 2（氧化还原专用，缓慢恢复保持稀缺性）
+	energy_pool[ENERGY_ELECTRON]   = min(10.0,  energy_pool[ENERGY_ELECTRON]   + 2.0)
+	# 自由能：每回合恢复 6
+	energy_pool[ENERGY_FREE]       = min(50.0,  energy_pool[ENERGY_FREE]       + 6.0)
 
 func can_afford(cost: Dictionary) -> bool:
 	for res_type: String in cost:
