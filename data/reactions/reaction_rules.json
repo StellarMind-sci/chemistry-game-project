@@ -1,1592 +1,1592 @@
 {
   "rules": [
-    {
-      "id": "na_cl_synthesis",
-      "name": "钠氯合成氯化钠",
-      "priority": 100,
-      "conditions": {
-        "a_requires": {
-          "elements": [
+	{
+	  "id": "na_cl_synthesis",
+	  "name": "钠氯合成氯化钠",
+	  "priority": 100,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
             "Na"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "reducing"
-          ]
-        },
-        "b_requires": {
-          "elements": [
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
             "Cl"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "oxidizing"
-          ]
-        }
-      },
-      "reaction_type": "exothermic",
-      "is_exothermic": true,
-      "temperature_sensitivity": 0.2,
-      "equation": {
-        "display": "2Na + Cl₂ → 2NaCl",
-        "condition": "点燃",
-        "reversible": false,
-        "product_ids": [
+		  ]
+		}
+	  },
+	  "reaction_type": "exothermic",
+	  "is_exothermic": true,
+	  "temperature_sensitivity": 0.2,
+	  "equation": {
+		"display": "2Na + Cl₂ → 2NaCl",
+		"condition": "点燃",
+		"reversible": false,
+		"product_ids": [
           "NaCl"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 3.5,
-        "status_effects": [
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 3.5,
+		"status_effects": [
           "ionized"
-        ],
-        "env_delta": {
-          "temp_delta": 20.0,
-          "entropy_delta": -8.0
-        },
-        "equation_display": "2Na + Cl₂ → 2NaCl  [点燃]"
-      }
-    },
-    {
-      "id": "strong_acid_strong_base",
-      "name": "强酸强碱中和",
-      "priority": 95,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "temp_delta": 20.0,
+		  "entropy_delta": -8.0
+		},
+		"equation_display": "2Na + Cl₂ → 2NaCl  [点燃]"
+	  }
+	},
+	{
+	  "id": "strong_acid_strong_base",
+	  "name": "强酸强碱中和",
+	  "priority": 95,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "acidic"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "alkaline"
-          ]
-        }
-      },
-      "reaction_type": "acid_base",
-      "is_acid_base": true,
-      "optimal_pH": 7.0,
-      "equation": {
-        "display": "H⁺ + OH⁻ → H₂O",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
+		  ]
+		}
+	  },
+	  "reaction_type": "acid_base",
+	  "is_acid_base": true,
+	  "optimal_pH": 7.0,
+	  "equation": {
+		"display": "H⁺ + OH⁻ → H₂O",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 2.5,
-        "status_effects": [
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.5,
+		"status_effects": [
           "neutralized"
-        ],
-        "env_delta": {
-          "pH_delta": 0.0,
-          "temp_delta": 10.0,
-          "entropy_delta": -6.0
-        },
-        "equation_display": "H⁺ + OH⁻ → H₂O"
-      }
-    },
-    {
-      "id": "sodium_water",
-      "name": "钠与水剧烈反应",
-      "priority": 90,
-      "conditions": {
-        "a_requires": {
-          "elements": [
+		],
+		"env_delta": {
+		  "pH_delta": 0.0,
+		  "temp_delta": 10.0,
+		  "entropy_delta": -6.0
+		},
+		"equation_display": "H⁺ + OH⁻ → H₂O"
+	  }
+	},
+	{
+	  "id": "sodium_water",
+	  "name": "钠与水剧烈反应",
+	  "priority": 90,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
             "Na"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "reducing"
-          ]
-        },
-        "b_requires": {
-          "elements": [
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
             "H"
-          ]
-        }
-      },
-      "reaction_type": "exothermic",
-      "is_exothermic": true,
-      "temperature_sensitivity": 0.35,
-      "equation": {
-        "display": "2Na + 2H₂O → 2NaOH + H₂↑",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
-          "NaOH",
+		  ]
+		}
+	  },
+	  "reaction_type": "exothermic",
+	  "is_exothermic": true,
+	  "temperature_sensitivity": 0.35,
+	  "equation": {
+		"display": "2Na + 2H₂O → 2NaOH + H₂↑",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
+		  "NaOH",
           "H2"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 3.0,
-        "status_effects": [
-          "burning",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 3.0,
+		"status_effects": [
+		  "burning",
           "hydrogen_released"
-        ],
-        "env_delta": {
-          "temp_delta": 8.0,
-          "pH_delta": 2.5,
-          "entropy_delta": 10.0
-        },
-        "equation_display": "2Na + 2H₂O → 2NaOH + H₂↑"
-      }
-    },
-    {
-      "id": "general_redox",
-      "name": "氧化还原反应",
-      "priority": 80,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "temp_delta": 8.0,
+		  "pH_delta": 2.5,
+		  "entropy_delta": 10.0
+		},
+		"equation_display": "2Na + 2H₂O → 2NaOH + H₂↑"
+	  }
+	},
+	{
+	  "id": "general_redox",
+	  "name": "氧化还原反应",
+	  "priority": 80,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "oxidizing"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "reducing"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "氧化剂 + 还原剂 → 氧化产物 + 还原产物",
-        "condition": "",
-        "reversible": false,
-        "product_ids": []
-      },
-      "base_effect": {
-        "damage_multiplier": 2.2,
-        "status_effects": [
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "氧化剂 + 还原剂 → 氧化产物 + 还原产物",
+		"condition": "",
+		"reversible": false,
+		"product_ids": []
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.2,
+		"status_effects": [
           "electron_transferred"
-        ],
-        "env_delta": {
-          "entropy_delta": 5.0
-        },
-        "equation_display": "氧化剂 + 还原剂 → 氧化产物 + 还原产物"
-      }
-    },
-    {
-      "id": "iron_acid_corrosion",
-      "name": "铁与酸腐蚀反应",
-      "priority": 75,
-      "conditions": {
-        "a_requires": {
-          "elements": [
+		],
+		"env_delta": {
+		  "entropy_delta": 5.0
+		},
+		"equation_display": "氧化剂 + 还原剂 → 氧化产物 + 还原产物"
+	  }
+	},
+	{
+	  "id": "iron_acid_corrosion",
+	  "name": "铁与酸腐蚀反应",
+	  "priority": 75,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
             "Fe"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "acidic"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "Fe + H₂SO₄(稀) → FeSO₄ + H₂↑",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
-          "FeSO4",
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "Fe + H₂SO₄(稀) → FeSO₄ + H₂↑",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
+		  "FeSO4",
           "H2"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 2.0,
-        "status_effects": [
-          "corroded",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.0,
+		"status_effects": [
+		  "corroded",
           "structure_damaged"
-        ],
-        "env_delta": {
-          "pH_delta": 1.0,
-          "entropy_delta": 6.0
-        },
-        "equation_display": "Fe + H₂SO₄(稀) → FeSO₄ + H₂↑"
-      }
-    },
-    {
-      "id": "cu_acid_oxidizing",
-      "name": "铜溶于氧化性酸",
-      "priority": 72,
-      "conditions": {
-        "a_requires": {
-          "elements": [
+		],
+		"env_delta": {
+		  "pH_delta": 1.0,
+		  "entropy_delta": 6.0
+		},
+		"equation_display": "Fe + H₂SO₄(稀) → FeSO₄ + H₂↑"
+	  }
+	},
+	{
+	  "id": "cu_acid_oxidizing",
+	  "name": "铜溶于氧化性酸",
+	  "priority": 72,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
             "Cu"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
-            "acidic",
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
+			"acidic",
             "oxidizing"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "3Cu + 8HNO₃(稀) → 3Cu(NO₃)₂ + 2NO↑ + 4H₂O",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
-          "CuNO32",
-          "NO",
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "3Cu + 8HNO₃(稀) → 3Cu(NO₃)₂ + 2NO↑ + 4H₂O",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
+		  "CuNO32",
+		  "NO",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 2.3,
-        "status_effects": [
-          "dissolved",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.3,
+		"status_effects": [
+		  "dissolved",
           "structure_damaged"
-        ],
-        "env_delta": {
-          "pH_delta": 0.8,
-          "entropy_delta": 7.0
-        },
-        "equation_display": "3Cu + 8HNO₃(稀) → 3Cu(NO₃)₂ + 2NO↑ + 4H₂O"
-      }
-    },
-    {
-      "id": "benzene_electrophilic",
-      "name": "苯环亲电取代",
-      "priority": 65,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "pH_delta": 0.8,
+		  "entropy_delta": 7.0
+		},
+		"equation_display": "3Cu + 8HNO₃(稀) → 3Cu(NO₃)₂ + 2NO↑ + 4H₂O"
+	  }
+	},
+	{
+	  "id": "benzene_electrophilic",
+	  "name": "苯环亲电取代",
+	  "priority": 65,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "benzene_ring"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "electrophilic"
-          ]
-        }
-      },
-      "reaction_type": "stochastic",
-      "is_stochastic": true,
-      "equation": {
-        "display": "C₆H₆ + HNO₃ →(浓H₂SO₄) C₆H₅NO₂ + H₂O",
-        "condition": "浓H₂SO₄催化，50-60°C",
-        "reversible": false,
-        "product_ids": [
-          "C6H5NO2",
+		  ]
+		}
+	  },
+	  "reaction_type": "stochastic",
+	  "is_stochastic": true,
+	  "equation": {
+		"display": "C₆H₆ + HNO₃ →(浓H₂SO₄) C₆H₅NO₂ + H₂O",
+		"condition": "浓H₂SO₄催化，50-60°C",
+		"reversible": false,
+		"product_ids": [
+		  "C6H5NO2",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.8,
-        "status_effects": [
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.8,
+		"status_effects": [
           "substituted"
-        ],
-        "env_delta": {
-          "entropy_delta": 4.0,
-          "pH_delta": -0.5
-        },
-        "equation_display": "C₆H₆ + HNO₃ →(浓H₂SO₄) C₆H₅NO₂ + H₂O  [浓H₂SO₄催化，50-60°C]"
-      }
-    },
-    {
-      "id": "amino_acid_salt",
-      "name": "氨基与酸成铵盐",
-      "priority": 62,
-      "conditions": {
-        "a_requires": {
-          "elements": [
+		],
+		"env_delta": {
+		  "entropy_delta": 4.0,
+		  "pH_delta": -0.5
+		},
+		"equation_display": "C₆H₆ + HNO₃ →(浓H₂SO₄) C₆H₅NO₂ + H₂O  [浓H₂SO₄催化，50-60°C]"
+	  }
+	},
+	{
+	  "id": "amino_acid_salt",
+	  "name": "氨基与酸成铵盐",
+	  "priority": 62,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
             "N"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "amino"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "acidic"
-          ]
-        }
-      },
-      "reaction_type": "acid_base",
-      "is_acid_base": true,
-      "optimal_pH": 9.0,
-      "equation": {
-        "display": "R-NH₂ + HCl → R-NH₃⁺Cl⁻",
-        "condition": "",
-        "reversible": false,
-        "product_ids": []
-      },
-      "base_effect": {
-        "damage_multiplier": 1.6,
-        "status_effects": [
+		  ]
+		}
+	  },
+	  "reaction_type": "acid_base",
+	  "is_acid_base": true,
+	  "optimal_pH": 9.0,
+	  "equation": {
+		"display": "R-NH₂ + HCl → R-NH₃⁺Cl⁻",
+		"condition": "",
+		"reversible": false,
+		"product_ids": []
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.6,
+		"status_effects": [
           "protonated"
-        ],
-        "env_delta": {
-          "pH_delta": -1.5,
-          "temp_delta": 4.0,
-          "entropy_delta": -3.0
-        },
-        "equation_display": "R-NH₂ + HCl → R-NH₃⁺Cl⁻"
-      }
-    },
-    {
-      "id": "zn_acid",
-      "name": "锌与酸反应",
-      "priority": 60,
-      "conditions": {
-        "a_requires": {
-          "elements": [
+		],
+		"env_delta": {
+		  "pH_delta": -1.5,
+		  "temp_delta": 4.0,
+		  "entropy_delta": -3.0
+		},
+		"equation_display": "R-NH₂ + HCl → R-NH₃⁺Cl⁻"
+	  }
+	},
+	{
+	  "id": "zn_acid",
+	  "name": "锌与酸反应",
+	  "priority": 60,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
             "Zn"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "acidic"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "Zn + H₂SO₄ → ZnSO₄ + H₂↑",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
-          "ZnSO4",
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "Zn + H₂SO₄ → ZnSO₄ + H₂↑",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
+		  "ZnSO4",
           "H2"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.9,
-        "status_effects": [
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.9,
+		"status_effects": [
           "corroded"
-        ],
-        "env_delta": {
-          "pH_delta": 0.8,
-          "entropy_delta": 5.0
-        },
-        "equation_display": "Zn + H₂SO₄ → ZnSO₄ + H₂↑"
-      }
-    },
-    {
-      "id": "ester_formation",
-      "name": "羟基酸酯化反应",
-      "priority": 55,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "pH_delta": 0.8,
+		  "entropy_delta": 5.0
+		},
+		"equation_display": "Zn + H₂SO₄ → ZnSO₄ + H₂↑"
+	  }
+	},
+	{
+	  "id": "ester_formation",
+	  "name": "羟基酸酯化反应",
+	  "priority": 55,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "hydroxyl"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
-            "acidic",
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
+			"acidic",
             "carbonyl"
-          ]
-        }
-      },
-      "reaction_type": "endothermic",
-      "is_endothermic": true,
-      "temperature_sensitivity": 0.25,
-      "equation": {
-        "display": "CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O",
-        "condition": "浓H₂SO₄，△",
-        "reversible": true,
-        "product_ids": [
-          "CH3COOC2H5",
+		  ]
+		}
+	  },
+	  "reaction_type": "endothermic",
+	  "is_endothermic": true,
+	  "temperature_sensitivity": 0.25,
+	  "equation": {
+		"display": "CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O",
+		"condition": "浓H₂SO₄，△",
+		"reversible": true,
+		"product_ids": [
+		  "CH3COOC2H5",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.5,
-        "status_effects": [
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.5,
+		"status_effects": [
           "esterified"
-        ],
-        "env_delta": {
-          "entropy_delta": 3.0,
-          "pH_delta": -0.5
-        },
-        "equation_display": "CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O  [浓H₂SO₄，△]"
-      }
-    },
-    {
-      "id": "carbonyl_reduction",
-      "name": "羰基加氢还原",
-      "priority": 50,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "entropy_delta": 3.0,
+		  "pH_delta": -0.5
+		},
+		"equation_display": "CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O  [浓H₂SO₄，△]"
+	  }
+	},
+	{
+	  "id": "carbonyl_reduction",
+	  "name": "羰基加氢还原",
+	  "priority": 50,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "carbonyl"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "reducing"
-          ]
-        }
-      },
-      "reaction_type": "endothermic",
-      "is_endothermic": true,
-      "temperature_sensitivity": 0.2,
-      "equation": {
-        "display": "R-CHO + H₂ →(催化剂) R-CH₂OH",
-        "condition": "Ni催化，加热加压",
-        "reversible": false,
-        "product_ids": []
-      },
-      "base_effect": {
-        "damage_multiplier": 1.7,
-        "status_effects": [
+		  ]
+		}
+	  },
+	  "reaction_type": "endothermic",
+	  "is_endothermic": true,
+	  "temperature_sensitivity": 0.2,
+	  "equation": {
+		"display": "R-CHO + H₂ →(催化剂) R-CH₂OH",
+		"condition": "Ni催化，加热加压",
+		"reversible": false,
+		"product_ids": []
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.7,
+		"status_effects": [
           "reduced_carbonyl"
-        ],
-        "env_delta": {
-          "temp_delta": -5.0,
-          "entropy_delta": 2.0
-        },
-        "equation_display": "R-CHO + H₂ →(催化剂) R-CH₂OH  [Ni催化，加热加压]"
-      }
-    },
-    {
-      "id": "halogen_reducing",
-      "name": "卤素氧化还原剂",
-      "priority": 45,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "temp_delta": -5.0,
+		  "entropy_delta": 2.0
+		},
+		"equation_display": "R-CHO + H₂ →(催化剂) R-CH₂OH  [Ni催化，加热加压]"
+	  }
+	},
+	{
+	  "id": "halogen_reducing",
+	  "name": "卤素氧化还原剂",
+	  "priority": 45,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "halogen"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "reducing"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "Cl₂ + 2FeCl₂ → 2FeCl₃",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "Cl₂ + 2FeCl₂ → 2FeCl₃",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
           "FeCl3"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.6,
-        "status_effects": [
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.6,
+		"status_effects": [
           "halogenated"
-        ],
-        "env_delta": {
-          "entropy_delta": 4.0,
-          "pH_delta": -0.3
-        },
-        "equation_display": "Cl₂ + 2FeCl₂ → 2FeCl₃"
-      }
-    },
-    {
-      "id": "weak_acid_base",
-      "name": "弱酸碱中和",
-      "priority": 40,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "entropy_delta": 4.0,
+		  "pH_delta": -0.3
+		},
+		"equation_display": "Cl₂ + 2FeCl₂ → 2FeCl₃"
+	  }
+	},
+	{
+	  "id": "weak_acid_base",
+	  "name": "弱酸碱中和",
+	  "priority": 40,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "acidic"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "alkaline"
-          ]
-        }
-      },
-      "reaction_type": "acid_base",
-      "is_acid_base": true,
-      "optimal_pH": 7.0,
-      "equation": {
-        "display": "CH₃COOH + NaOH → CH₃COONa + H₂O",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
-          "CH3COONa",
+		  ]
+		}
+	  },
+	  "reaction_type": "acid_base",
+	  "is_acid_base": true,
+	  "optimal_pH": 7.0,
+	  "equation": {
+		"display": "CH₃COOH + NaOH → CH₃COONa + H₂O",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
+		  "CH3COONa",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.4,
-        "status_effects": [],
-        "env_delta": {
-          "pH_delta": 0.0,
-          "temp_delta": 3.0,
-          "entropy_delta": -2.0
-        },
-        "equation_display": "CH₃COOH + NaOH → CH₃COONa + H₂O"
-      }
-    },
-    {
-      "id": "co2_naoh_excess",
-      "name": "CO₂与过量NaOH反应",
-      "priority": 85,
-      "conditions": {
-        "a_requires": {
-          "elements": [
-            "C",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.4,
+		"status_effects": [],
+		"env_delta": {
+		  "pH_delta": 0.0,
+		  "temp_delta": 3.0,
+		  "entropy_delta": -2.0
+		},
+		"equation_display": "CH₃COOH + NaOH → CH₃COONa + H₂O"
+	  }
+	},
+	{
+	  "id": "co2_naoh_excess",
+	  "name": "CO₂与过量NaOH反应",
+	  "priority": 85,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
+			"C",
             "O"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "acidic"
-          ]
-        },
-        "b_requires": {
-          "elements": [
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
             "Na"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "alkaline"
-          ]
-        }
-      },
-      "reaction_type": "acid_base",
-      "is_acid_base": true,
-      "optimal_pH": 11.0,
-      "equation": {
-        "display": "CO₂ + 2NaOH → Na₂CO₃ + H₂O",
-        "condition": "NaOH过量",
-        "reversible": false,
-        "product_ids": [
-          "Na2CO3",
+		  ]
+		}
+	  },
+	  "reaction_type": "acid_base",
+	  "is_acid_base": true,
+	  "optimal_pH": 11.0,
+	  "equation": {
+		"display": "CO₂ + 2NaOH → Na₂CO₃ + H₂O",
+		"condition": "NaOH过量",
+		"reversible": false,
+		"product_ids": [
+		  "Na2CO3",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 2.0,
-        "status_effects": [
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.0,
+		"status_effects": [
           "neutralized"
-        ],
-        "env_delta": {
-          "pH_delta": -1.5,
-          "temp_delta": 5.0,
-          "entropy_delta": -4.0
-        },
-        "equation_display": "CO₂ + 2NaOH → Na₂CO₃ + H₂O  [NaOH过量]"
-      }
-    },
-    {
-      "id": "acid_carbonate",
-      "name": "酸与碳酸盐反应",
-      "priority": 82,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "pH_delta": -1.5,
+		  "temp_delta": 5.0,
+		  "entropy_delta": -4.0
+		},
+		"equation_display": "CO₂ + 2NaOH → Na₂CO₃ + H₂O  [NaOH过量]"
+	  }
+	},
+	{
+	  "id": "acid_carbonate",
+	  "name": "酸与碳酸盐反应",
+	  "priority": 82,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "acidic"
-          ]
-        },
-        "b_requires": {
-          "elements": [
-            "C",
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
+			"C",
             "O"
-          ]
-        }
-      },
-      "reaction_type": "acid_base",
-      "is_acid_base": true,
-      "optimal_pH": 3.0,
-      "equation": {
-        "display": "CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂↑",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
-          "CaCl2",
-          "H2O",
+		  ]
+		}
+	  },
+	  "reaction_type": "acid_base",
+	  "is_acid_base": true,
+	  "optimal_pH": 3.0,
+	  "equation": {
+		"display": "CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂↑",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
+		  "CaCl2",
+		  "H2O",
           "CO2"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.8,
-        "status_effects": [
-          "structure_damaged",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.8,
+		"status_effects": [
+		  "structure_damaged",
           "CO2_released"
-        ],
-        "env_delta": {
-          "pH_delta": 1.2,
-          "entropy_delta": 6.0
-        },
-        "equation_display": "CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂↑"
-      }
-    },
-    {
-      "id": "metal_oxide_acid",
-      "name": "金属氧化物与酸反应",
-      "priority": 78,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
-            "alkaline",
+		],
+		"env_delta": {
+		  "pH_delta": 1.2,
+		  "entropy_delta": 6.0
+		},
+		"equation_display": "CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂↑"
+	  }
+	},
+	{
+	  "id": "metal_oxide_acid",
+	  "name": "金属氧化物与酸反应",
+	  "priority": 78,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
+			"alkaline",
             "oxidizing"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "acidic"
-          ]
-        }
-      },
-      "reaction_type": "acid_base",
-      "is_acid_base": true,
-      "optimal_pH": 5.0,
-      "equation": {
-        "display": "CuO + H₂SO₄ → CuSO₄ + H₂O",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
-          "CuSO4",
+		  ]
+		}
+	  },
+	  "reaction_type": "acid_base",
+	  "is_acid_base": true,
+	  "optimal_pH": 5.0,
+	  "equation": {
+		"display": "CuO + H₂SO₄ → CuSO₄ + H₂O",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
+		  "CuSO4",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.9,
-        "status_effects": [
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.9,
+		"status_effects": [
           "dissolved"
-        ],
-        "env_delta": {
-          "pH_delta": 0.5,
-          "entropy_delta": 3.0
-        },
-        "equation_display": "CuO + H₂SO₄ → CuSO₄ + H₂O"
-      }
-    },
-    {
-      "id": "fe_cuso4_displacement",
-      "name": "铁置换硫酸铜中的铜",
-      "priority": 70,
-      "conditions": {
-        "a_requires": {
-          "elements": [
+		],
+		"env_delta": {
+		  "pH_delta": 0.5,
+		  "entropy_delta": 3.0
+		},
+		"equation_display": "CuO + H₂SO₄ → CuSO₄ + H₂O"
+	  }
+	},
+	{
+	  "id": "fe_cuso4_displacement",
+	  "name": "铁置换硫酸铜中的铜",
+	  "priority": 70,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
             "Fe"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "reducing"
-          ]
-        },
-        "b_requires": {
-          "elements": [
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
             "Cu"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "oxidizing"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "Fe + CuSO₄ → FeSO₄ + Cu",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
-          "FeSO4",
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "Fe + CuSO₄ → FeSO₄ + Cu",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
+		  "FeSO4",
           "Cu"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.8,
-        "status_effects": [
-          "displaced",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.8,
+		"status_effects": [
+		  "displaced",
           "structure_damaged"
-        ],
-        "env_delta": {
-          "entropy_delta": 4.0
-        },
-        "equation_display": "Fe + CuSO₄ → FeSO₄ + Cu"
-      }
-    },
-    {
-      "id": "cu_cl2_oxidation",
-      "name": "铜与氯气反应",
-      "priority": 68,
-      "conditions": {
-        "a_requires": {
-          "elements": [
+		],
+		"env_delta": {
+		  "entropy_delta": 4.0
+		},
+		"equation_display": "Fe + CuSO₄ → FeSO₄ + Cu"
+	  }
+	},
+	{
+	  "id": "cu_cl2_oxidation",
+	  "name": "铜与氯气反应",
+	  "priority": 68,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
             "Cu"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "reducing"
-          ]
-        },
-        "b_requires": {
-          "elements": [
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
             "Cl"
-          ],
-          "chem_tags": [
-            "oxidizing",
+		  ],
+		  "chem_tags": [
+			"oxidizing",
             "halogen"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "Cu + Cl₂ →(点燃) CuCl₂",
-        "condition": "点燃",
-        "reversible": false,
-        "product_ids": [
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "Cu + Cl₂ →(点燃) CuCl₂",
+		"condition": "点燃",
+		"reversible": false,
+		"product_ids": [
           "CuCl2"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 2.1,
-        "status_effects": [
-          "halogenated",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.1,
+		"status_effects": [
+		  "halogenated",
           "burning"
-        ],
-        "env_delta": {
-          "temp_delta": 15.0,
-          "entropy_delta": -5.0
-        },
-        "equation_display": "Cu + Cl₂ →(点燃) CuCl₂  [点燃]"
-      }
-    },
-    {
-      "id": "kmno4_organic_oxidation",
-      "name": "高锰酸钾氧化有机物",
-      "priority": 88,
-      "conditions": {
-        "a_requires": {
-          "elements": [
-            "K",
-            "Mn",
+		],
+		"env_delta": {
+		  "temp_delta": 15.0,
+		  "entropy_delta": -5.0
+		},
+		"equation_display": "Cu + Cl₂ →(点燃) CuCl₂  [点燃]"
+	  }
+	},
+	{
+	  "id": "kmno4_organic_oxidation",
+	  "name": "高锰酸钾氧化有机物",
+	  "priority": 88,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
+			"K",
+			"Mn",
             "O"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "oxidizing"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "reducing"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "5R-CHO + 2KMnO₄ + 3H₂SO₄ → 5R-COOH + 2MnSO₄ + K₂SO₄ + 3H₂O",
-        "condition": "酸性条件",
-        "reversible": false,
-        "product_ids": [
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "5R-CHO + 2KMnO₄ + 3H₂SO₄ → 5R-COOH + 2MnSO₄ + K₂SO₄ + 3H₂O",
+		"condition": "酸性条件",
+		"reversible": false,
+		"product_ids": [
           "MnSO4"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 2.8,
-        "status_effects": [
-          "oxidized",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.8,
+		"status_effects": [
+		  "oxidized",
           "structure_damaged"
-        ],
-        "env_delta": {
-          "entropy_delta": 8.0,
-          "temp_delta": 5.0
-        },
-        "equation_display": "5R-CHO + 2KMnO₄ + 3H₂SO₄ → 5R-COOH + 2MnSO₄ + K₂SO₄ + 3H₂O  [酸性条件]"
-      }
-    },
-    {
-      "id": "carboxylic_acid_base",
-      "name": "羧酸与碱中和",
-      "priority": 58,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
-            "acidic",
-            "carbonyl",
+		],
+		"env_delta": {
+		  "entropy_delta": 8.0,
+		  "temp_delta": 5.0
+		},
+		"equation_display": "5R-CHO + 2KMnO₄ + 3H₂SO₄ → 5R-COOH + 2MnSO₄ + K₂SO₄ + 3H₂O  [酸性条件]"
+	  }
+	},
+	{
+	  "id": "carboxylic_acid_base",
+	  "name": "羧酸与碱中和",
+	  "priority": 58,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
+			"acidic",
+			"carbonyl",
             "hydroxyl"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "alkaline"
-          ]
-        }
-      },
-      "reaction_type": "acid_base",
-      "is_acid_base": true,
-      "optimal_pH": 8.0,
-      "equation": {
-        "display": "CH₃COOH + NaOH → CH₃COONa + H₂O",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
-          "CH3COONa",
+		  ]
+		}
+	  },
+	  "reaction_type": "acid_base",
+	  "is_acid_base": true,
+	  "optimal_pH": 8.0,
+	  "equation": {
+		"display": "CH₃COOH + NaOH → CH₃COONa + H₂O",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
+		  "CH3COONa",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.5,
-        "status_effects": [
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.5,
+		"status_effects": [
           "neutralized"
-        ],
-        "env_delta": {
-          "pH_delta": 1.8,
-          "temp_delta": 4.0,
-          "entropy_delta": -3.0
-        },
-        "equation_display": "CH₃COOH + NaOH → CH₃COONa + H₂O"
-      }
-    },
-    {
-      "id": "phenol_strong_base",
-      "name": "苯酚与强碱反应",
-      "priority": 63,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
-            "acidic",
-            "hydroxyl",
+		],
+		"env_delta": {
+		  "pH_delta": 1.8,
+		  "temp_delta": 4.0,
+		  "entropy_delta": -3.0
+		},
+		"equation_display": "CH₃COOH + NaOH → CH₃COONa + H₂O"
+	  }
+	},
+	{
+	  "id": "phenol_strong_base",
+	  "name": "苯酚与强碱反应",
+	  "priority": 63,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
+			"acidic",
+			"hydroxyl",
             "benzene_ring"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "alkaline"
-          ]
-        }
-      },
-      "reaction_type": "acid_base",
-      "is_acid_base": true,
-      "optimal_pH": 10.0,
-      "equation": {
-        "display": "C₆H₅OH + NaOH → C₆H₅ONa + H₂O",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
-          "C6H5ONa",
+		  ]
+		}
+	  },
+	  "reaction_type": "acid_base",
+	  "is_acid_base": true,
+	  "optimal_pH": 10.0,
+	  "equation": {
+		"display": "C₆H₅OH + NaOH → C₆H₅ONa + H₂O",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
+		  "C6H5ONa",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.6,
-        "status_effects": [
-          "proton_lost",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.6,
+		"status_effects": [
+		  "proton_lost",
           "structure_changed"
-        ],
-        "env_delta": {
-          "pH_delta": -1.0,
-          "entropy_delta": 2.0
-        },
-        "equation_display": "C₆H₅OH + NaOH → C₆H₅ONa + H₂O"
-      }
-    },
-    {
-      "id": "exothermic_generic",
-      "name": "通用放热反应",
-      "priority": 30,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "pH_delta": -1.0,
+		  "entropy_delta": 2.0
+		},
+		"equation_display": "C₆H₅OH + NaOH → C₆H₅ONa + H₂O"
+	  }
+	},
+	{
+	  "id": "exothermic_generic",
+	  "name": "通用放热反应",
+	  "priority": 30,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "exothermic"
-          ]
-        },
-        "b_requires": {}
-      },
-      "reaction_type": "exothermic",
-      "is_exothermic": true,
-      "temperature_sensitivity": 0.3,
-      "equation": {
-        "display": "放热反应（具体方程式依物质而定）",
-        "condition": "",
-        "reversible": false,
-        "product_ids": []
-      },
-      "base_effect": {
-        "damage_multiplier": 1.5,
-        "status_effects": [
+		  ]
+		},
+		"b_requires": {}
+	  },
+	  "reaction_type": "exothermic",
+	  "is_exothermic": true,
+	  "temperature_sensitivity": 0.3,
+	  "equation": {
+		"display": "放热反应（具体方程式依物质而定）",
+		"condition": "",
+		"reversible": false,
+		"product_ids": []
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.5,
+		"status_effects": [
           "burning"
-        ],
-        "env_delta": {
-          "temp_delta": 5.0,
-          "entropy_delta": 3.0
-        },
-        "equation_display": "放热反应（具体方程式依物质而定）"
-      }
-    },
-    {
-      "id": "metal_metal_competition",
-      "name": "金属离子配位竞争",
-      "priority": 15,
-      "conditions": {
-        "a_requires": {
-          "elements": [
+		],
+		"env_delta": {
+		  "temp_delta": 5.0,
+		  "entropy_delta": 3.0
+		},
+		"equation_display": "放热反应（具体方程式依物质而定）"
+	  }
+	},
+	{
+	  "id": "metal_metal_competition",
+	  "name": "金属离子配位竞争",
+	  "priority": 15,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
             "Cu"
-          ]
-        },
-        "b_requires": {
-          "elements": [
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
             "Fe"
-          ]
-        }
-      },
-      "reaction_type": "stochastic",
-      "is_stochastic": true,
-      "equation": {
-        "display": "Fe + Cu²⁺ → Fe²⁺ + Cu（优先）",
-        "condition": "",
-        "reversible": false,
-        "product_ids": []
-      },
-      "base_effect": {
-        "damage_multiplier": 1.2,
-        "status_effects": [
+		  ]
+		}
+	  },
+	  "reaction_type": "stochastic",
+	  "is_stochastic": true,
+	  "equation": {
+		"display": "Fe + Cu²⁺ → Fe²⁺ + Cu（优先）",
+		"condition": "",
+		"reversible": false,
+		"product_ids": []
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.2,
+		"status_effects": [
           "destabilized"
-        ],
-        "env_delta": {
-          "entropy_delta": 6.0
-        },
-        "equation_display": "Fe + Cu²⁺ → Fe²⁺ + Cu（优先）"
-      }
-    },
-    {
-      "id": "inert_fallback",
-      "name": "通用惰性接触",
-      "priority": 1,
-      "conditions": {
-        "a_requires": {},
-        "b_requires": {}
-      },
-      "reaction_type": "generic",
-      "equation": {
-        "display": "（无明显化学反应）",
-        "condition": "",
-        "reversible": false,
-        "product_ids": []
-      },
-      "base_effect": {
-        "damage_multiplier": 0.8,
-        "status_effects": [],
-        "env_delta": {
-          "entropy_delta": 1.0
-        },
-        "equation_display": "（无明显化学反应）"
-      }
-    },
-    {
-      "id": "alkene_h2_addition",
-      "name": "烯烃催化加氢",
-      "priority": 76,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "entropy_delta": 6.0
+		},
+		"equation_display": "Fe + Cu²⁺ → Fe²⁺ + Cu（优先）"
+	  }
+	},
+	{
+	  "id": "inert_fallback",
+	  "name": "通用惰性接触",
+	  "priority": 1,
+	  "conditions": {
+		"a_requires": {},
+		"b_requires": {}
+	  },
+	  "reaction_type": "generic",
+	  "equation": {
+		"display": "（无明显化学反应）",
+		"condition": "",
+		"reversible": false,
+		"product_ids": []
+	  },
+	  "base_effect": {
+		"damage_multiplier": 0.8,
+		"status_effects": [],
+		"env_delta": {
+		  "entropy_delta": 1.0
+		},
+		"equation_display": "（无明显化学反应）"
+	  }
+	},
+	{
+	  "id": "alkene_h2_addition",
+	  "name": "烯烃催化加氢",
+	  "priority": 76,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "reducing"
-          ]
-        },
-        "b_requires": {
-          "elements": [
-            "C",
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
+			"C",
             "H"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "reducing"
-          ]
-        }
-      },
-      "reaction_type": "endothermic",
-      "is_endothermic": true,
-      "temperature_sensitivity": 0.2,
-      "equation": {
-        "display": "CH₂=CH₂ + H₂ →(Ni,△) CH₃CH₃",
-        "condition": "Ni催化，加热",
-        "reversible": false,
-        "product_ids": [
+		  ]
+		}
+	  },
+	  "reaction_type": "endothermic",
+	  "is_endothermic": true,
+	  "temperature_sensitivity": 0.2,
+	  "equation": {
+		"display": "CH₂=CH₂ + H₂ →(Ni,△) CH₃CH₃",
+		"condition": "Ni催化，加热",
+		"reversible": false,
+		"product_ids": [
           "C2H6"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.6,
-        "status_effects": [
-          "double_bond_broken",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.6,
+		"status_effects": [
+		  "double_bond_broken",
           "saturated"
-        ],
-        "env_delta": {
-          "temp_delta": -3.0,
-          "entropy_delta": -2.0
-        },
-        "equation_display": "CH₂=CH₂ + H₂ →(Ni,△) CH₃CH₃  [Ni催化，加热]"
-      }
-    },
-    {
-      "id": "alkene_halogen_addition",
-      "name": "烯烃与卤素加成",
-      "priority": 74,
-      "conditions": {
-        "a_requires": {
-          "elements": [
+		],
+		"env_delta": {
+		  "temp_delta": -3.0,
+		  "entropy_delta": -2.0
+		},
+		"equation_display": "CH₂=CH₂ + H₂ →(Ni,△) CH₃CH₃  [Ni催化，加热]"
+	  }
+	},
+	{
+	  "id": "alkene_halogen_addition",
+	  "name": "烯烃与卤素加成",
+	  "priority": 74,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
             "C"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "reducing"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
-            "halogen",
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
+			"halogen",
             "oxidizing"
-          ]
-        }
-      },
-      "reaction_type": "exothermic",
-      "is_exothermic": true,
-      "temperature_sensitivity": 0.15,
-      "equation": {
-        "display": "CH₂=CH₂ + Br₂ → CH₂BrCH₂Br",
-        "condition": "",
-        "reversible": false,
-        "product_ids": [
+		  ]
+		}
+	  },
+	  "reaction_type": "exothermic",
+	  "is_exothermic": true,
+	  "temperature_sensitivity": 0.15,
+	  "equation": {
+		"display": "CH₂=CH₂ + Br₂ → CH₂BrCH₂Br",
+		"condition": "",
+		"reversible": false,
+		"product_ids": [
           "CH2BrCH2Br"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 2.0,
-        "status_effects": [
-          "halogenated",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.0,
+		"status_effects": [
+		  "halogenated",
           "double_bond_broken"
-        ],
-        "env_delta": {
-          "entropy_delta": 3.0
-        },
-        "equation_display": "CH₂=CH₂ + Br₂ → CH₂BrCH₂Br"
-      }
-    },
-    {
-      "id": "alcohol_dehydration_elimination",
-      "name": "醇消去成烯",
-      "priority": 56,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "entropy_delta": 3.0
+		},
+		"equation_display": "CH₂=CH₂ + Br₂ → CH₂BrCH₂Br"
+	  }
+	},
+	{
+	  "id": "alcohol_dehydration_elimination",
+	  "name": "醇消去成烯",
+	  "priority": 56,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "hydroxyl"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
-            "dehydrating",
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
+			"dehydrating",
             "acidic"
-          ]
-        }
-      },
-      "reaction_type": "endothermic",
-      "is_endothermic": true,
-      "temperature_sensitivity": 0.35,
-      "equation": {
-        "display": "C₂H₅OH →(浓H₂SO₄,170°C) CH₂=CH₂↑ + H₂O",
-        "condition": "浓H₂SO₄，170°C",
-        "reversible": false,
-        "product_ids": [
-          "C2H4",
+		  ]
+		}
+	  },
+	  "reaction_type": "endothermic",
+	  "is_endothermic": true,
+	  "temperature_sensitivity": 0.35,
+	  "equation": {
+		"display": "C₂H₅OH →(浓H₂SO₄,170°C) CH₂=CH₂↑ + H₂O",
+		"condition": "浓H₂SO₄，170°C",
+		"reversible": false,
+		"product_ids": [
+		  "C2H4",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.5,
-        "status_effects": [
-          "OH_eliminated",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.5,
+		"status_effects": [
+		  "OH_eliminated",
           "alkene_formed"
-        ],
-        "env_delta": {
-          "temp_delta": -8.0,
-          "entropy_delta": 5.0
-        },
-        "equation_display": "C₂H₅OH →(浓H₂SO₄,170°C) CH₂=CH₂↑ + H₂O  [浓H₂SO₄，170°C]"
-      }
-    },
-    {
-      "id": "primary_alcohol_oxidation",
-      "name": "伯醇氧化为醛",
-      "priority": 64,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
-            "hydroxyl",
+		],
+		"env_delta": {
+		  "temp_delta": -8.0,
+		  "entropy_delta": 5.0
+		},
+		"equation_display": "C₂H₅OH →(浓H₂SO₄,170°C) CH₂=CH₂↑ + H₂O  [浓H₂SO₄，170°C]"
+	  }
+	},
+	{
+	  "id": "primary_alcohol_oxidation",
+	  "name": "伯醇氧化为醛",
+	  "priority": 64,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
+			"hydroxyl",
             "reducing"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "oxidizing"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "C₂H₅OH + CuO →(△) CH₃CHO + Cu + H₂O",
-        "condition": "催化氧化，△",
-        "reversible": false,
-        "product_ids": [
-          "CH3CHO",
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "C₂H₅OH + CuO →(△) CH₃CHO + Cu + H₂O",
+		"condition": "催化氧化，△",
+		"reversible": false,
+		"product_ids": [
+		  "CH3CHO",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.8,
-        "status_effects": [
-          "oxidized",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.8,
+		"status_effects": [
+		  "oxidized",
           "OH_to_CHO"
-        ],
-        "env_delta": {
-          "entropy_delta": 3.0,
-          "temp_delta": 3.0
-        },
-        "equation_display": "C₂H₅OH + CuO →(△) CH₃CHO + Cu + H₂O  [催化氧化，△]"
-      }
-    },
-    {
-      "id": "aldehyde_oxidation_silver_mirror",
-      "name": "醛的银镜反应",
-      "priority": 72,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
-            "aldehyde",
+		],
+		"env_delta": {
+		  "entropy_delta": 3.0,
+		  "temp_delta": 3.0
+		},
+		"equation_display": "C₂H₅OH + CuO →(△) CH₃CHO + Cu + H₂O  [催化氧化，△]"
+	  }
+	},
+	{
+	  "id": "aldehyde_oxidation_silver_mirror",
+	  "name": "醛的银镜反应",
+	  "priority": 72,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
+			"aldehyde",
             "reducing"
-          ]
-        },
-        "b_requires": {
-          "elements": [
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
             "N"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "R-CHO + 2Ag(NH₃)₂⁺ + 2OH⁻ →(△) R-COO⁻ + 2Ag↓ + 3NH₃ + H₂O",
-        "condition": "银氨溶液，水浴加热",
-        "reversible": false,
-        "product_ids": [
-          "Ag",
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "R-CHO + 2Ag(NH₃)₂⁺ + 2OH⁻ →(△) R-COO⁻ + 2Ag↓ + 3NH₃ + H₂O",
+		"condition": "银氨溶液，水浴加热",
+		"reversible": false,
+		"product_ids": [
+		  "Ag",
           "RCOO"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 2.2,
-        "status_effects": [
-          "CHO_oxidized",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.2,
+		"status_effects": [
+		  "CHO_oxidized",
           "silver_deposited"
-        ],
-        "env_delta": {
-          "entropy_delta": 4.0
-        },
-        "equation_display": "R-CHO + 2Ag(NH₃)₂⁺ + 2OH⁻ →(△) R-COO⁻ + 2Ag↓ + 3NH₃ + H₂O  [银氨溶液，水浴加热]"
-      }
-    },
-    {
-      "id": "aldehyde_further_oxidation",
-      "name": "醛氧化为羧酸",
-      "priority": 67,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
-            "aldehyde",
+		],
+		"env_delta": {
+		  "entropy_delta": 4.0
+		},
+		"equation_display": "R-CHO + 2Ag(NH₃)₂⁺ + 2OH⁻ →(△) R-COO⁻ + 2Ag↓ + 3NH₃ + H₂O  [银氨溶液，水浴加热]"
+	  }
+	},
+	{
+	  "id": "aldehyde_further_oxidation",
+	  "name": "醛氧化为羧酸",
+	  "priority": 67,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
+			"aldehyde",
             "reducing"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "oxidizing"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "2CH₃CHO + O₂ →(催化) 2CH₃COOH",
-        "condition": "催化氧化",
-        "reversible": false,
-        "product_ids": [
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "2CH₃CHO + O₂ →(催化) 2CH₃COOH",
+		"condition": "催化氧化",
+		"reversible": false,
+		"product_ids": [
           "CH3COOH"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.9,
-        "status_effects": [
-          "oxidized",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.9,
+		"status_effects": [
+		  "oxidized",
           "CHO_to_COOH"
-        ],
-        "env_delta": {
-          "entropy_delta": 2.0,
-          "pH_delta": -0.5
-        },
-        "equation_display": "2CH₃CHO + O₂ →(催化) 2CH₃COOH  [催化氧化]"
-      }
-    },
-    {
-      "id": "ester_hydrolysis_base",
-      "name": "酯的碱性水解（皂化）",
-      "priority": 61,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "entropy_delta": 2.0,
+		  "pH_delta": -0.5
+		},
+		"equation_display": "2CH₃CHO + O₂ →(催化) 2CH₃COOH  [催化氧化]"
+	  }
+	},
+	{
+	  "id": "ester_hydrolysis_base",
+	  "name": "酯的碱性水解（皂化）",
+	  "priority": 61,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "carbonyl"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "alkaline"
-          ]
-        }
-      },
-      "reaction_type": "endothermic",
-      "is_endothermic": true,
-      "temperature_sensitivity": 0.2,
-      "equation": {
-        "display": "CH₃COOC₂H₅ + NaOH →(△) CH₃COONa + C₂H₅OH",
-        "condition": "加热",
-        "reversible": false,
-        "product_ids": [
-          "CH3COONa",
+		  ]
+		}
+	  },
+	  "reaction_type": "endothermic",
+	  "is_endothermic": true,
+	  "temperature_sensitivity": 0.2,
+	  "equation": {
+		"display": "CH₃COOC₂H₅ + NaOH →(△) CH₃COONa + C₂H₅OH",
+		"condition": "加热",
+		"reversible": false,
+		"product_ids": [
+		  "CH3COONa",
           "C2H5OH"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.7,
-        "status_effects": [
-          "saponified",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.7,
+		"status_effects": [
+		  "saponified",
           "ester_broken"
-        ],
-        "env_delta": {
-          "pH_delta": -0.8,
-          "entropy_delta": 3.0
-        },
-        "equation_display": "CH₃COOC₂H₅ + NaOH →(△) CH₃COONa + C₂H₅OH  [加热]"
-      }
-    },
-    {
-      "id": "glucose_copper_hydroxide",
-      "name": "葡萄糖与氢氧化铜反应",
-      "priority": 69,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
-            "aldehyde",
-            "reducing",
+		],
+		"env_delta": {
+		  "pH_delta": -0.8,
+		  "entropy_delta": 3.0
+		},
+		"equation_display": "CH₃COOC₂H₅ + NaOH →(△) CH₃COONa + C₂H₅OH  [加热]"
+	  }
+	},
+	{
+	  "id": "glucose_copper_hydroxide",
+	  "name": "葡萄糖与氢氧化铜反应",
+	  "priority": 69,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
+			"aldehyde",
+			"reducing",
             "hydroxyl"
-          ]
-        },
-        "b_requires": {
-          "elements": [
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
             "Cu"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "alkaline"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "C₆H₁₂O₆ + 2Cu(OH)₂ →(△) C₆H₁₂O₇ + Cu₂O↓ + 2H₂O",
-        "condition": "碱性，水浴加热",
-        "reversible": false,
-        "product_ids": [
-          "Cu2O",
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "C₆H₁₂O₆ + 2Cu(OH)₂ →(△) C₆H₁₂O₇ + Cu₂O↓ + 2H₂O",
+		"condition": "碱性，水浴加热",
+		"reversible": false,
+		"product_ids": [
+		  "Cu2O",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 2.0,
-        "status_effects": [
-          "Cu2O_precipitate",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.0,
+		"status_effects": [
+		  "Cu2O_precipitate",
           "oxidized"
-        ],
-        "env_delta": {
-          "entropy_delta": 5.0
-        },
-        "equation_display": "C₆H₁₂O₆ + 2Cu(OH)₂ →(△) C₆H₁₂O₇ + Cu₂O↓ + 2H₂O  [碱性，水浴加热]"
-      }
-    },
-    {
-      "id": "amino_acid_condensation",
-      "name": "氨基酸缩合成肽",
-      "priority": 53,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
-            "amino",
-            "carbonyl",
+		],
+		"env_delta": {
+		  "entropy_delta": 5.0
+		},
+		"equation_display": "C₆H₁₂O₆ + 2Cu(OH)₂ →(△) C₆H₁₂O₇ + Cu₂O↓ + 2H₂O  [碱性，水浴加热]"
+	  }
+	},
+	{
+	  "id": "amino_acid_condensation",
+	  "name": "氨基酸缩合成肽",
+	  "priority": 53,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
+			"amino",
+			"carbonyl",
             "hydroxyl"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
-            "amino",
-            "carbonyl",
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
+			"amino",
+			"carbonyl",
             "hydroxyl"
-          ]
-        }
-      },
-      "reaction_type": "endothermic",
-      "is_endothermic": true,
-      "temperature_sensitivity": 0.25,
-      "equation": {
-        "display": "H₂N-CH₂-COOH + H₂N-CH₂-COOH → H₂N-CH₂-CO-NH-CH₂-COOH + H₂O",
-        "condition": "酶催化或加热",
-        "reversible": true,
-        "product_ids": [
-          "dipeptide",
+		  ]
+		}
+	  },
+	  "reaction_type": "endothermic",
+	  "is_endothermic": true,
+	  "temperature_sensitivity": 0.25,
+	  "equation": {
+		"display": "H₂N-CH₂-COOH + H₂N-CH₂-COOH → H₂N-CH₂-CO-NH-CH₂-COOH + H₂O",
+		"condition": "酶催化或加热",
+		"reversible": true,
+		"product_ids": [
+		  "dipeptide",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.6,
-        "status_effects": [
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.6,
+		"status_effects": [
           "peptide_bond_formed"
-        ],
-        "env_delta": {
-          "entropy_delta": -4.0
-        },
-        "equation_display": "H₂N-CH₂-COOH + H₂N-CH₂-COOH → H₂N-CH₂-CO-NH-CH₂-COOH + H₂O  [酶催化或加热]"
-      }
-    },
-    {
-      "id": "alkene_water_addition",
-      "name": "烯烃加水（工业合成醇）",
-      "priority": 57,
-      "conditions": {
-        "a_requires": {
-          "elements": [
-            "C",
+		],
+		"env_delta": {
+		  "entropy_delta": -4.0
+		},
+		"equation_display": "H₂N-CH₂-COOH + H₂N-CH₂-COOH → H₂N-CH₂-CO-NH-CH₂-COOH + H₂O  [酶催化或加热]"
+	  }
+	},
+	{
+	  "id": "alkene_water_addition",
+	  "name": "烯烃加水（工业合成醇）",
+	  "priority": 57,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
+			"C",
             "H"
-          ]
-        },
-        "b_requires": {
-          "elements": [
-            "H",
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
+			"H",
             "O"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "hydroxyl"
-          ]
-        }
-      },
-      "reaction_type": "exothermic",
-      "is_exothermic": true,
-      "temperature_sensitivity": 0.2,
-      "equation": {
-        "display": "CH₂=CH₂ + H₂O ⇌(H₂SO₄,△) C₂H₅OH",
-        "condition": "酸催化，加热",
-        "reversible": true,
-        "product_ids": [
+		  ]
+		}
+	  },
+	  "reaction_type": "exothermic",
+	  "is_exothermic": true,
+	  "temperature_sensitivity": 0.2,
+	  "equation": {
+		"display": "CH₂=CH₂ + H₂O ⇌(H₂SO₄,△) C₂H₅OH",
+		"condition": "酸催化，加热",
+		"reversible": true,
+		"product_ids": [
           "C2H5OH"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.5,
-        "status_effects": [
-          "double_bond_broken",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.5,
+		"status_effects": [
+		  "double_bond_broken",
           "alcohol_formed"
-        ],
-        "env_delta": {
-          "temp_delta": 5.0,
-          "entropy_delta": -3.0
-        },
-        "equation_display": "CH₂=CH₂ + H₂O ⇌(H₂SO₄,△) C₂H₅OH  [酸催化，加热]"
-      }
-    },
-    {
-      "id": "benzene_ring_nitration",
-      "name": "苯环硝化反应",
-      "priority": 66,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "temp_delta": 5.0,
+		  "entropy_delta": -3.0
+		},
+		"equation_display": "CH₂=CH₂ + H₂O ⇌(H₂SO₄,△) C₂H₅OH  [酸催化，加热]"
+	  }
+	},
+	{
+	  "id": "benzene_ring_nitration",
+	  "name": "苯环硝化反应",
+	  "priority": 66,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "benzene_ring"
-          ]
-        },
-        "b_requires": {
-          "elements": [
-            "N",
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
+			"N",
             "O"
-          ],
-          "chem_tags": [
-            "oxidizing",
+		  ],
+		  "chem_tags": [
+			"oxidizing",
             "acidic"
-          ]
-        }
-      },
-      "reaction_type": "exothermic",
-      "is_exothermic": true,
-      "temperature_sensitivity": 0.25,
-      "equation": {
-        "display": "C₆H₆ + HNO₃ →(浓H₂SO₄,50-60°C) C₆H₅NO₂ + H₂O",
-        "condition": "浓H₂SO₄催化，50-60°C（水浴）",
-        "reversible": false,
-        "product_ids": [
-          "C6H5NO2",
+		  ]
+		}
+	  },
+	  "reaction_type": "exothermic",
+	  "is_exothermic": true,
+	  "temperature_sensitivity": 0.25,
+	  "equation": {
+		"display": "C₆H₆ + HNO₃ →(浓H₂SO₄,50-60°C) C₆H₅NO₂ + H₂O",
+		"condition": "浓H₂SO₄催化，50-60°C（水浴）",
+		"reversible": false,
+		"product_ids": [
+		  "C6H5NO2",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.9,
-        "status_effects": [
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.9,
+		"status_effects": [
           "nitro_substituted"
-        ],
-        "env_delta": {
-          "temp_delta": 8.0,
-          "entropy_delta": 2.0
-        },
-        "equation_display": "C₆H₆ + HNO₃ →(浓H₂SO₄,50-60°C) C₆H₅NO₂ + H₂O  [浓H₂SO₄催化，50-60°C（水浴）]"
-      }
-    },
-    {
-      "id": "cuo_h2_reduction",
-      "name": "氧化铜被氢还原",
-      "priority": 79,
-      "conditions": {
-        "a_requires": {
-          "elements": [
-            "Cu",
+		],
+		"env_delta": {
+		  "temp_delta": 8.0,
+		  "entropy_delta": 2.0
+		},
+		"equation_display": "C₆H₆ + HNO₃ →(浓H₂SO₄,50-60°C) C₆H₅NO₂ + H₂O  [浓H₂SO₄催化，50-60°C（水浴）]"
+	  }
+	},
+	{
+	  "id": "cuo_h2_reduction",
+	  "name": "氧化铜被氢还原",
+	  "priority": 79,
+	  "conditions": {
+		"a_requires": {
+		  "elements": [
+			"Cu",
             "O"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "oxidizing"
-          ]
-        },
-        "b_requires": {
-          "elements": [
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
             "H"
-          ],
-          "chem_tags": [
+		  ],
+		  "chem_tags": [
             "reducing"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "CuO + H₂ →(△) Cu + H₂O",
-        "condition": "加热",
-        "reversible": false,
-        "product_ids": [
-          "Cu",
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "CuO + H₂ →(△) Cu + H₂O",
+		"condition": "加热",
+		"reversible": false,
+		"product_ids": [
+		  "Cu",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 2.0,
-        "status_effects": [
-          "reduced",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.0,
+		"status_effects": [
+		  "reduced",
           "structure_changed"
-        ],
-        "env_delta": {
-          "temp_delta": 10.0,
-          "entropy_delta": -3.0
-        },
-        "equation_display": "CuO + H₂ →(△) Cu + H₂O  [加热]"
-      }
-    },
-    {
-      "id": "formic_acid_silver_mirror",
-      "name": "甲酸银镜反应",
-      "priority": 71,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
-            "acidic",
-            "aldehyde",
-            "reducing",
+		],
+		"env_delta": {
+		  "temp_delta": 10.0,
+		  "entropy_delta": -3.0
+		},
+		"equation_display": "CuO + H₂ →(△) Cu + H₂O  [加热]"
+	  }
+	},
+	{
+	  "id": "formic_acid_silver_mirror",
+	  "name": "甲酸银镜反应",
+	  "priority": 71,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
+			"acidic",
+			"aldehyde",
+			"reducing",
             "carbonyl"
-          ]
-        },
-        "b_requires": {
-          "elements": [
+		  ]
+		},
+		"b_requires": {
+		  "elements": [
             "N"
-          ]
-        }
-      },
-      "reaction_type": "redox",
-      "equation": {
-        "display": "HCOOH + 2Ag(NH₃)₂⁺ + 2OH⁻ →(△) CO₂↑ + 2Ag↓ + 4NH₃ + 2H₂O",
-        "condition": "银氨溶液，水浴加热",
-        "reversible": false,
-        "product_ids": [
-          "Ag",
-          "CO2",
+		  ]
+		}
+	  },
+	  "reaction_type": "redox",
+	  "equation": {
+		"display": "HCOOH + 2Ag(NH₃)₂⁺ + 2OH⁻ →(△) CO₂↑ + 2Ag↓ + 4NH₃ + 2H₂O",
+		"condition": "银氨溶液，水浴加热",
+		"reversible": false,
+		"product_ids": [
+		  "Ag",
+		  "CO2",
           "H2O"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 2.4,
-        "status_effects": [
-          "oxidized",
-          "silver_deposited",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 2.4,
+		"status_effects": [
+		  "oxidized",
+		  "silver_deposited",
           "CO2_released"
-        ],
-        "env_delta": {
-          "entropy_delta": 6.0
-        },
-        "equation_display": "HCOOH + 2Ag(NH₃)₂⁺ + 2OH⁻ →(△) CO₂↑ + 2Ag↓ + 4NH₃ + 2H₂O  [银氨溶液，水浴加热]"
-      }
-    },
-    {
-      "id": "haloalkane_naoh_aqueous",
-      "name": "卤代烃NaOH水溶液水解",
-      "priority": 59,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "entropy_delta": 6.0
+		},
+		"equation_display": "HCOOH + 2Ag(NH₃)₂⁺ + 2OH⁻ →(△) CO₂↑ + 2Ag↓ + 4NH₃ + 2H₂O  [银氨溶液，水浴加热]"
+	  }
+	},
+	{
+	  "id": "haloalkane_naoh_aqueous",
+	  "name": "卤代烃NaOH水溶液水解",
+	  "priority": 59,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "halogen"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
-            "alkaline",
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
+			"alkaline",
             "hydroxyl"
-          ]
-        }
-      },
-      "reaction_type": "endothermic",
-      "is_endothermic": true,
-      "temperature_sensitivity": 0.2,
-      "equation": {
-        "display": "C₂H₅Br + NaOH →(水溶液,△) C₂H₅OH + NaBr",
-        "condition": "NaOH水溶液，加热",
-        "reversible": false,
-        "product_ids": [
-          "C2H5OH",
+		  ]
+		}
+	  },
+	  "reaction_type": "endothermic",
+	  "is_endothermic": true,
+	  "temperature_sensitivity": 0.2,
+	  "equation": {
+		"display": "C₂H₅Br + NaOH →(水溶液,△) C₂H₅OH + NaBr",
+		"condition": "NaOH水溶液，加热",
+		"reversible": false,
+		"product_ids": [
+		  "C2H5OH",
           "NaBr"
-        ]
-      },
-      "base_effect": {
-        "damage_multiplier": 1.6,
-        "status_effects": [
-          "halogen_substituted",
+		]
+	  },
+	  "base_effect": {
+		"damage_multiplier": 1.6,
+		"status_effects": [
+		  "halogen_substituted",
           "OH_added"
-        ],
-        "env_delta": {
-          "entropy_delta": 3.0,
-          "pH_delta": -0.5
-        },
-        "equation_display": "C₂H₅Br + NaOH →(水溶液,△) C₂H₅OH + NaBr  [NaOH水溶液，加热]"
-      }
-    },
-    {
-      "id": "benzene_benzene_pi",
-      "name": "苯环π-π堆积干扰",
-      "priority": 8,
-      "conditions": {
-        "a_requires": {
-          "chem_tags": [
+		],
+		"env_delta": {
+		  "entropy_delta": 3.0,
+		  "pH_delta": -0.5
+		},
+		"equation_display": "C₂H₅Br + NaOH →(水溶液,△) C₂H₅OH + NaBr  [NaOH水溶液，加热]"
+	  }
+	},
+	{
+	  "id": "benzene_benzene_pi",
+	  "name": "苯环π-π堆积干扰",
+	  "priority": 8,
+	  "conditions": {
+		"a_requires": {
+		  "chem_tags": [
             "benzene_ring"
-          ]
-        },
-        "b_requires": {
-          "chem_tags": [
+		  ]
+		},
+		"b_requires": {
+		  "chem_tags": [
             "benzene_ring"
-          ]
-        }
-      },
-      "reaction_type": "stochastic",
-      "is_stochastic": true,
-      "equation": {
-        "display": "（非共价π-π堆积，非化学反应）",
-        "condition": "",
-        "reversible": true,
-        "product_ids": []
-      },
-      "base_effect": {
-        "damage_multiplier": 0.9,
-        "status_effects": [
+		  ]
+		}
+	  },
+	  "reaction_type": "stochastic",
+	  "is_stochastic": true,
+	  "equation": {
+		"display": "（非共价π-π堆积，非化学反应）",
+		"condition": "",
+		"reversible": true,
+		"product_ids": []
+	  },
+	  "base_effect": {
+		"damage_multiplier": 0.9,
+		"status_effects": [
           "pi_stacking"
-        ],
-        "env_delta": {
-          "entropy_delta": 2.0
-        },
-        "equation_display": "（非共价π-π堆积，非化学反应）"
-      }
-    }
+		],
+		"env_delta": {
+		  "entropy_delta": 2.0
+		},
+		"equation_display": "（非共价π-π堆积，非化学反应）"
+	  }
+	}
   ]
 }
