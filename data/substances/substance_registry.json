@@ -1,0 +1,2535 @@
+{
+  "substances": [
+    {
+      "id": "HCl",
+      "formula": "HCl",
+      "display_name": "盐酸",
+      "type": "inorganic",
+      "category": "acid",
+      "properties": {
+        "acid_base": "strong_acid",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "soluble",
+        "state_standard": "aqueous",
+        "special": [
+          "volatile",
+          "corrosive"
+        ]
+      },
+      "element_tags": [
+        "H",
+        "Cl"
+      ],
+      "chem_tags": [
+        "acidic",
+        "halogen"
+      ],
+      "reaction_activity": 0.85,
+      "structure_nodes": [
+        {
+          "id": "H_ion",
+          "label": "H⁺",
+          "type": "cation",
+          "stability": 0.3,
+          "active_sites": [
+            "proton_donor"
+          ],
+          "vulnerable_to": [
+            "alkaline",
+            "reducing"
+          ]
+        },
+        {
+          "id": "Cl_ion",
+          "label": "Cl⁻",
+          "type": "anion",
+          "stability": 0.85,
+          "active_sites": [
+            "nucleophile"
+          ],
+          "vulnerable_to": [
+            "strong_oxidizing"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "强酸，水溶液中完全电离为H⁺和Cl⁻，具挥发性和腐蚀性"
+    },
+    {
+      "id": "H2SO4",
+      "formula": "H₂SO₄",
+      "display_name": "硫酸",
+      "type": "inorganic",
+      "category": "acid",
+      "properties": {
+        "acid_base": "strong_acid",
+        "is_oxidizing": true,
+        "is_reducing": false,
+        "solubility": "soluble",
+        "state_standard": "liquid",
+        "special": [
+          "dehydrating",
+          "corrosive",
+          "oxidizing_conc"
+        ]
+      },
+      "element_tags": [
+        "H",
+        "S",
+        "O"
+      ],
+      "chem_tags": [
+        "acidic",
+        "oxidizing",
+        "dehydrating"
+      ],
+      "reaction_activity": 0.9,
+      "structure_nodes": [
+        {
+          "id": "H_ion1",
+          "label": "H⁺(1)",
+          "type": "cation",
+          "stability": 0.25,
+          "active_sites": [
+            "proton_donor"
+          ],
+          "vulnerable_to": [
+            "alkaline"
+          ]
+        },
+        {
+          "id": "H_ion2",
+          "label": "H⁺(2)",
+          "type": "cation",
+          "stability": 0.25,
+          "active_sites": [
+            "proton_donor"
+          ],
+          "vulnerable_to": [
+            "alkaline"
+          ]
+        },
+        {
+          "id": "SO4",
+          "label": "SO₄²⁻",
+          "type": "anion",
+          "stability": 0.75,
+          "active_sites": [
+            "oxidant_site"
+          ],
+          "vulnerable_to": [
+            "strong_reducing"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "强酸；稀硫酸与活泼金属反应放H₂；浓硫酸具强氧化性和脱水性"
+    },
+    {
+      "id": "HNO3",
+      "formula": "HNO₃",
+      "display_name": "硝酸",
+      "type": "inorganic",
+      "category": "acid",
+      "properties": {
+        "acid_base": "strong_acid",
+        "is_oxidizing": true,
+        "is_reducing": false,
+        "solubility": "soluble",
+        "state_standard": "aqueous",
+        "special": [
+          "strong_oxidizing",
+          "volatile"
+        ]
+      },
+      "element_tags": [
+        "H",
+        "N",
+        "O"
+      ],
+      "chem_tags": [
+        "acidic",
+        "oxidizing"
+      ],
+      "reaction_activity": 0.92,
+      "structure_nodes": [
+        {
+          "id": "H_ion",
+          "label": "H⁺",
+          "type": "cation",
+          "stability": 0.25,
+          "active_sites": [
+            "proton_donor"
+          ],
+          "vulnerable_to": [
+            "alkaline"
+          ]
+        },
+        {
+          "id": "NO3",
+          "label": "NO₃⁻",
+          "type": "anion",
+          "stability": 0.6,
+          "active_sites": [
+            "oxidant_site"
+          ],
+          "vulnerable_to": [
+            "strong_reducing"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "强酸且强氧化剂；稀HNO₃与活泼金属反应生成NO；浓HNO₃与Cu反应生成NO₂"
+    },
+    {
+      "id": "H2CO3",
+      "formula": "H₂CO₃",
+      "display_name": "碳酸",
+      "type": "inorganic",
+      "category": "acid",
+      "properties": {
+        "acid_base": "weak_acid",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "soluble",
+        "state_standard": "aqueous",
+        "special": [
+          "unstable"
+        ]
+      },
+      "element_tags": [
+        "H",
+        "C",
+        "O"
+      ],
+      "chem_tags": [
+        "acidic"
+      ],
+      "reaction_activity": 0.35,
+      "structure_nodes": [
+        {
+          "id": "H_ion1",
+          "label": "H⁺(1)",
+          "type": "cation",
+          "stability": 0.5,
+          "active_sites": [
+            "proton_donor"
+          ],
+          "vulnerable_to": [
+            "alkaline"
+          ]
+        },
+        {
+          "id": "CO3",
+          "label": "CO₃²⁻",
+          "type": "anion",
+          "stability": 0.4,
+          "active_sites": [],
+          "vulnerable_to": [
+            "strong_acid"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "弱酸，不稳定，易分解为CO₂和H₂O；酸性弱于盐酸和硫酸"
+    },
+    {
+      "id": "NaOH",
+      "formula": "NaOH",
+      "display_name": "氢氧化钠",
+      "type": "inorganic",
+      "category": "base",
+      "properties": {
+        "acid_base": "strong_base",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "soluble",
+        "state_standard": "aqueous",
+        "special": [
+          "corrosive",
+          "hygroscopic"
+        ]
+      },
+      "element_tags": [
+        "Na",
+        "O",
+        "H"
+      ],
+      "chem_tags": [
+        "alkaline",
+        "hydroxyl"
+      ],
+      "reaction_activity": 0.88,
+      "structure_nodes": [
+        {
+          "id": "Na_ion",
+          "label": "Na⁺",
+          "type": "cation",
+          "stability": 0.95,
+          "active_sites": [],
+          "vulnerable_to": []
+        },
+        {
+          "id": "OH_ion",
+          "label": "OH⁻",
+          "type": "anion",
+          "stability": 0.75,
+          "active_sites": [
+            "proton_acceptor"
+          ],
+          "vulnerable_to": [
+            "acidic"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "强碱，水溶液中完全电离；能与酸、酸性氧化物、部分盐、蛋白质反应"
+    },
+    {
+      "id": "CaOH2",
+      "formula": "Ca(OH)₂",
+      "display_name": "氢氧化钙",
+      "type": "inorganic",
+      "category": "base",
+      "properties": {
+        "acid_base": "strong_base",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "slightly_soluble",
+        "state_standard": "aqueous",
+        "special": []
+      },
+      "element_tags": [
+        "Ca",
+        "O",
+        "H"
+      ],
+      "chem_tags": [
+        "alkaline",
+        "hydroxyl"
+      ],
+      "reaction_activity": 0.72,
+      "structure_nodes": [
+        {
+          "id": "Ca_ion",
+          "label": "Ca²⁺",
+          "type": "cation",
+          "stability": 0.9,
+          "active_sites": [],
+          "vulnerable_to": [
+            "CO3_anion"
+          ]
+        },
+        {
+          "id": "OH_ion1",
+          "label": "OH⁻(1)",
+          "type": "anion",
+          "stability": 0.7,
+          "active_sites": [
+            "proton_acceptor"
+          ],
+          "vulnerable_to": [
+            "acidic"
+          ]
+        },
+        {
+          "id": "OH_ion2",
+          "label": "OH⁻(2)",
+          "type": "anion",
+          "stability": 0.7,
+          "active_sites": [
+            "proton_acceptor"
+          ],
+          "vulnerable_to": [
+            "acidic"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "微溶强碱（石灰水）；能与CO₂反应，用于检验CO₂"
+    },
+    {
+      "id": "CuOH2",
+      "formula": "Cu(OH)₂",
+      "display_name": "氢氧化铜",
+      "type": "inorganic",
+      "category": "base",
+      "properties": {
+        "acid_base": "weak_base",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "insoluble",
+        "state_standard": "solid",
+        "special": [
+          "amphoteric_tendency"
+        ]
+      },
+      "element_tags": [
+        "Cu",
+        "O",
+        "H"
+      ],
+      "chem_tags": [
+        "alkaline",
+        "hydroxyl"
+      ],
+      "reaction_activity": 0.45,
+      "structure_nodes": [
+        {
+          "id": "Cu2_ion",
+          "label": "Cu²⁺",
+          "type": "cation",
+          "stability": 0.65,
+          "active_sites": [
+            "oxidant_site",
+            "coordination_center"
+          ],
+          "vulnerable_to": [
+            "acidic",
+            "strong_reducing"
+          ]
+        },
+        {
+          "id": "OH_ion1",
+          "label": "OH⁻(1)",
+          "type": "anion",
+          "stability": 0.55,
+          "active_sites": [
+            "proton_acceptor"
+          ],
+          "vulnerable_to": [
+            "acidic"
+          ]
+        },
+        {
+          "id": "OH_ion2",
+          "label": "OH⁻(2)",
+          "type": "anion",
+          "stability": 0.55,
+          "active_sites": [
+            "proton_acceptor"
+          ],
+          "vulnerable_to": [
+            "acidic"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "蓝色沉淀弱碱；加热分解为CuO；与葡萄糖反应（费林试剂）"
+    },
+    {
+      "id": "Na",
+      "formula": "Na",
+      "display_name": "钠",
+      "type": "inorganic",
+      "category": "active_metal",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "reacts",
+        "state_standard": "solid",
+        "special": [
+          "extremely_active",
+          "exothermic_water"
+        ]
+      },
+      "element_tags": [
+        "Na"
+      ],
+      "chem_tags": [
+        "reducing",
+        "exothermic",
+        "metal"
+      ],
+      "reaction_activity": 0.98,
+      "structure_nodes": [
+        {
+          "id": "Na_atom",
+          "label": "Na",
+          "type": "atom",
+          "stability": 0.3,
+          "active_sites": [
+            "electron_donor"
+          ],
+          "vulnerable_to": [
+            "oxidizing",
+            "acidic",
+            "halogen",
+            "H2O"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "极活泼金属，与水剧烈反应生成NaOH和H₂，与O₂燃烧生成Na₂O₂"
+    },
+    {
+      "id": "Fe",
+      "formula": "Fe",
+      "display_name": "铁",
+      "type": "inorganic",
+      "category": "metal",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "insoluble",
+        "state_standard": "solid",
+        "special": [
+          "magnetic"
+        ]
+      },
+      "element_tags": [
+        "Fe"
+      ],
+      "chem_tags": [
+        "reducing",
+        "metal"
+      ],
+      "reaction_activity": 0.7,
+      "structure_nodes": [
+        {
+          "id": "Fe_atom",
+          "label": "Fe",
+          "type": "atom",
+          "stability": 0.65,
+          "active_sites": [
+            "electron_donor"
+          ],
+          "vulnerable_to": [
+            "oxidizing",
+            "acidic",
+            "Cu2_ion"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "中等活泼金属；与稀酸生成Fe²⁺；与强氧化酸生成Fe³⁺；能置换CuSO₄中的Cu"
+    },
+    {
+      "id": "Cu",
+      "formula": "Cu",
+      "display_name": "铜",
+      "type": "inorganic",
+      "category": "metal",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "insoluble",
+        "state_standard": "solid",
+        "special": [
+          "below_H_activity"
+        ]
+      },
+      "element_tags": [
+        "Cu"
+      ],
+      "chem_tags": [
+        "reducing",
+        "metal"
+      ],
+      "reaction_activity": 0.45,
+      "structure_nodes": [
+        {
+          "id": "Cu_atom",
+          "label": "Cu",
+          "type": "atom",
+          "stability": 0.75,
+          "active_sites": [
+            "electron_donor"
+          ],
+          "vulnerable_to": [
+            "oxidizing",
+            "HNO3",
+            "H2SO4_conc",
+            "Cl2"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "不活泼金属，活动性在H之后；不与稀盐酸反应；可与氧化性酸和Cl₂反应"
+    },
+    {
+      "id": "Zn",
+      "formula": "Zn",
+      "display_name": "锌",
+      "type": "inorganic",
+      "category": "metal",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "insoluble",
+        "state_standard": "solid",
+        "special": [
+          "amphoteric_oxide"
+        ]
+      },
+      "element_tags": [
+        "Zn"
+      ],
+      "chem_tags": [
+        "reducing",
+        "metal"
+      ],
+      "reaction_activity": 0.75,
+      "structure_nodes": [
+        {
+          "id": "Zn_atom",
+          "label": "Zn",
+          "type": "atom",
+          "stability": 0.6,
+          "active_sites": [
+            "electron_donor"
+          ],
+          "vulnerable_to": [
+            "acidic",
+            "alkaline",
+            "oxidizing"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "中等活泼金属，活动性在H之前；氧化物ZnO为两性氧化物；可溶于强酸和强碱"
+    },
+    {
+      "id": "Cl2",
+      "formula": "Cl₂",
+      "display_name": "氯气",
+      "type": "inorganic",
+      "category": "nonmetal",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": true,
+        "is_reducing": false,
+        "solubility": "slightly_soluble",
+        "state_standard": "gas",
+        "special": [
+          "toxic",
+          "strong_oxidizing",
+          "bleaching"
+        ]
+      },
+      "element_tags": [
+        "Cl"
+      ],
+      "chem_tags": [
+        "oxidizing",
+        "halogen"
+      ],
+      "reaction_activity": 0.9,
+      "structure_nodes": [
+        {
+          "id": "Cl_Cl_bond",
+          "label": "Cl-Cl",
+          "type": "bond",
+          "stability": 0.55,
+          "active_sites": [
+            "oxidant_site",
+            "electrophile"
+          ],
+          "vulnerable_to": [
+            "reducing",
+            "metal"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "强氧化剂；与金属、H₂、水反应；Cl₂+H₂O⇌HCl+HClO（次氯酸有漂白性）"
+    },
+    {
+      "id": "KMnO4",
+      "formula": "KMnO₄",
+      "display_name": "高锰酸钾",
+      "type": "inorganic",
+      "category": "salt",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": true,
+        "is_reducing": false,
+        "solubility": "soluble",
+        "state_standard": "aqueous",
+        "special": [
+          "very_strong_oxidizing",
+          "purple_color"
+        ]
+      },
+      "element_tags": [
+        "K",
+        "Mn",
+        "O"
+      ],
+      "chem_tags": [
+        "oxidizing"
+      ],
+      "reaction_activity": 0.95,
+      "structure_nodes": [
+        {
+          "id": "MnO4",
+          "label": "MnO₄⁻",
+          "type": "anion",
+          "stability": 0.5,
+          "active_sites": [
+            "oxidant_site"
+          ],
+          "vulnerable_to": [
+            "reducing",
+            "acidic"
+          ]
+        },
+        {
+          "id": "K_ion",
+          "label": "K⁺",
+          "type": "cation",
+          "stability": 0.99,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "极强氧化剂（紫色）；酸性溶液中Mn⁷⁺→Mn²⁺；能氧化烯烃、醇、醛等有机物"
+    },
+    {
+      "id": "CuSO4",
+      "formula": "CuSO₄",
+      "display_name": "硫酸铜",
+      "type": "inorganic",
+      "category": "salt",
+      "properties": {
+        "acid_base": "slightly_acidic",
+        "is_oxidizing": true,
+        "is_reducing": false,
+        "solubility": "soluble",
+        "state_standard": "aqueous",
+        "special": [
+          "blue_color",
+          "Cu2_oxidizing"
+        ]
+      },
+      "element_tags": [
+        "Cu",
+        "S",
+        "O"
+      ],
+      "chem_tags": [
+        "oxidizing"
+      ],
+      "reaction_activity": 0.55,
+      "structure_nodes": [
+        {
+          "id": "Cu2_ion",
+          "label": "Cu²⁺",
+          "type": "cation",
+          "stability": 0.7,
+          "active_sites": [
+            "oxidant_site",
+            "coordination_center"
+          ],
+          "vulnerable_to": [
+            "reducing",
+            "Fe",
+            "Zn"
+          ]
+        },
+        {
+          "id": "SO4_ion",
+          "label": "SO₄²⁻",
+          "type": "anion",
+          "stability": 0.9,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "蓝色溶液；Cu²⁺具氧化性可置换活泼金属；与NaOH反应生成Cu(OH)₂蓝色沉淀"
+    },
+    {
+      "id": "Na2CO3",
+      "formula": "Na₂CO₃",
+      "display_name": "碳酸钠",
+      "type": "inorganic",
+      "category": "salt",
+      "properties": {
+        "acid_base": "alkaline",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "soluble",
+        "state_standard": "aqueous",
+        "special": [
+          "hydrolysis_alkaline"
+        ]
+      },
+      "element_tags": [
+        "Na",
+        "C",
+        "O"
+      ],
+      "chem_tags": [
+        "alkaline"
+      ],
+      "reaction_activity": 0.5,
+      "structure_nodes": [
+        {
+          "id": "Na_ion1",
+          "label": "Na⁺(1)",
+          "type": "cation",
+          "stability": 0.99,
+          "active_sites": [],
+          "vulnerable_to": []
+        },
+        {
+          "id": "Na_ion2",
+          "label": "Na⁺(2)",
+          "type": "cation",
+          "stability": 0.99,
+          "active_sites": [],
+          "vulnerable_to": []
+        },
+        {
+          "id": "CO3_ion",
+          "label": "CO₃²⁻",
+          "type": "anion",
+          "stability": 0.65,
+          "active_sites": [
+            "proton_acceptor"
+          ],
+          "vulnerable_to": [
+            "acidic"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "纯碱；水溶液显碱性（水解）；与强酸反应放出CO₂"
+    },
+    {
+      "id": "CaCO3",
+      "formula": "CaCO₃",
+      "display_name": "碳酸钙",
+      "type": "inorganic",
+      "category": "salt",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "insoluble",
+        "state_standard": "solid",
+        "special": [
+          "main_component_limestone"
+        ]
+      },
+      "element_tags": [
+        "Ca",
+        "C",
+        "O"
+      ],
+      "chem_tags": [],
+      "reaction_activity": 0.4,
+      "structure_nodes": [
+        {
+          "id": "Ca_ion",
+          "label": "Ca²⁺",
+          "type": "cation",
+          "stability": 0.9,
+          "active_sites": [],
+          "vulnerable_to": []
+        },
+        {
+          "id": "CO3_ion",
+          "label": "CO₃²⁻",
+          "type": "anion",
+          "stability": 0.6,
+          "active_sites": [],
+          "vulnerable_to": [
+            "acidic"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "石灰石主成分；与强酸反应生成CO₂；高温分解为CaO和CO₂"
+    },
+    {
+      "id": "CuO",
+      "formula": "CuO",
+      "display_name": "氧化铜",
+      "type": "inorganic",
+      "category": "metal_oxide",
+      "properties": {
+        "acid_base": "basic_oxide",
+        "is_oxidizing": true,
+        "is_reducing": false,
+        "solubility": "insoluble",
+        "state_standard": "solid",
+        "special": [
+          "black_color"
+        ]
+      },
+      "element_tags": [
+        "Cu",
+        "O"
+      ],
+      "chem_tags": [
+        "oxidizing",
+        "alkaline"
+      ],
+      "reaction_activity": 0.55,
+      "structure_nodes": [
+        {
+          "id": "Cu2_site",
+          "label": "Cu²⁺位点",
+          "type": "cation",
+          "stability": 0.6,
+          "active_sites": [
+            "oxidant_site"
+          ],
+          "vulnerable_to": [
+            "reducing",
+            "acidic"
+          ]
+        },
+        {
+          "id": "O_site",
+          "label": "O²⁻",
+          "type": "anion",
+          "stability": 0.7,
+          "active_sites": [],
+          "vulnerable_to": [
+            "acidic"
+          ]
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "黑色碱性氧化物；与酸反应生成铜盐；可被H₂、CO、C还原"
+    },
+    {
+      "id": "CO2",
+      "formula": "CO₂",
+      "display_name": "二氧化碳",
+      "type": "inorganic",
+      "category": "nonmetal_oxide",
+      "properties": {
+        "acid_base": "acidic_oxide",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "slightly_soluble",
+        "state_standard": "gas",
+        "special": [
+          "greenhouse_gas"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "O"
+      ],
+      "chem_tags": [
+        "acidic"
+      ],
+      "reaction_activity": 0.4,
+      "structure_nodes": [
+        {
+          "id": "C_center",
+          "label": "C(IV)",
+          "type": "atom",
+          "stability": 0.7,
+          "active_sites": [
+            "electrophile"
+          ],
+          "vulnerable_to": [
+            "alkaline",
+            "reducing"
+          ]
+        },
+        {
+          "id": "O_double1",
+          "label": "C=O(1)",
+          "type": "bond",
+          "stability": 0.75,
+          "active_sites": [],
+          "vulnerable_to": []
+        },
+        {
+          "id": "O_double2",
+          "label": "C=O(2)",
+          "type": "bond",
+          "stability": 0.75,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "酸性氧化物；与水生成H₂CO₃；与碱（NaOH、Ca(OH)₂）反应；不支持燃烧"
+    },
+    {
+      "id": "H2O",
+      "formula": "H₂O",
+      "display_name": "水",
+      "type": "inorganic",
+      "category": "oxide",
+      "properties": {
+        "acid_base": "neutral",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "solvent",
+        "state_standard": "liquid",
+        "special": [
+          "universal_solvent",
+          "amphoteric"
+        ]
+      },
+      "element_tags": [
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "hydroxyl"
+      ],
+      "reaction_activity": 0.2,
+      "structure_nodes": [
+        {
+          "id": "O_atom",
+          "label": "O",
+          "type": "atom",
+          "stability": 0.9,
+          "active_sites": [
+            "H_bond_donor",
+            "H_bond_acceptor"
+          ],
+          "vulnerable_to": [
+            "Na",
+            "active_metal"
+          ]
+        },
+        {
+          "id": "H_bond1",
+          "label": "O-H(1)",
+          "type": "bond",
+          "stability": 0.85,
+          "active_sites": [],
+          "vulnerable_to": []
+        },
+        {
+          "id": "H_bond2",
+          "label": "O-H(2)",
+          "type": "bond",
+          "stability": 0.85,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": null,
+      "chemistry_note": "两性物质；Na与水剧烈反应；参与水解反应；环境系统中pH的溶剂基础"
+    },
+    {
+      "id": "CH4",
+      "formula": "CH₄",
+      "display_name": "甲烷",
+      "type": "organic",
+      "category": "alkane",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "insoluble",
+        "state_standard": "gas",
+        "special": [
+          "combustible",
+          "stable"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H"
+      ],
+      "chem_tags": [
+        "reducing",
+        "exothermic"
+      ],
+      "reaction_activity": 0.3,
+      "structure_nodes": [
+        {
+          "id": "C_sp3",
+          "label": "C(sp³)",
+          "type": "atom",
+          "stability": 0.9,
+          "active_sites": [],
+          "vulnerable_to": [
+            "halogen",
+            "radical"
+          ]
+        },
+        {
+          "id": "C_H_bonds",
+          "label": "4×C-H",
+          "type": "bond",
+          "stability": 0.88,
+          "active_sites": [],
+          "vulnerable_to": [
+            "Cl2_radical",
+            "Br2_radical"
+          ]
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [],
+        "carbon_count": 1,
+        "degree_of_unsaturation": 0,
+        "key_bonds": [
+          "C-H"
+        ]
+      },
+      "chemistry_note": "最简单烷烃；性质稳定；光照下与卤素发生取代反应；燃烧放大量热"
+    },
+    {
+      "id": "C2H4",
+      "formula": "C₂H₄",
+      "display_name": "乙烯",
+      "type": "organic",
+      "category": "alkene",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "insoluble",
+        "state_standard": "gas",
+        "special": [
+          "reactive_double_bond",
+          "plant_hormone"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H"
+      ],
+      "chem_tags": [
+        "reducing",
+        "benzene_ring"
+      ],
+      "reaction_activity": 0.72,
+      "structure_nodes": [
+        {
+          "id": "CC_double",
+          "label": "C=C",
+          "type": "bond",
+          "stability": 0.45,
+          "active_sites": [
+            "nucleophile",
+            "addition_site"
+          ],
+          "vulnerable_to": [
+            "oxidizing",
+            "halogen",
+            "HX",
+            "H2O",
+            "H2"
+          ]
+        },
+        {
+          "id": "CH2_1",
+          "label": "=CH₂(1)",
+          "type": "functional_group",
+          "stability": 0.65,
+          "active_sites": [],
+          "vulnerable_to": []
+        },
+        {
+          "id": "CH2_2",
+          "label": "=CH₂(2)",
+          "type": "functional_group",
+          "stability": 0.65,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "C=C"
+        ],
+        "carbon_count": 2,
+        "degree_of_unsaturation": 1,
+        "key_bonds": [
+          "C=C",
+          "C-H"
+        ]
+      },
+      "chemistry_note": "含C=C双键；可发生加成、氧化、聚合反应；KMnO₄可氧化乙烯（使其褪色）"
+    },
+    {
+      "id": "C2H2",
+      "formula": "C₂H₂",
+      "display_name": "乙炔",
+      "type": "organic",
+      "category": "alkyne",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "insoluble",
+        "state_standard": "gas",
+        "special": [
+          "reactive_triple_bond",
+          "high_energy"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H"
+      ],
+      "chem_tags": [
+        "reducing"
+      ],
+      "reaction_activity": 0.78,
+      "structure_nodes": [
+        {
+          "id": "CC_triple",
+          "label": "C≡C",
+          "type": "bond",
+          "stability": 0.35,
+          "active_sites": [
+            "addition_site"
+          ],
+          "vulnerable_to": [
+            "halogen",
+            "HX",
+            "H2",
+            "H2O"
+          ]
+        },
+        {
+          "id": "CH_1",
+          "label": "≡CH(1)",
+          "type": "atom",
+          "stability": 0.6,
+          "active_sites": [],
+          "vulnerable_to": []
+        },
+        {
+          "id": "CH_2",
+          "label": "≡CH(2)",
+          "type": "atom",
+          "stability": 0.6,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "C≡C"
+        ],
+        "carbon_count": 2,
+        "degree_of_unsaturation": 2,
+        "key_bonds": [
+          "C≡C",
+          "C-H"
+        ]
+      },
+      "chemistry_note": "含C≡C三键；反应性更强于乙烯；可两步加氢先→乙烯再→乙烷"
+    },
+    {
+      "id": "C6H6",
+      "formula": "C₆H₆",
+      "display_name": "苯",
+      "type": "organic",
+      "category": "aromatic",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "insoluble",
+        "state_standard": "liquid",
+        "special": [
+          "aromatic_stability",
+          "carcinogenic"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H"
+      ],
+      "chem_tags": [
+        "benzene_ring"
+      ],
+      "reaction_activity": 0.5,
+      "structure_nodes": [
+        {
+          "id": "benzene_ring",
+          "label": "苯环",
+          "type": "functional_group",
+          "stability": 0.8,
+          "active_sites": [
+            "electrophilic_substitution"
+          ],
+          "vulnerable_to": [
+            "electrophilic",
+            "halogen_cat",
+            "HNO3"
+          ]
+        },
+        {
+          "id": "C_H_6",
+          "label": "6×C-H",
+          "type": "bond",
+          "stability": 0.82,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "benzene_ring"
+        ],
+        "carbon_count": 6,
+        "degree_of_unsaturation": 4,
+        "key_bonds": [
+          "C=C_aromatic",
+          "C-H"
+        ]
+      },
+      "chemistry_note": "芳香烃；以取代反应为主（不易加成）；苯环稳定，KMnO₄不能氧化苯环本身"
+    },
+    {
+      "id": "C2H5OH",
+      "formula": "C₂H₅OH",
+      "display_name": "乙醇",
+      "type": "organic",
+      "category": "alcohol",
+      "properties": {
+        "acid_base": "very_weak_acid",
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "miscible",
+        "state_standard": "liquid",
+        "special": [
+          "combustible",
+          "volatile"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "hydroxyl",
+        "reducing"
+      ],
+      "reaction_activity": 0.6,
+      "structure_nodes": [
+        {
+          "id": "OH_group",
+          "label": "-OH",
+          "type": "functional_group",
+          "stability": 0.55,
+          "active_sites": [
+            "H_donor",
+            "esterification"
+          ],
+          "vulnerable_to": [
+            "acidic",
+            "oxidizing",
+            "dehydrating"
+          ]
+        },
+        {
+          "id": "alpha_C",
+          "label": "α-C",
+          "type": "atom",
+          "stability": 0.65,
+          "active_sites": [
+            "oxidation_site"
+          ],
+          "vulnerable_to": [
+            "oxidizing",
+            "KMnO4"
+          ]
+        },
+        {
+          "id": "C2H5",
+          "label": "乙基",
+          "type": "functional_group",
+          "stability": 0.85,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "OH"
+        ],
+        "carbon_count": 2,
+        "degree_of_unsaturation": 0,
+        "key_bonds": [
+          "C-O",
+          "O-H",
+          "C-C"
+        ]
+      },
+      "chemistry_note": "伯醇；可氧化为乙醛；在浓H₂SO₄/170°C消去为乙烯；与有机酸发生酯化"
+    },
+    {
+      "id": "HCHO",
+      "formula": "HCHO",
+      "display_name": "甲醛",
+      "type": "organic",
+      "category": "aldehyde",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "soluble",
+        "state_standard": "gas",
+        "special": [
+          "toxic",
+          "reducing_aldehyde",
+          "formaldehyde"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "carbonyl",
+        "reducing",
+        "aldehyde"
+      ],
+      "reaction_activity": 0.75,
+      "structure_nodes": [
+        {
+          "id": "CHO_group",
+          "label": "-CHO",
+          "type": "functional_group",
+          "stability": 0.4,
+          "active_sites": [
+            "nucleophile_addition",
+            "oxidation_site"
+          ],
+          "vulnerable_to": [
+            "oxidizing",
+            "Ag_ammonia",
+            "CuOH2"
+          ]
+        },
+        {
+          "id": "CO_double",
+          "label": "C=O",
+          "type": "bond",
+          "stability": 0.45,
+          "active_sites": [
+            "reduction_site"
+          ],
+          "vulnerable_to": [
+            "reducing",
+            "H2"
+          ]
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "CHO"
+        ],
+        "carbon_count": 1,
+        "degree_of_unsaturation": 1,
+        "key_bonds": [
+          "C=O",
+          "C-H"
+        ]
+      },
+      "chemistry_note": "最简单醛；强还原性；银镜反应/费林试剂检验；可与NaOH溶液发生歧化"
+    },
+    {
+      "id": "CH3CHO",
+      "formula": "CH₃CHO",
+      "display_name": "乙醛",
+      "type": "organic",
+      "category": "aldehyde",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "miscible",
+        "state_standard": "liquid",
+        "special": [
+          "reducing_aldehyde",
+          "volatile"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "carbonyl",
+        "reducing",
+        "aldehyde"
+      ],
+      "reaction_activity": 0.7,
+      "structure_nodes": [
+        {
+          "id": "CHO_group",
+          "label": "-CHO",
+          "type": "functional_group",
+          "stability": 0.42,
+          "active_sites": [
+            "nucleophile_addition",
+            "oxidation_site"
+          ],
+          "vulnerable_to": [
+            "oxidizing",
+            "Ag_ammonia",
+            "KMnO4"
+          ]
+        },
+        {
+          "id": "CH3_group",
+          "label": "-CH₃",
+          "type": "functional_group",
+          "stability": 0.88,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "CHO",
+          "CH3"
+        ],
+        "carbon_count": 2,
+        "degree_of_unsaturation": 1,
+        "key_bonds": [
+          "C=O",
+          "C-H",
+          "C-C"
+        ]
+      },
+      "chemistry_note": "乙醛；含醛基，有强还原性；银镜反应；被氧化为乙酸；加氢还原为乙醇"
+    },
+    {
+      "id": "CH3COOH",
+      "formula": "CH₃COOH",
+      "display_name": "乙酸",
+      "type": "organic",
+      "category": "carboxylic_acid",
+      "properties": {
+        "acid_base": "weak_acid",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "miscible",
+        "state_standard": "liquid",
+        "special": [
+          "sour_taste",
+          "esterification"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "acidic",
+        "carbonyl",
+        "hydroxyl"
+      ],
+      "reaction_activity": 0.55,
+      "structure_nodes": [
+        {
+          "id": "COOH_group",
+          "label": "-COOH",
+          "type": "functional_group",
+          "stability": 0.65,
+          "active_sites": [
+            "proton_donor",
+            "esterification_site"
+          ],
+          "vulnerable_to": [
+            "alkaline",
+            "alcohol_esterify"
+          ]
+        },
+        {
+          "id": "CH3_group",
+          "label": "-CH₃",
+          "type": "functional_group",
+          "stability": 0.88,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "COOH"
+        ],
+        "carbon_count": 2,
+        "degree_of_unsaturation": 1,
+        "key_bonds": [
+          "C=O",
+          "O-H",
+          "C-C"
+        ]
+      },
+      "chemistry_note": "弱有机酸；与醇发生酯化；与碱中和；电离常数Ka=1.8×10⁻⁵"
+    },
+    {
+      "id": "CH3COOC2H5",
+      "formula": "CH₃COOC₂H₅",
+      "display_name": "乙酸乙酯",
+      "type": "organic",
+      "category": "ester",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "insoluble",
+        "state_standard": "liquid",
+        "special": [
+          "fruity_smell",
+          "hydrolyzable"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "carbonyl"
+      ],
+      "reaction_activity": 0.4,
+      "structure_nodes": [
+        {
+          "id": "ester_group",
+          "label": "-COO-",
+          "type": "functional_group",
+          "stability": 0.58,
+          "active_sites": [
+            "hydrolysis_site"
+          ],
+          "vulnerable_to": [
+            "alkaline",
+            "acidic_H2O",
+            "NaOH"
+          ]
+        },
+        {
+          "id": "CH3CO",
+          "label": "CH₃CO-",
+          "type": "functional_group",
+          "stability": 0.75,
+          "active_sites": [],
+          "vulnerable_to": []
+        },
+        {
+          "id": "OC2H5",
+          "label": "-OC₂H₅",
+          "type": "functional_group",
+          "stability": 0.75,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "ester"
+        ],
+        "carbon_count": 4,
+        "degree_of_unsaturation": 1,
+        "key_bonds": [
+          "C=O",
+          "C-O",
+          "C-C"
+        ]
+      },
+      "chemistry_note": "果香气味；酸性条件下水解（可逆）；碱性条件下皂化（不可逆）"
+    },
+    {
+      "id": "C6H12O6",
+      "formula": "C₆H₁₂O₆",
+      "display_name": "葡萄糖",
+      "type": "organic",
+      "category": "monosaccharide",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "soluble",
+        "state_standard": "solid",
+        "special": [
+          "multiple_OH",
+          "aldehyde_reducing"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "carbonyl",
+        "hydroxyl",
+        "reducing",
+        "aldehyde"
+      ],
+      "reaction_activity": 0.65,
+      "structure_nodes": [
+        {
+          "id": "CHO_group",
+          "label": "-CHO",
+          "type": "functional_group",
+          "stability": 0.38,
+          "active_sites": [
+            "oxidation_site"
+          ],
+          "vulnerable_to": [
+            "Ag_ammonia",
+            "CuOH2",
+            "oxidizing"
+          ]
+        },
+        {
+          "id": "OH_x5",
+          "label": "5×-OH",
+          "type": "functional_group",
+          "stability": 0.6,
+          "active_sites": [
+            "H_donor",
+            "esterification"
+          ],
+          "vulnerable_to": [
+            "dehydrating"
+          ]
+        },
+        {
+          "id": "carbon_chain",
+          "label": "C₆碳链",
+          "type": "functional_group",
+          "stability": 0.8,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "CHO",
+          "OH",
+          "OH",
+          "OH",
+          "OH",
+          "OH"
+        ],
+        "carbon_count": 6,
+        "degree_of_unsaturation": 1,
+        "key_bonds": [
+          "C=O",
+          "C-O",
+          "O-H",
+          "C-C"
+        ]
+      },
+      "chemistry_note": "多羟基醛；银镜反应和费林试剂均为正；可发酵产乙醇；与Cu(OH)₂反应溶解蓝色沉淀"
+    },
+    {
+      "id": "C6H5NH2",
+      "formula": "C₆H₅NH₂",
+      "display_name": "苯胺",
+      "type": "organic",
+      "category": "aromatic_amine",
+      "properties": {
+        "acid_base": "weak_base",
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "slightly_soluble",
+        "state_standard": "liquid",
+        "special": [
+          "toxic",
+          "easily_oxidized"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "N"
+      ],
+      "chem_tags": [
+        "alkaline",
+        "amino",
+        "reducing",
+        "benzene_ring"
+      ],
+      "reaction_activity": 0.65,
+      "structure_nodes": [
+        {
+          "id": "NH2_group",
+          "label": "-NH₂",
+          "type": "functional_group",
+          "stability": 0.45,
+          "active_sites": [
+            "proton_acceptor",
+            "electron_donor"
+          ],
+          "vulnerable_to": [
+            "acidic",
+            "oxidizing"
+          ]
+        },
+        {
+          "id": "benzene_ring",
+          "label": "苯环",
+          "type": "functional_group",
+          "stability": 0.72,
+          "active_sites": [
+            "electrophilic_substitution"
+          ],
+          "vulnerable_to": [
+            "electrophilic"
+          ]
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "NH2",
+          "benzene_ring"
+        ],
+        "carbon_count": 6,
+        "degree_of_unsaturation": 4,
+        "key_bonds": [
+          "N-H",
+          "C-N",
+          "C=C_aromatic"
+        ]
+      },
+      "chemistry_note": "芳香胺；碱性（弱于氨水）；与强酸生成铵盐；易被氧化变色；致癌"
+    },
+    {
+      "id": "Glycine",
+      "formula": "H₂NCH₂COOH",
+      "display_name": "甘氨酸",
+      "type": "organic",
+      "category": "amino_acid",
+      "properties": {
+        "acid_base": "amphoteric",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "soluble",
+        "state_standard": "solid",
+        "special": [
+          "zwitterion",
+          "peptide_forming"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "chem_tags": [
+        "acidic",
+        "alkaline",
+        "amino",
+        "carbonyl",
+        "hydroxyl"
+      ],
+      "reaction_activity": 0.6,
+      "structure_nodes": [
+        {
+          "id": "NH2_group",
+          "label": "-NH₂",
+          "type": "functional_group",
+          "stability": 0.6,
+          "active_sites": [
+            "proton_acceptor",
+            "peptide_bond_N"
+          ],
+          "vulnerable_to": [
+            "acidic"
+          ]
+        },
+        {
+          "id": "COOH_group",
+          "label": "-COOH",
+          "type": "functional_group",
+          "stability": 0.62,
+          "active_sites": [
+            "proton_donor",
+            "peptide_bond_C"
+          ],
+          "vulnerable_to": [
+            "alkaline",
+            "amine_condensation"
+          ]
+        },
+        {
+          "id": "CH2_backbone",
+          "label": "-CH₂-",
+          "type": "functional_group",
+          "stability": 0.9,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "NH2",
+          "COOH"
+        ],
+        "carbon_count": 2,
+        "degree_of_unsaturation": 1,
+        "key_bonds": [
+          "N-H",
+          "C-N",
+          "C=O",
+          "O-H"
+        ]
+      },
+      "chemistry_note": "最简单氨基酸；两性（含-NH₂和-COOH）；可自身缩合形成肽键；电泳在等电点"
+    },
+    {
+      "id": "C6H5OH",
+      "formula": "C₆H₅OH",
+      "display_name": "苯酚",
+      "type": "organic",
+      "category": "phenol",
+      "properties": {
+        "acid_base": "weak_acid",
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "slightly_soluble",
+        "state_standard": "solid",
+        "special": [
+          "toxic",
+          "acidic_OH",
+          "easily_oxidized"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "acidic",
+        "hydroxyl",
+        "reducing",
+        "benzene_ring"
+      ],
+      "reaction_activity": 0.68,
+      "structure_nodes": [
+        {
+          "id": "phenol_OH",
+          "label": "酚羟基",
+          "type": "functional_group",
+          "stability": 0.4,
+          "active_sites": [
+            "proton_donor",
+            "H_donor"
+          ],
+          "vulnerable_to": [
+            "alkaline",
+            "oxidizing",
+            "Br2"
+          ]
+        },
+        {
+          "id": "benzene_ring",
+          "label": "苯环",
+          "type": "functional_group",
+          "stability": 0.7,
+          "active_sites": [
+            "electrophilic_substitution"
+          ],
+          "vulnerable_to": [
+            "electrophilic",
+            "Br2_aq"
+          ]
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "phenol_OH",
+          "benzene_ring"
+        ],
+        "carbon_count": 6,
+        "degree_of_unsaturation": 4,
+        "key_bonds": [
+          "O-H",
+          "C-O",
+          "C=C_aromatic"
+        ]
+      },
+      "chemistry_note": "酸性比碳酸弱；与NaOH反应成苯酚钠；酚羟基活化苯环（邻对位定向）；遇FeCl₃变紫"
+    },
+    {
+      "id": "CH3COCH3",
+      "formula": "CH₃COCH₃",
+      "display_name": "丙酮",
+      "type": "organic",
+      "category": "ketone",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "miscible",
+        "state_standard": "liquid",
+        "special": [
+          "good_solvent",
+          "no_silver_mirror"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "carbonyl"
+      ],
+      "reaction_activity": 0.45,
+      "structure_nodes": [
+        {
+          "id": "CO_ketone",
+          "label": "C=O(酮基)",
+          "type": "functional_group",
+          "stability": 0.65,
+          "active_sites": [
+            "reduction_site",
+            "nucleophile_addition"
+          ],
+          "vulnerable_to": [
+            "reducing",
+            "H2"
+          ]
+        },
+        {
+          "id": "CH3_1",
+          "label": "-CH₃(1)",
+          "type": "functional_group",
+          "stability": 0.88,
+          "active_sites": [],
+          "vulnerable_to": []
+        },
+        {
+          "id": "CH3_2",
+          "label": "-CH₃(2)",
+          "type": "functional_group",
+          "stability": 0.88,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "ketone_C=O"
+        ],
+        "carbon_count": 3,
+        "degree_of_unsaturation": 1,
+        "key_bonds": [
+          "C=O",
+          "C-C",
+          "C-H"
+        ]
+      },
+      "chemistry_note": "酮类；无还原性（不含H的羰基）；不发生银镜反应；可被H₂还原为异丙醇"
+    },
+    {
+      "id": "HCOOH",
+      "formula": "HCOOH",
+      "display_name": "甲酸",
+      "type": "organic",
+      "category": "carboxylic_acid",
+      "properties": {
+        "acid_base": "weak_acid",
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "miscible",
+        "state_standard": "liquid",
+        "special": [
+          "also_has_CHO_character",
+          "strongest_simple_organic_acid"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "acidic",
+        "carbonyl",
+        "reducing",
+        "aldehyde"
+      ],
+      "reaction_activity": 0.62,
+      "structure_nodes": [
+        {
+          "id": "COOH_group",
+          "label": "-COOH",
+          "type": "functional_group",
+          "stability": 0.55,
+          "active_sites": [
+            "proton_donor"
+          ],
+          "vulnerable_to": [
+            "alkaline"
+          ]
+        },
+        {
+          "id": "CHO_character",
+          "label": "H-C=O(醛基特性)",
+          "type": "functional_group",
+          "stability": 0.45,
+          "active_sites": [
+            "oxidation_site"
+          ],
+          "vulnerable_to": [
+            "Ag_ammonia",
+            "oxidizing"
+          ]
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "COOH",
+          "CHO_like"
+        ],
+        "carbon_count": 1,
+        "degree_of_unsaturation": 1,
+        "key_bonds": [
+          "C=O",
+          "O-H",
+          "C-H"
+        ]
+      },
+      "chemistry_note": "甲酸既有-COOH又有类醛基（H-C=O），可发生银镜反应，还原性强于乙酸"
+    },
+    {
+      "id": "C2H5Br",
+      "formula": "C₂H₅Br",
+      "display_name": "溴乙烷",
+      "type": "organic",
+      "category": "haloalkane",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "insoluble",
+        "state_standard": "liquid",
+        "special": [
+          "C_X_bond_polar",
+          "substitution_elimination"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "Br"
+      ],
+      "chem_tags": [
+        "halogen"
+      ],
+      "reaction_activity": 0.55,
+      "structure_nodes": [
+        {
+          "id": "C_Br_bond",
+          "label": "C-Br",
+          "type": "bond",
+          "stability": 0.45,
+          "active_sites": [
+            "substitution_site",
+            "elimination_site"
+          ],
+          "vulnerable_to": [
+            "NaOH_aq",
+            "NaOH_alc",
+            "reducing"
+          ]
+        },
+        {
+          "id": "CH2_alpha",
+          "label": "α-CH₂",
+          "type": "atom",
+          "stability": 0.6,
+          "active_sites": [
+            "SN2_site"
+          ],
+          "vulnerable_to": [
+            "NaOH"
+          ]
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "C-Br"
+        ],
+        "carbon_count": 2,
+        "degree_of_unsaturation": 0,
+        "key_bonds": [
+          "C-Br",
+          "C-H",
+          "C-C"
+        ]
+      },
+      "chemistry_note": "卤代烃；NaOH水溶液下水解（取代）；NaOH醇溶液下消去（生成烯烃）"
+    },
+    {
+      "id": "NH2CONH2",
+      "formula": "NH₂CONH₂",
+      "display_name": "尿素",
+      "type": "organic",
+      "category": "amide",
+      "properties": {
+        "acid_base": "slightly_basic",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "soluble",
+        "state_standard": "solid",
+        "special": [
+          "first_organic_synthesis",
+          "hydrolyzable"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "N",
+        "O"
+      ],
+      "chem_tags": [
+        "amino",
+        "carbonyl",
+        "alkaline"
+      ],
+      "reaction_activity": 0.45,
+      "structure_nodes": [
+        {
+          "id": "CO_center",
+          "label": "C=O",
+          "type": "bond",
+          "stability": 0.62,
+          "active_sites": [],
+          "vulnerable_to": [
+            "H2O",
+            "acidic",
+            "alkaline"
+          ]
+        },
+        {
+          "id": "NH2_1",
+          "label": "-NH₂(1)",
+          "type": "functional_group",
+          "stability": 0.58,
+          "active_sites": [
+            "proton_acceptor"
+          ],
+          "vulnerable_to": [
+            "acidic"
+          ]
+        },
+        {
+          "id": "NH2_2",
+          "label": "-NH₂(2)",
+          "type": "functional_group",
+          "stability": 0.58,
+          "active_sites": [
+            "proton_acceptor"
+          ],
+          "vulnerable_to": [
+            "acidic"
+          ]
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "NH2",
+          "amide_CO",
+          "NH2"
+        ],
+        "carbon_count": 1,
+        "degree_of_unsaturation": 1,
+        "key_bonds": [
+          "C=O",
+          "C-N",
+          "N-H"
+        ]
+      },
+      "chemistry_note": "第一个人工合成有机物（维勒1828年）；水解生成NH₃和CO₂；农业氮肥"
+    },
+    {
+      "id": "HOOCCOOH",
+      "formula": "HOOCCOOH",
+      "display_name": "草酸",
+      "type": "organic",
+      "category": "dicarboxylic_acid",
+      "properties": {
+        "acid_base": "weak_acid",
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "soluble",
+        "state_standard": "solid",
+        "special": [
+          "two_COOH",
+          "strong_reducing_for_acid"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "acidic",
+        "carbonyl",
+        "reducing"
+      ],
+      "reaction_activity": 0.58,
+      "structure_nodes": [
+        {
+          "id": "COOH_1",
+          "label": "-COOH(1)",
+          "type": "functional_group",
+          "stability": 0.6,
+          "active_sites": [
+            "proton_donor"
+          ],
+          "vulnerable_to": [
+            "alkaline",
+            "KMnO4"
+          ]
+        },
+        {
+          "id": "COOH_2",
+          "label": "-COOH(2)",
+          "type": "functional_group",
+          "stability": 0.6,
+          "active_sites": [
+            "proton_donor"
+          ],
+          "vulnerable_to": [
+            "alkaline",
+            "KMnO4"
+          ]
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "COOH",
+          "COOH"
+        ],
+        "carbon_count": 2,
+        "degree_of_unsaturation": 2,
+        "key_bonds": [
+          "C=O",
+          "O-H",
+          "C-C"
+        ]
+      },
+      "chemistry_note": "二元弱酸且具还原性；KMnO₄可将其氧化为CO₂；草酸钙不溶于水（结石成分）"
+    },
+    {
+      "id": "C6H5COOH",
+      "formula": "C₆H₅COOH",
+      "display_name": "苯甲酸",
+      "type": "organic",
+      "category": "aromatic_carboxylic_acid",
+      "properties": {
+        "acid_base": "weak_acid",
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "slightly_soluble",
+        "state_standard": "solid",
+        "special": [
+          "aromatic_acid",
+          "food_preservative"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "acidic",
+        "carbonyl",
+        "benzene_ring"
+      ],
+      "reaction_activity": 0.52,
+      "structure_nodes": [
+        {
+          "id": "COOH_group",
+          "label": "-COOH",
+          "type": "functional_group",
+          "stability": 0.65,
+          "active_sites": [
+            "proton_donor"
+          ],
+          "vulnerable_to": [
+            "alkaline"
+          ]
+        },
+        {
+          "id": "benzene_ring",
+          "label": "苯环",
+          "type": "functional_group",
+          "stability": 0.78,
+          "active_sites": [
+            "electrophilic_substitution"
+          ],
+          "vulnerable_to": [
+            "electrophilic"
+          ]
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "COOH",
+          "benzene_ring"
+        ],
+        "carbon_count": 7,
+        "degree_of_unsaturation": 5,
+        "key_bonds": [
+          "C=O",
+          "O-H",
+          "C=C_aromatic"
+        ]
+      },
+      "chemistry_note": "芳香族羧酸；酸性强于苯酚；与NaOH中和；苯环使-COOH酸性略减弱"
+    },
+    {
+      "id": "C6H5COCH3",
+      "formula": "C₆H₅COCH₃",
+      "display_name": "苯乙酮",
+      "type": "organic",
+      "category": "aryl_ketone",
+      "properties": {
+        "acid_base": null,
+        "is_oxidizing": false,
+        "is_reducing": false,
+        "solubility": "insoluble",
+        "state_standard": "liquid",
+        "special": [
+          "aromatic_ketone",
+          "no_silver_mirror"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "O"
+      ],
+      "chem_tags": [
+        "carbonyl",
+        "benzene_ring"
+      ],
+      "reaction_activity": 0.42,
+      "structure_nodes": [
+        {
+          "id": "ketone_CO",
+          "label": "C=O(芳酮)",
+          "type": "functional_group",
+          "stability": 0.68,
+          "active_sites": [
+            "reduction_site"
+          ],
+          "vulnerable_to": [
+            "H2",
+            "reducing"
+          ]
+        },
+        {
+          "id": "benzene_ring",
+          "label": "苯环",
+          "type": "functional_group",
+          "stability": 0.76,
+          "active_sites": [
+            "electrophilic_substitution"
+          ],
+          "vulnerable_to": [
+            "electrophilic"
+          ]
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "aryl_ketone",
+          "benzene_ring"
+        ],
+        "carbon_count": 8,
+        "degree_of_unsaturation": 5,
+        "key_bonds": [
+          "C=O",
+          "C=C_aromatic",
+          "C-C"
+        ]
+      },
+      "chemistry_note": "芳香酮；无醛基，不发生银镜反应；可被LiAlH₄还原为仲醇"
+    },
+    {
+      "id": "CH3NH2",
+      "formula": "CH₃NH₂",
+      "display_name": "甲胺",
+      "type": "organic",
+      "category": "aliphatic_amine",
+      "properties": {
+        "acid_base": "weak_base",
+        "is_oxidizing": false,
+        "is_reducing": true,
+        "solubility": "miscible",
+        "state_standard": "gas",
+        "special": [
+          "stronger_base_than_NH3",
+          "fishy_smell"
+        ]
+      },
+      "element_tags": [
+        "C",
+        "H",
+        "N"
+      ],
+      "chem_tags": [
+        "alkaline",
+        "amino",
+        "reducing"
+      ],
+      "reaction_activity": 0.65,
+      "structure_nodes": [
+        {
+          "id": "NH2_group",
+          "label": "-NH₂",
+          "type": "functional_group",
+          "stability": 0.55,
+          "active_sites": [
+            "proton_acceptor",
+            "electron_donor"
+          ],
+          "vulnerable_to": [
+            "acidic",
+            "oxidizing"
+          ]
+        },
+        {
+          "id": "CH3_group",
+          "label": "-CH₃",
+          "type": "functional_group",
+          "stability": 0.88,
+          "active_sites": [],
+          "vulnerable_to": []
+        }
+      ],
+      "organic_data": {
+        "functional_groups": [
+          "NH2"
+        ],
+        "carbon_count": 1,
+        "degree_of_unsaturation": 0,
+        "key_bonds": [
+          "N-H",
+          "C-N",
+          "C-H"
+        ]
+      },
+      "chemistry_note": "脂肪胺；碱性强于氨水（甲基为供电子基）；与酸反应生成铵盐"
+    }
+  ]
+}
