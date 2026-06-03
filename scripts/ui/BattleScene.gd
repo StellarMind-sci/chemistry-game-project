@@ -208,25 +208,16 @@ func _init_battle() -> void:
 	sul.action_name = "硫酸腐蚀"; sul.energy_cost = {Character.ENERGY_ACTIVATION: 20.0}
 	var heat := ReactionAction.make_field_intervention("升温催化", {"temp_delta": 8.0}, 2)
 	heat.energy_cost = {Character.ENERGY_ACTIVATION: 8.0}
-	pa.add_to_spectrum(hcl); pa.add_to_spectrum(sul); pa.add_to_spectrum(heat)
+	# HNO₃ 氧化性酸攻击
+	var hno3 := ReactionAction.from_substance(engine, "HNO3", ReactionAction.TYPE_STRIKE)
+	hno3.action_name = "硝酸侵蚀"
+	hno3.energy_cost = {Character.ENERGY_ACTIVATION: 22.0}
+	pa.add_to_spectrum(hcl); pa.add_to_spectrum(sul); pa.add_to_spectrum(hno3)
+	pa.add_to_spectrum(heat)
+	# 注意：催化剂部署行动移出默认谱（调试催化剂时手动添加）
 
-	# 催化剂部署行动（调控-场地型）
-	var ni_deploy := ReactionAction.make_field_intervention("部署镍催化剂", {}, 0)
-	ni_deploy.action_name   = "部署镍催化剂"
-	ni_deploy.energy_cost   = {Character.ENERGY_ACTIVATION: 18.0}
-	ni_deploy.description   = "在战场部署 Ni 催化剂，持续3回合：还原/放热反应效率×1.3，活化能-15"
-	ni_deploy.chem_tags     = ["reducing"]
-	pa.add_to_spectrum(ni_deploy)
-
-	var h2so4_deploy := ReactionAction.make_field_intervention("浓H₂SO₄催化", {}, 0)
-	h2so4_deploy.action_name = "浓H₂SO₄催化"
-	h2so4_deploy.energy_cost = {Character.ENERGY_ACTIVATION: 14.0}
-	h2so4_deploy.description = "部署浓硫酸催化，酸碱/酯化反应效率×1.25，活化能-10，持续2回合"
-	h2so4_deploy.chem_tags   = ["acidic", "dehydrating"]
-	pa.add_to_spectrum(h2so4_deploy)
-
-	var pb := Character.new("实验者·氧", "player", 280.0)
-	pb.draw_count = 2
+	var pb := Character.new("实验者·氧", "player", 300.0)  # HP 与酸持平，避免被优先集火
+	pb.draw_count = 3   # 每回合多看一张，保证有攻击手段
 	var kmo := ReactionAction.from_substance(engine, "KMnO4", ReactionAction.TYPE_STRIKE)
 	kmo.action_name = "高锰酸钾"; kmo.energy_cost = {Character.ENERGY_ACTIVATION: 25.0, Character.ENERGY_ELECTRON: 2.0}
 	kmo.keywords = ["先手"]
@@ -234,7 +225,12 @@ func _init_battle() -> void:
 	red.action_name = "还原冲击"; red.energy_cost = {Character.ENERGY_ACTIVATION: 18.0}
 	var na := ReactionAction.from_substance(engine, "Na", ReactionAction.TYPE_STRIKE)
 	na.action_name = "钠焰爆燃"; na.energy_cost = {Character.ENERGY_ACTIVATION: 30.0}
-	pb.add_to_spectrum(kmo); pb.add_to_spectrum(red); pb.add_to_spectrum(na)
+	var ph_field := ReactionAction.make_field_intervention("氧化催化场", {"temp_delta": 6.0}, 2)
+	ph_field.action_name = "氧化催化场"
+	ph_field.energy_cost = {Character.ENERGY_ACTIVATION: 10.0}
+	ph_field.description = "升温6°C，持续2回合，为氧化反应提供温度支持"
+	pb.add_to_spectrum(kmo); pb.add_to_spectrum(red)
+	pb.add_to_spectrum(na); pb.add_to_spectrum(ph_field)
 
 	# 占位 Boss（3 形态机制测试，叙事内容待后续角色设计阶段）
 	var boss := Boss.new("多形态测试 Boss", "enemy", 600.0)
@@ -399,10 +395,19 @@ func _resolve_turn() -> void:
 
 	# ── 敌方智能AI：评分选行动 + 化学克制选目标 ────────────
 	var enemy_sel: Dictionary = {}   # Character → {action, target}
+	_log_append("\n[color=#ffaa44]── 敌方行动 ──[/color]")
 	for c in bm.enemy_team:
 		if c.is_alive():
 			var sel := _ai_pick_action_and_target(c as Character)
-			if not sel.is_empty(): enemy_sel[c] = sel
+			if not sel.is_empty():
+				enemy_sel[c] = sel
+				var e_act = sel.get("action")
+				var e_tgt = sel.get("target")
+				var act_nm: String = e_act.action_name if e_act != null and "action_name" in e_act else "?"
+				var tgt_nm: String = (e_tgt as Character).char_name if e_tgt != null else "战场"
+				var act_type: String = "[调控]" if (e_act != null and e_act.has_method("is_intervention") and e_act.is_intervention()) else "[攻势]"
+				_log_append("  [color=#ff8844]⚡ %s 选择 %s%s → [目标] %s[/color]" % [
+					(c as Character).char_name, act_type, act_nm, tgt_nm])
 
 	var clash_pairs: Array = []
 	for atk in bm.player_team:
@@ -631,7 +636,7 @@ func _ai_pick_action_and_target(enemy: Character) -> Dictionary:
 		for tag in action_tags:
 			var weak_tag := _chemical_counter(tag)
 			if weak_tag != "" and pc.has_skill_with_tag(weak_tag):
-				tscore += 25.0
+				tscore += 10.0   # 降低克制加分（原25），避免集中火力单人死亡
 				break
 		if tscore > best_target_score:
 			best_target_score = tscore
