@@ -788,6 +788,14 @@ func _check_and_end() -> bool:
 		_log_append("\n[color=#ff6644]✖ 敌方获胜[/color]")
 		prompt_lbl.text = "✖ 失败..."
 	_log_append("共 %d 回合  最终环境：%s" % [turn_number, bm.environment.get_summary()])
+	# 战斗结束后显示返回按钮
+	_clear_action_buttons()
+	var back_btn := Button.new()
+	back_btn.text = "↩  返回主菜单"
+	back_btn.custom_minimum_size = Vector2(180, 50)
+	back_btn.modulate = Color(0.60, 0.75, 1.00)
+	back_btn.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/menu/MainMenu.tscn"))
+	action_row.add_child(back_btn)
 	return true
 
 func _log_append(text: String) -> void:
