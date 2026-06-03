@@ -344,9 +344,9 @@ func _resolve_turn() -> void:
 		if not atk.is_alive() or not enemy_selections.has(atk): continue
 		var alive_p := _alive_in(bm.player_team)
 		if alive_p.is_empty(): break
-		var def := alive_p[randi() % alive_p.size()]
+		var tgt_p := alive_p[randi() % alive_p.size()]   # 不用 def，是 GDScript 保留字
 		clash_pairs.append(BattleManager.ClashPair.new(
-			atk, enemy_selections[atk], def, p_selections.get(def, {}).get("action")))
+			atk, enemy_selections[atk], tgt_p, p_selections.get(tgt_p, {}).get("action")))
 
 	# 按 P2/P3 排序
 	clash_pairs.sort_custom(func(a, b) -> bool:
