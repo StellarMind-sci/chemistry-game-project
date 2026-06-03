@@ -1,12 +1,11 @@
-# BattleScene.gd  v0.2
-# 新增：目标选择——玩家选行动后可指定攻击哪个敌人
+# BattleScene.gd  v0.3
+# 新增：Boss 多形态支持，形态切换视觉反馈，特殊胜利条件
 extends Node
 
 enum Phase { INIT, PLAYER_INPUT, TARGET_SELECT, RESOLVING, BATTLE_END }
 var phase: Phase = Phase.INIT
 
 const C_BG       := Color(0.055, 0.065, 0.100)
-const C_PANEL    := Color(0.095, 0.115, 0.175)
 const C_PLAYER   := Color(0.35,  0.75,  1.00)
 const C_ENEMY    := Color(1.00,  0.50,  0.25)
 const C_HP_HI    := Color(0.25,  0.85,  0.45)
@@ -14,23 +13,19 @@ const C_HP_MD    := Color(0.95,  0.80,  0.15)
 const C_HP_LO    := Color(0.92,  0.22,  0.18)
 const C_STRIKE   := Color(0.80,  0.35,  0.18)
 const C_INTERV   := Color(0.18,  0.50,  0.85)
-const C_TARGET   := Color(0.90,  0.80,  0.10)   # 目标选择按钮颜色
-const C_TEXT     := Color(0.90,  0.90,  0.95)
+const C_TARGET   := Color(0.90,  0.80,  0.10)
 const C_DIMMED   := Color(0.45,  0.45,  0.50)
 
-# ── 游戏数据 ─────────────────────────────────────────────
 var bm:     BattleManager
 var engine: ReactionInference
 var turn_number: int = 0
 
-# 玩家输入状态
-var p_selections: Dictionary = {}   # Character → {action, target}
+var p_selections: Dictionary = {}
 var select_queue: Array       = []
 var cur_selector: Character   = null
-var pending_action            = null  # 等待目标选择时暂存的行动
+var pending_action            = null
 var pending_char: Character   = null
 
-# ── UI 节点引用 ───────────────────────────────────────────
 var env_label:  Label
 var player_col: VBoxContainer
 var enemy_col:  VBoxContainer
@@ -38,18 +33,19 @@ var log_rtl:    RichTextLabel
 var prompt_lbl: Label
 var action_row: HBoxContainer
 
-var hp_bar_map:   Dictionary = {}
-var hp_txt_map:   Dictionary = {}
+var hp_bar_map:  Dictionary = {}
+var hp_txt_map:  Dictionary = {}
 var hand_lbl_map: Dictionary = {}
+# Boss 专用：形态名称标签
+var phase_lbl_map: Dictionary = {}   # Boss → Label
 
-# ══════════════════════════════════════════════════════════
 func _ready() -> void:
 	_build_ui()
 	_init_battle()
 	call_deferred("_begin_turn")
 
 # ══════════════════════════════════════════════════════════
-# UI 构建
+# UI 构建（与 v0.2 相同，增加 phase_lbl 支持）
 # ══════════════════════════════════════════════════════════
 func _build_ui() -> void:
 	var bg := ColorRect.new()
@@ -62,7 +58,6 @@ func _build_ui() -> void:
 	vb.add_theme_constant_override("separation", 4)
 	add_child(vb)
 
-	# 环境状态栏
 	var ep := _make_margin(Color(0.07, 0.10, 0.16))
 	ep.custom_minimum_size = Vector2(0, 36)
 	vb.add_child(ep)
@@ -71,12 +66,12 @@ func _build_ui() -> void:
 	env_label.add_theme_color_override("font_color", Color(0.60, 0.85, 1.00))
 	ep.add_child(env_label)
 
-	# 角色区
 	var cr := HBoxContainer.new()
 	cr.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	cr.size_flags_stretch_ratio = 0.30
 	cr.add_theme_constant_override("separation", 6)
 	vb.add_child(cr)
+
 	player_col = VBoxContainer.new()
 	player_col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	player_col.add_theme_constant_override("separation", 4)
@@ -90,7 +85,6 @@ func _build_ui() -> void:
 	enemy_col.add_theme_constant_override("separation", 4)
 	cr.add_child(enemy_col)
 
-	# 战斗日志
 	log_rtl = RichTextLabel.new()
 	log_rtl.bbcode_enabled = true
 	log_rtl.scroll_following = true
@@ -100,7 +94,6 @@ func _build_ui() -> void:
 	_apply_sb(log_rtl, Color(0.06, 0.08, 0.13))
 	vb.add_child(log_rtl)
 
-	# 行动区
 	var ap := _make_margin(Color(0.07, 0.09, 0.15))
 	ap.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	ap.size_flags_stretch_ratio = 0.25
@@ -121,10 +114,8 @@ func _build_ui() -> void:
 
 func _make_margin(color: Color) -> MarginContainer:
 	var mc := MarginContainer.new()
-	mc.add_theme_constant_override("margin_top",    6)
-	mc.add_theme_constant_override("margin_bottom", 6)
-	mc.add_theme_constant_override("margin_left",   10)
-	mc.add_theme_constant_override("margin_right",  10)
+	for side in ["top","bottom","left","right"]:
+		mc.add_theme_constant_override("margin_" + side, 6 if side in ["top","bottom"] else 10)
 	var bg := ColorRect.new()
 	bg.color = color
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -136,33 +127,58 @@ func _apply_sb(node: Control, color: Color) -> void:
 	sb.bg_color = color
 	sb.border_width_top = 1
 	sb.border_color = Color(0.22, 0.38, 0.60, 0.70)
-	sb.content_margin_top    = 8; sb.content_margin_bottom = 8
-	sb.content_margin_left   = 12; sb.content_margin_right  = 12
+	for s in ["top","bottom","left","right"]:
+		sb.set("content_margin_" + s, 8 if s in ["top","bottom"] else 12)
 	if node is RichTextLabel: node.add_theme_stylebox_override("normal", sb)
 
 func _make_char_panel(chara: Character, is_player: bool) -> Control:
 	var c := VBoxContainer.new()
 	c.add_theme_constant_override("separation", 2)
+
+	# 名称
 	var nl := Label.new()
 	nl.text = chara.char_name
 	nl.add_theme_font_size_override("font_size", 14)
-	nl.add_theme_color_override("font_color", C_PLAYER if is_player else C_ENEMY)
+	nl.add_theme_color_override("font_color",
+		C_PLAYER if is_player else chara.get_phase_color() if chara is Boss else C_ENEMY)
 	c.add_child(nl)
+
+	# Boss 形态标签
+	if chara is Boss:
+		var boss := chara as Boss
+		var pl := Label.new()
+		var p := boss.get_current_phase()
+		pl.text = p.phase_name if p else ""
+		pl.add_theme_font_size_override("font_size", 12)
+		pl.add_theme_color_override("font_color", boss.get_phase_color())
+		phase_lbl_map[chara] = pl
+		c.add_child(pl)
+
+	# HP 条
 	var bar := ProgressBar.new()
-	bar.max_value = chara.max_hp; bar.value = chara.hp
-	bar.custom_minimum_size = Vector2(0, 14); bar.show_percentage = false
-	hp_bar_map[chara] = bar; c.add_child(bar)
+	bar.max_value = chara.max_hp
+	bar.value     = chara.hp
+	bar.custom_minimum_size = Vector2(0, 14)
+	bar.show_percentage = false
+	hp_bar_map[chara] = bar
+	c.add_child(bar)
+
 	var ht := Label.new()
 	ht.text = "HP %.0f / %.0f" % [chara.hp, chara.max_hp]
 	ht.add_theme_font_size_override("font_size", 12)
 	ht.add_theme_color_override("font_color", Color(0.75, 0.90, 0.75))
-	hp_txt_map[chara] = ht; c.add_child(ht)
+	hp_txt_map[chara] = ht
+	c.add_child(ht)
+
 	var hl := Label.new()
-	hl.text = "谱:%d 手:%d 沉:%d" % [chara.behavior_spectrum.size(),
-		chara.standby.size(), chara.sediment.size()]
+	hl.text = "谱:%d 手:%d 沉:%d  AE:%.0f" % [
+		chara.behavior_spectrum.size(), chara.standby.size(), chara.sediment.size(),
+		chara.energy_pool.get(Character.ENERGY_ACTIVATION, 0.0)]
 	hl.add_theme_font_size_override("font_size", 11)
-	hl.add_theme_color_override("font_color", C_DIMMED)
-	hand_lbl_map[chara] = hl; c.add_child(hl)
+	hl.add_theme_color_override("font_color", Color(0.45, 0.45, 0.50))
+	hand_lbl_map[chara] = hl
+	c.add_child(hl)
+
 	return c
 
 # ══════════════════════════════════════════════════════════
@@ -170,54 +186,68 @@ func _make_char_panel(chara: Character, is_player: bool) -> Control:
 # ══════════════════════════════════════════════════════════
 func _init_battle() -> void:
 	engine = ReactionInference.new()
-	engine.load_databases("res://data/substances/substance_registry.json",
+	engine.load_databases(
+		"res://data/substances/substance_registry.json",
 		"res://data/reactions/reaction_rules.json")
 
+	# 玩家队
 	var pa := Character.new("实验者·酸", "player", 300.0)
 	pa.draw_count = 2
-	var hcl := ReactionAction.from_substance(engine, "HCl",   ReactionAction.TYPE_STRIKE)
-	hcl.action_name = "盐酸冲击";   hcl.energy_cost = {Character.ENERGY_ACTIVATION: 15.0}
+	var hcl := ReactionAction.from_substance(engine, "HCl", ReactionAction.TYPE_STRIKE)
+	hcl.action_name = "盐酸冲击"; hcl.energy_cost = {Character.ENERGY_ACTIVATION: 15.0}
 	var sul := ReactionAction.from_substance(engine, "H2SO4", ReactionAction.TYPE_STRIKE)
-	sul.action_name = "硫酸腐蚀";   sul.energy_cost = {Character.ENERGY_ACTIVATION: 20.0}
+	sul.action_name = "硫酸腐蚀"; sul.energy_cost = {Character.ENERGY_ACTIVATION: 20.0}
 	var heat := ReactionAction.make_field_intervention("升温催化", {"temp_delta": 8.0}, 2)
 	heat.energy_cost = {Character.ENERGY_ACTIVATION: 8.0}
 	pa.add_to_spectrum(hcl); pa.add_to_spectrum(sul); pa.add_to_spectrum(heat)
 
+	# 催化剂部署行动（调控-场地型）
+	var ni_deploy := ReactionAction.make_field_intervention("部署镍催化剂", {}, 0)
+	ni_deploy.action_name   = "部署镍催化剂"
+	ni_deploy.energy_cost   = {Character.ENERGY_ACTIVATION: 18.0}
+	ni_deploy.description   = "在战场部署 Ni 催化剂，持续3回合：还原/放热反应效率×1.3，活化能-15"
+	ni_deploy.chem_tags     = ["reducing"]
+	pa.add_to_spectrum(ni_deploy)
+
+	var h2so4_deploy := ReactionAction.make_field_intervention("浓H₂SO₄催化", {}, 0)
+	h2so4_deploy.action_name = "浓H₂SO₄催化"
+	h2so4_deploy.energy_cost = {Character.ENERGY_ACTIVATION: 14.0}
+	h2so4_deploy.description = "部署浓硫酸催化，酸碱/酯化反应效率×1.25，活化能-10，持续2回合"
+	h2so4_deploy.chem_tags   = ["acidic", "dehydrating"]
+	pa.add_to_spectrum(h2so4_deploy)
+
 	var pb := Character.new("实验者·氧", "player", 280.0)
 	pb.draw_count = 2
 	var kmo := ReactionAction.from_substance(engine, "KMnO4", ReactionAction.TYPE_STRIKE)
-	kmo.action_name = "高锰酸钾";   kmo.energy_cost = {Character.ENERGY_ACTIVATION: 25.0, Character.ENERGY_ELECTRON: 2.0}
+	kmo.action_name = "高锰酸钾"; kmo.energy_cost = {Character.ENERGY_ACTIVATION: 25.0, Character.ENERGY_ELECTRON: 2.0}
 	kmo.keywords = ["先手"]
-	var nab := ReactionAction.from_substance(engine, "Na",    ReactionAction.TYPE_STRIKE)
-	nab.action_name = "钠焰爆燃";   nab.energy_cost = {Character.ENERGY_ACTIVATION: 30.0}
-	pb.add_to_spectrum(kmo); pb.add_to_spectrum(nab)
+	var red := ReactionAction.from_substance(engine, "C2H5OH", ReactionAction.TYPE_STRIKE)
+	red.action_name = "还原冲击"; red.energy_cost = {Character.ENERGY_ACTIVATION: 18.0}
+	var na := ReactionAction.from_substance(engine, "Na", ReactionAction.TYPE_STRIKE)
+	na.action_name = "钠焰爆燃"; na.energy_cost = {Character.ENERGY_ACTIVATION: 30.0}
+	pb.add_to_spectrum(kmo); pb.add_to_spectrum(red); pb.add_to_spectrum(na)
 
-	var ea := Character.new("铜绿 Cu₂(OH)₂CO₃", "enemy", 600.0)
-	ea.draw_count = 2
-	var bs := ReactionAction.new("碱性防御")
-	bs.element_tags = ["Cu","O","H"]; bs.chem_tags = [ReactionAction.TAG_ALKALINE, ReactionAction.TAG_HYDROXYL]
-	bs.energy_cost = {Character.ENERGY_ACTIVATION: 10.0}; bs.base_intensity = 12.0
-	var co := ReactionAction.new("铜离子冲击")
-	co.element_tags = ["Cu","O"]; co.chem_tags = [ReactionAction.TAG_OXIDIZING]
-	co.energy_cost = {Character.ENERGY_ACTIVATION: 20.0, Character.ENERGY_ELECTRON: 1.0}; co.base_intensity = 28.0
-	ea.add_to_spectrum(bs); ea.add_to_spectrum(co)
+	# Demo Boss：紫焰裁判官
+	var boss := Boss.create_kmno4_judge(engine)
 
 	bm = BattleManager.new()
-	bm.setup_teams([pa, pb], [ea])
+	bm.setup_teams([pa, pb], [boss])
 
-	var hp_lbl := Label.new(); hp_lbl.text = "▶ 玩家队伍"
-	hp_lbl.add_theme_color_override("font_color", C_PLAYER)
-	hp_lbl.add_theme_font_size_override("font_size", 13)
-	player_col.add_child(hp_lbl)
+	# 构建角色面板
+	var ph := Label.new(); ph.text = "▶ 玩家队伍"
+	ph.add_theme_color_override("font_color", C_PLAYER)
+	ph.add_theme_font_size_override("font_size", 13)
+	player_col.add_child(ph)
 	for c in bm.player_team: player_col.add_child(_make_char_panel(c, true))
 
-	var el := Label.new(); el.text = "◀ 敌方队伍"
-	el.add_theme_color_override("font_color", C_ENEMY)
-	el.add_theme_font_size_override("font_size", 13)
-	enemy_col.add_child(el)
+	var eh := Label.new(); eh.text = "◀ 敌方"
+	eh.add_theme_color_override("font_color", C_ENEMY)
+	eh.add_theme_font_size_override("font_size", 13)
+	enemy_col.add_child(eh)
 	for c in bm.enemy_team: enemy_col.add_child(_make_char_panel(c, false))
 
-	_log_append("[color=#88ff88]⚗ 战斗开始！2 vs 1[/color]")
+	_log_append("[color=#bb44ff]⬡ 高锰酸钾「紫焰裁判官」が現れた[/color]")
+	_log_append("[color=#cc88ff]" + (boss as Boss).get_current_phase().entry_message + "[/color]")
 	_update_env_bar()
 
 # ══════════════════════════════════════════════════════════
@@ -254,26 +284,22 @@ func _next_selector() -> void:
 	prompt_lbl.text = "%s — 请选择反应行动" % cur_selector.char_name
 	_rebuild_action_buttons(cur_selector)
 
-# ── 玩家选择行动 ─────────────────────────────────────────
 func _on_action_picked(action, chara: Character) -> void:
 	if phase != Phase.PLAYER_INPUT: return
 	_clear_action_buttons()
-
-	# 调控型行动不需要指定目标（作用于战场，不是特定敌人）
 	if action.has_method("is_intervention") and action.is_intervention():
+		# 检查是否是催化剂部署行动（通过 description 判断，实际项目可用专用字段）
+		if "催化剂" in action.action_name or "催化" in action.action_name:
+			_deploy_catalyst_from_action(action, chara)
 		_finalize_selection(action, chara, null)
 		return
-
-	var alive_enemies := _alive_in(bm.enemy_team)
-	if alive_enemies.size() == 1:
-		# 只有一个敌人，直接自动选中
-		_finalize_selection(action, chara, alive_enemies[0])
-	elif alive_enemies.is_empty():
+	var alive_e := _alive_in(bm.enemy_team)
+	if alive_e.size() == 1:
+		_finalize_selection(action, chara, alive_e[0] as Character)
+	elif alive_e.is_empty():
 		_finalize_selection(action, chara, null)
 	else:
-		# 多个敌人：进入目标选择阶段
-		pending_action = action
-		pending_char   = chara
+		pending_action = action; pending_char = chara
 		phase = Phase.TARGET_SELECT
 		_show_target_selection(chara)
 
@@ -285,70 +311,63 @@ func _on_target_picked(target: Character) -> void:
 
 func _finalize_selection(action, chara: Character, target) -> void:
 	p_selections[chara] = {"action": action, "target": target}
-	var target_name: String = (target as Character).char_name if target != null else "战场"
+	var tn: String = (target as Character).char_name if target != null else "战场"
 	_log_append("  [color=#44ccff]%s[/color] → [color=#ffdd44]%s[/color]  目标：[color=#ffaa44]%s[/color]" % [
-		chara.char_name, action.action_name, target_name])
+		chara.char_name, action.action_name, tn])
 	_next_selector()
 
 func _on_pass_pressed(chara: Character) -> void:
 	if phase != Phase.PLAYER_INPUT: return
 	_log_append("  [color=#888888]%s Pass[/color]" % chara.char_name)
-	_clear_action_buttons()
-	_next_selector()
+	_clear_action_buttons(); _next_selector()
 
-# ── 展示目标选择按钮 ──────────────────────────────────────
 func _show_target_selection(attacker: Character) -> void:
 	_clear_action_buttons()
 	prompt_lbl.text = "%s — 请选择攻击目标" % attacker.char_name
-	for target in _alive_in(bm.enemy_team):
-		var tgt := target as Character
+	for tgt in _alive_in(bm.enemy_team):
+		var t := tgt as Character
 		var btn := Button.new()
-		btn.text = "⚡ %s\nHP %.0f/%.0f" % [tgt.char_name, tgt.hp, tgt.max_hp]
+		btn.text = "⚡ %s\nHP %.0f/%.0f" % [t.char_name, t.hp, t.max_hp]
 		btn.custom_minimum_size = Vector2(180, 60)
 		btn.modulate = C_TARGET
-		var cap = tgt
+		var cap := t
 		btn.pressed.connect(func(): _on_target_picked(cap))
 		action_row.add_child(btn)
 
 # ══════════════════════════════════════════════════════════
-# 解算回合
+# 解算 + Boss 形态检测
 # ══════════════════════════════════════════════════════════
 func _resolve_turn() -> void:
 	phase = Phase.RESOLVING
 	prompt_lbl.text = "解算中..."
 	_clear_action_buttons()
 
-	# 敌方 AI 自动选行动和目标
-	var enemy_selections: Dictionary = {}
+	var enemy_sel: Dictionary = {}
 	for c in bm.enemy_team:
 		if c.is_alive():
 			var act = bm._pick_action(c)
-			if act != null: enemy_selections[c] = act
+			if act != null: enemy_sel[c] = act
 
-	# 构建 ClashPairs（使用玩家存储的目标）
 	var clash_pairs: Array = []
 	for atk in bm.player_team:
 		if not atk.is_alive() or not p_selections.has(atk): continue
 		var sel: Dictionary = p_selections[atk]
 		var act = sel.get("action")
-		var tgt = sel.get("target")   # 注意：不用 def，def 在 GDScript 是保留字
-		# 如果目标已死亡则重选
+		var tgt = sel.get("target")
 		if tgt != null and not (tgt as Character).is_alive():
-			var alive_e := _alive_in(bm.enemy_team)
-			tgt = alive_e[0] if not alive_e.is_empty() else null
+			var ae := _alive_in(bm.enemy_team)
+			tgt = ae[0] if not ae.is_empty() else null
 		if tgt == null: continue
-		clash_pairs.append(BattleManager.ClashPair.new(
-			atk, act, tgt, enemy_selections.get(tgt)))
+		clash_pairs.append(BattleManager.ClashPair.new(atk, act, tgt, enemy_sel.get(tgt)))
 
 	for atk in bm.enemy_team:
-		if not atk.is_alive() or not enemy_selections.has(atk): continue
-		var alive_p := _alive_in(bm.player_team)
-		if alive_p.is_empty(): break
-		var tgt_p: Character = alive_p[randi() % alive_p.size()] as Character
+		if not atk.is_alive() or not enemy_sel.has(atk): continue
+		var ap := _alive_in(bm.player_team)
+		if ap.is_empty(): break
+		var tgt_p: Character = ap[randi() % ap.size()] as Character
 		clash_pairs.append(BattleManager.ClashPair.new(
-			atk, enemy_selections[atk], tgt_p, p_selections.get(tgt_p, {}).get("action")))
+			atk, enemy_sel[atk], tgt_p, p_selections.get(tgt_p, {}).get("action")))
 
-	# 按 P2/P3 排序
 	clash_pairs.sort_custom(func(a, b) -> bool:
 		var ca := a as BattleManager.ClashPair
 		var cb := b as BattleManager.ClashPair
@@ -359,17 +378,66 @@ func _resolve_turn() -> void:
 
 	var results := bm.phase_resolution(clash_pairs)
 	bm.phase_apply(results)
+
+	# ── 记录 Boss 被命中的规则（用于特殊胜利条件）────────
+	for res in results:
+		var def: Character = res.get("defender")
+		if def is Boss:
+			(def as Boss).last_hit_rule = res.get("attack_rule", "")
+
 	_flush_bm_log()
 	_update_all_chars()
 	_update_env_bar()
 
-	for atk in enemy_selections:
-		(atk as Character).use_action_from_standby(enemy_selections[atk])
+	# ── Boss 形态切换检测 ─────────────────────────────────
+	_check_boss_phase_transitions()
+
+	for atk in enemy_sel:
+		(atk as Character).use_action_from_standby(enemy_sel[atk])
+
+	# ── 特殊胜利条件检测 ──────────────────────────────────
+	for c in bm.enemy_team:
+		if c is Boss:
+			var b := c as Boss
+			if b.special_win_condition.is_valid() and b.special_win_condition.call():
+				_trigger_special_ending(b)
+				return
 
 	if _check_and_end(): return
-	prompt_lbl.text = "回合结束，准备下一回合..."
+	prompt_lbl.text = "回合结束..."
 	await get_tree().create_timer(1.0).timeout
 	_begin_turn()
+
+func _check_boss_phase_transitions() -> void:
+	for c in bm.enemy_team:
+		if not (c is Boss): continue
+		var boss := c as Boss
+		var new_phase = boss.check_and_advance_phase()
+		if new_phase != null:
+			var p := new_phase as Boss.BossPhase
+			_log_append("\n[color=#ffffff]══════════════════════════════[/color]")
+			_log_append("[color=%s]%s[/color]" % [
+				"#%02x%02x%02x" % [
+					int(p.phase_color.r * 255),
+					int(p.phase_color.g * 255),
+					int(p.phase_color.b * 255)],
+				p.entry_message])
+			_log_append("[color=#ffffff]══════════════════════════════[/color]\n")
+			# 如果有环境扰动，应用它
+			if not p.env_on_enter.is_empty():
+				var changes := bm.environment.apply_delta(p.env_on_enter)
+				if not changes.is_empty():
+					_log_append("[color=#88aaff][形态切换环境扰动] " + "  ".join(changes) + "[/color]")
+			_update_all_chars()
+			_update_env_bar()
+
+func _trigger_special_ending(boss: Boss) -> void:
+	phase = Phase.BATTLE_END
+	_log_append("\n[color=#ffffff]══════════════════════════════[/color]")
+	_log_append("[color=#ccaaff]" + boss.special_win_message + "[/color]")
+	_log_append("[color=#ffffff]══════════════════════════════[/color]")
+	_log_append("\n[color=#44ffcc]✦ 特殊结局：完全还原 ✦[/color]")
+	prompt_lbl.text = "✦ 特殊结局达成"
 
 # ══════════════════════════════════════════════════════════
 # UI 更新
@@ -382,9 +450,23 @@ func _update_char_ui(c: Character) -> void:
 	var txt: Label       = hp_txt_map[c]
 	var hnd: Label       = hand_lbl_map[c]
 	var ratio := c.get_hp_ratio()
+
+	# Boss 使用形态颜色；其他角色使用 HP 颜色
+	var bar_color: Color
+	if c is Boss:
+		bar_color = (c as Boss).get_phase_color() if c.is_alive() else Color(0.35, 0.35, 0.35)
+		# 更新形态标签
+		if phase_lbl_map.has(c):
+			var pl: Label = phase_lbl_map[c]
+			var p := (c as Boss).get_current_phase()
+			pl.text = p.phase_name if p else ""
+			pl.add_theme_color_override("font_color", (c as Boss).get_phase_color())
+	else:
+		bar_color = (C_HP_HI if ratio > 0.60 else (C_HP_MD if ratio > 0.30 else C_HP_LO)) \
+			if c.is_alive() else Color(0.40, 0.40, 0.40)
+
 	bar.value = c.hp; bar.max_value = c.max_hp
-	bar.modulate = (C_HP_HI if ratio > 0.60 else (C_HP_MD if ratio > 0.30 else C_HP_LO)) \
-		if c.is_alive() else Color(0.40, 0.40, 0.40)
+	bar.modulate = bar_color
 	txt.text = "HP %.0f / %.0f%s" % [c.hp, c.max_hp, "" if c.is_alive() else "  ☠"]
 	hnd.text = "谱:%d 手:%d 沉:%d  AE:%.0f" % [
 		c.behavior_spectrum.size(), c.standby.size(), c.sediment.size(),
@@ -401,7 +483,6 @@ func _rebuild_action_buttons(chara: Character) -> void:
 	_clear_action_buttons()
 	for action in chara.standby:
 		var affordable: bool = chara.can_afford(action.energy_cost)
-		var btn := Button.new()
 		var is_s: bool = not action.has_method("is_intervention") or action.is_strike()
 		var type_tag: String = "[攻势]" if is_s else \
 			("[调控·场地]" if (action.has_method("is_field_intervention") \
@@ -409,28 +490,36 @@ func _rebuild_action_buttons(chara: Character) -> void:
 		var cost: float = float(action.energy_cost.get(Character.ENERGY_ACTIVATION, 0.0))
 		var tags_str: String = ", ".join(action.chem_tags) if not action.chem_tags.is_empty() else "通用"
 		var intensity: float = action.base_intensity if "base_intensity" in action else 0.0
-		btn.text = "%s %s\n%s  AE:%.0f  强:%.0f" % [
-			type_tag, action.action_name, tags_str, cost, intensity]
+		var btn := Button.new()
+		btn.text = "%s %s\n%s  AE:%.0f  强:%.0f" % [type_tag, action.action_name, tags_str, cost, intensity]
 		btn.disabled = not affordable
 		btn.custom_minimum_size = Vector2(155, 60)
-		btn.modulate = (C_STRIKE if is_s else C_INTERV) if affordable else C_DIMMED
+		btn.modulate = (C_STRIKE if is_s else C_INTERV) if affordable else Color(0.45, 0.45, 0.50)
 		var ca = action; var cc = chara
 		btn.pressed.connect(func(): _on_action_picked(ca, cc))
 		action_row.add_child(btn)
 	var pb := Button.new()
-	pb.text = "Pass\n（跳过）"
-	pb.custom_minimum_size = Vector2(80, 60)
-	pb.modulate = C_DIMMED
-	var cap = chara
+	pb.text = "Pass\n（跳过）"; pb.custom_minimum_size = Vector2(80, 60)
+	pb.modulate = Color(0.45, 0.45, 0.50)
+	var cap := chara
 	pb.pressed.connect(func(): _on_pass_pressed(cap))
 	action_row.add_child(pb)
 
 func _clear_action_buttons() -> void:
 	for ch in action_row.get_children(): ch.queue_free()
 
-# ══════════════════════════════════════════════════════════
-# 胜负
-# ══════════════════════════════════════════════════════════
+func _deploy_catalyst_from_action(action, chara: Character) -> void:
+	var cat: Catalyst
+	if "镍" in action.action_name:
+		cat = Catalyst.make_nickel_catalyst(3)
+	elif "H₂SO₄" in action.action_name or "硫酸" in action.action_name:
+		cat = Catalyst.make_sulfuric_catalyst(2)
+	else:
+		return
+	bm.deploy_catalyst(cat, chara)
+	_log_append("[color=#aaff88]  ✦ %s 部署了 [%s][/color]" % [
+		chara.char_name, cat.catalyst_name])
+
 func _check_and_end() -> bool:
 	var w := bm.phase_check_victory()
 	if w == "": return false
@@ -444,9 +533,6 @@ func _check_and_end() -> bool:
 	_log_append("共 %d 回合  最终环境：%s" % [turn_number, bm.environment.get_summary()])
 	return true
 
-# ══════════════════════════════════════════════════════════
-# 日志辅助
-# ══════════════════════════════════════════════════════════
 func _log_append(text: String) -> void:
 	if is_instance_valid(log_rtl): log_rtl.append_text(text + "\n")
 
@@ -456,14 +542,11 @@ func _flush_bm_log() -> void:
 	bm.battle_log.clear()
 	for line in lines:
 		if line.strip_edges().is_empty(): continue
-		if "命中规则" in line:    _log_append("[color=#ffdd55]" + line + "[/color]")
-		elif "⚔" in line:        _log_append("[color=#ffaa66]" + line + "[/color]")
-		elif "环境" in line:     _log_append("[color=#88aaff]" + line + "[/color]")
-		else:                    _log_append("[color=#cccccc]" + line + "[/color]")
+		if "命中规则" in line:  _log_append("[color=#ffdd55]" + line + "[/color]")
+		elif "⚔" in line:      _log_append("[color=#ffaa66]" + line + "[/color]")
+		elif "环境" in line:   _log_append("[color=#88aaff]" + line + "[/color]")
+		else:                  _log_append("[color=#cccccc]" + line + "[/color]")
 
-# ══════════════════════════════════════════════════════════
-# 工具
-# ══════════════════════════════════════════════════════════
 func _all_alive() -> Array:
 	return _alive_in(bm.player_team) + _alive_in(bm.enemy_team)
 

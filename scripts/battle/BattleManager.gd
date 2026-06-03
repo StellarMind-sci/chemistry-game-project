@@ -136,7 +136,44 @@ func phase_env_effects() -> void:
 	_log("  " + environment.get_summary())
 	for chara in _all_alive():
 		_apply_env_damage(chara as Character)
+		_apply_status_effects(chara as Character)   # 状态效果实际生效
 		(chara as Character).tick_status_effects()
+	# 催化剂计时递减，移除到期的
+	var alive_cats: Array = []
+	for cat in catalysts:
+		if (cat as Catalyst).tick():
+			alive_cats.append(cat)
+		else:
+			_log("  [催化剂失效] %s" % (cat as Catalyst).catalyst_name)
+	catalysts = alive_cats
+	if not catalysts.is_empty():
+		var cat_names: Array = []
+		for cat in catalysts: cat_names.append((cat as Catalyst).get_summary())
+		_log("  [活跃催化剂] " + "  |  ".join(cat_names))
+
+# 状态效果每回合实际生效（在 phase_env_effects 中调用）
+func _apply_status_effects(chara: Character) -> void:
+	for eff: Dictionary in chara.status_effects:
+		var etype: String = eff.get("type", str(eff.get(0, "")))
+		var intensity: float = float(eff.get("intensity", 1.0))
+		match etype:
+			"corroded", "structure_damaged":
+				var dmg: float = 5.0 * intensity
+				chara.take_damage(dmg)
+				_log("  🔴 [%s] %s 持续损伤 %.1f" % [etype, chara.char_name, dmg])
+			"burning":
+				var dmg: float = max(0.0, environment.temperature - 30.0) * 0.1 * intensity
+				if dmg > 0.0:
+					chara.take_damage(dmg)
+					_log("  🔥 [燃烧] %s 受 %.1f 热伤害" % [chara.char_name, dmg])
+			"electron_transferred":
+				var delta: float = 1.0 * intensity
+				var current: float = float(chara.energy_pool.get(Character.ENERGY_ELECTRON, 0.0))
+				chara.energy_pool[Character.ENERGY_ELECTRON] = max(0.0, current - delta)
+			"neutralized":
+				pass  # 视觉提示，战斗效果由规则效率函数处理
+			_:
+				pass  # 未识别的状态类型，静默忽略
 
 func _apply_env_damage(chara: Character) -> void:
 	if environment.temperature > 80.0 and chara.has_skill_with_tag("hydroxyl"):
@@ -290,6 +327,9 @@ func resolve_reaction(action_a, action_b,
 		_log("    → 惰性反应")
 		return _inert_reaction(action_a, action_b)
 	_log("    → 【%s】优先级=%d" % [matched.rule_name, matched.priority])
+	var eq_disp: String = matched.base_effect.get("equation_display", "")
+	if eq_disp != "":
+		_log("    ⚗ %s" % eq_disp)
 	var effect: Dictionary = matched.base_effect.duplicate(true)
 	for catalyst in active_catalysts:
 		if catalyst.has_method("modify_effect"):
@@ -368,6 +408,12 @@ func _inert_reaction(a, b) -> Dictionary:
 func _log(msg: String) -> void:
 	battle_log.append(msg)
 	print(msg)
+
+# 外部调用：向战场部署一个催化剂（由 BattleScene 或调控行动调用）
+func deploy_catalyst(cat: Catalyst, deployer: Character = null) -> void:
+	cat.deployed_by = deployer
+	catalysts.append(cat)
+	_log("  ✦ [催化剂部署] %s" % cat.get_summary())
 
 func get_battle_log() -> String:
 	return "\n".join(battle_log)
