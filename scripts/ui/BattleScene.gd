@@ -191,13 +191,13 @@ func _make_char_panel(chara: Character, is_player: bool) -> Control:
 	c.add_child(sl)
 
 	# 结构节点显示
-	var nl := Label.new()
-	nl.text = ""
-	nl.add_theme_font_size_override("font_size", 11)
-	nl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	nl.add_theme_color_override("font_color", Color(0.75, 0.55, 0.90))
-	node_display_map[chara] = nl
-	c.add_child(nl)
+	var ndl := Label.new()
+	ndl.text = ""
+	ndl.add_theme_font_size_override("font_size", 11)
+	ndl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	ndl.add_theme_color_override("font_color", Color(0.75, 0.55, 0.90))
+	node_display_map[chara] = ndl
+	c.add_child(ndl)
 
 	return c
 
