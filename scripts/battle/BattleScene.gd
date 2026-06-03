@@ -227,8 +227,55 @@ func _init_battle() -> void:
 	na.action_name = "钠焰爆燃"; na.energy_cost = {Character.ENERGY_ACTIVATION: 30.0}
 	pb.add_to_spectrum(kmo); pb.add_to_spectrum(red); pb.add_to_spectrum(na)
 
-	# Demo Boss：紫焰裁判官
-	var boss := Boss.create_kmno4_judge(engine)
+	# 占位 Boss（3 形态机制测试，叙事内容待后续角色设计阶段）
+	var boss := Boss.new("多形态测试 Boss", "enemy", 600.0)
+	boss.draw_count = 2
+
+	# 形态一（HP > 55%）：标准氧化攻击
+	var p1 := Boss.BossPhase.new()
+	p1.phase_name   = "形态一"
+	p1.hp_threshold = 1.01
+	p1.phase_color  = Color(0.90, 0.40, 0.10)
+	p1.entry_message = ""
+	p1.env_on_enter = {}
+	var ba1 := ReactionAction.new("氧化攻击")
+	ba1.element_tags = ["Cu","O"]; ba1.chem_tags = [ReactionAction.TAG_OXIDIZING]
+	ba1.energy_cost = {Character.ENERGY_ACTIVATION: 20.0}; ba1.base_intensity = 30.0
+	var ba2 := ReactionAction.new("碱性防御")
+	ba2.element_tags = ["Cu","O","H"]; ba2.chem_tags = [ReactionAction.TAG_ALKALINE, ReactionAction.TAG_HYDROXYL]
+	ba2.energy_cost = {Character.ENERGY_ACTIVATION: 10.0}; ba2.base_intensity = 12.0
+	p1.actions = [ba1, ba2]
+
+	# 形态二（HP < 55%）：更强攻击 + 环境扰动
+	var p2 := Boss.BossPhase.new()
+	p2.phase_name   = "形态二"
+	p2.hp_threshold = 0.55
+	p2.phase_color  = Color(0.50, 0.25, 0.08)
+	p2.entry_message = "【形态切换】Boss 进入形态二"
+	p2.env_on_enter = {"entropy_delta": 8.0}
+	var bb1 := ReactionAction.new("强化攻击")
+	bb1.element_tags = ["Cu"]; bb1.chem_tags = [ReactionAction.TAG_OXIDIZING, ReactionAction.TAG_REDUCING]
+	bb1.energy_cost = {Character.ENERGY_ACTIVATION: 18.0}; bb1.base_intensity = 40.0
+	bb1.keywords = ["先手"]
+	var bb2 := ReactionAction.make_field_intervention("混乱扰动", {"entropy_delta": 6.0}, 1)
+	bb2.energy_cost = {Character.ENERGY_ACTIVATION: 12.0}
+	p2.actions = [bb1, bb2]
+
+	# 形态三（HP < 25%）：最终形态
+	var p3 := Boss.BossPhase.new()
+	p3.phase_name   = "形态三"
+	p3.hp_threshold = 0.25
+	p3.phase_color  = Color(0.70, 0.70, 0.80)
+	p3.entry_message = "【形态切换】Boss 进入最终形态"
+	p3.env_on_enter = {"entropy_delta": 15.0, "temp_delta": 5.0}
+	var bc1 := ReactionAction.new("最终攻击")
+	bc1.element_tags = ["Cu"]; bc1.chem_tags = [ReactionAction.TAG_OXIDIZING]
+	bc1.energy_cost = {Character.ENERGY_ACTIVATION: 15.0}; bc1.base_intensity = 52.0
+	bc1.keywords = ["先手"]
+	p3.actions = [bc1]
+
+	boss.phases = [p1, p2, p3]
+	boss.init_first_phase()
 
 	bm = BattleManager.new()
 	bm.setup_teams([pa, pb], [boss])
@@ -246,8 +293,7 @@ func _init_battle() -> void:
 	enemy_col.add_child(eh)
 	for c in bm.enemy_team: enemy_col.add_child(_make_char_panel(c, false))
 
-	_log_append("[color=#bb44ff]⬡ 高锰酸钾「紫焰裁判官」が現れた[/color]")
-	_log_append("[color=#cc88ff]" + (boss as Boss).get_current_phase().entry_message + "[/color]")
+	_log_append("[color=#ffaa44]⚔ 战斗开始！玩家2名 vs 多形态测试 Boss[/color]")
 	_update_env_bar()
 
 # ══════════════════════════════════════════════════════════
