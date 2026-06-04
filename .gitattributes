@@ -1,0 +1,22 @@
+# 强制所有文本文件使用 LF 换行（跨平台一致性）
+* text=auto eol=lf
+
+# Windows 特定脚本保留 CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制资源
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.wav  binary
+*.mp3  binary
+*.ogg  binary
+*.ttf  binary
+*.otf  binary
+*.pdf  binary
+
+# Godot 导入文件
+*.import text

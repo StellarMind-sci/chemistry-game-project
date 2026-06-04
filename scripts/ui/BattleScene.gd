@@ -45,7 +45,7 @@ var node_display_map: Dictionary = {}   # Character → Label（结构节点）
 func _ready() -> void:
 	_build_ui()
 	_init_battle()
-	call_deferred("_begin_turn")
+	call_deferred("_show_battle_intro")  # 先显示引导，引导结束后开始战斗
 
 # ══════════════════════════════════════════════════════════
 # UI 构建（与 v0.2 相同，增加 phase_lbl 支持）
@@ -114,6 +114,134 @@ func _build_ui() -> void:
 	action_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	action_row.add_theme_constant_override("separation", 8)
 	av.add_child(action_row)
+
+# ══════════════════════════════════════════════════════════
+# 战斗引导面板（Demo 开始前向玩家说明三个核心机制）
+# ══════════════════════════════════════════════════════════
+func _show_battle_intro() -> void:
+	var overlay := _make_overlay(Color(0.03, 0.04, 0.10, 0.94))
+	# 用锚点让 vb 自动居中、占视口中央 60%
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 14)
+	vb.anchor_left = 0.20; vb.anchor_right  = 0.80
+	vb.anchor_top  = 0.18; vb.anchor_bottom = 0.85
+	overlay.add_child(vb)
+
+	_add_intro_label(vb, "⚗  战斗规则速览", 26, Color(0.85, 0.90, 1.00))
+	_add_intro_label(vb, "", 10, Color.WHITE)
+
+	var rules := [
+		["🔷 反应行动系统",
+		 "选择技能卡攻击敌人，双方技能通过化学反应规则碰撞解算。\n" +
+		 "技能的元素标签决定能触发哪些反应，反应类型决定伤害倍率。"],
+		["🌡 环境平衡系统",
+		 "战场有 pH / 温度 / 熵 三个环境变量，会被每次反应改变。\n" +
+		 "勒夏特列原理：环境变化会反向抑制触发该变化的反应效率。"],
+		["⬡ 活性位点攻击",
+		 "攻击时可选择敌方角色的具体结构节点（如官能团）。\n" +
+		 "若行动的化学标签与节点的弱点匹配，伤害 ×1.45。节点稳定性归零时永久损毁。"],
+	]
+	for rule in rules:
+		_add_intro_label(vb, rule[0], 16, Color(0.70, 0.88, 1.00))
+		_add_intro_label(vb, rule[1], 13, Color(0.78, 0.82, 0.90))
+
+	_add_intro_label(vb, "", 8, Color.WHITE)
+	var btn := Button.new()
+	btn.text = "▶  开始战斗"
+	btn.add_theme_font_size_override("font_size", 18)
+	btn.custom_minimum_size = Vector2(200, 48)
+	btn.modulate = Color(0.35, 0.85, 0.55)
+	btn.pressed.connect(func():
+		overlay.queue_free()
+		_begin_turn()
+	)
+	vb.add_child(btn)
+	add_child(overlay)
+
+func _add_intro_label(parent: Node, text: String, size: int, color: Color) -> void:
+	var lbl := Label.new()
+	lbl.text = text
+	lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	lbl.add_theme_font_size_override("font_size", size)
+	lbl.add_theme_color_override("font_color", color)
+	parent.add_child(lbl)
+
+# ══════════════════════════════════════════════════════════
+# Boss 形态切换公告（2秒戏剧性停顿）
+# ══════════════════════════════════════════════════════════
+func _show_phase_announcement(phase_name: String, msg: String, phase_color: Color) -> void:
+	var overlay := _make_overlay(Color(0.02, 0.02, 0.06, 0.88))
+	# 横条背景：左右贯穿，垂直居中
+	var bar := ColorRect.new()
+	bar.color = phase_color * Color(0.12, 0.12, 0.12, 1.0)
+	bar.anchor_left = 0.0; bar.anchor_right  = 1.0
+	bar.anchor_top  = 0.40; bar.anchor_bottom = 0.60
+	overlay.add_child(bar)
+	# 形态名（左侧 8% 缩进，顶部居中区域）
+	var name_lbl := Label.new()
+	name_lbl.text = phase_name
+	name_lbl.add_theme_font_size_override("font_size", 32)
+	name_lbl.add_theme_color_override("font_color", phase_color)
+	name_lbl.anchor_left = 0.06; name_lbl.anchor_right  = 0.94
+	name_lbl.anchor_top  = 0.42; name_lbl.anchor_bottom = 0.48
+	overlay.add_child(name_lbl)
+	# 形态描述（同区域下方）
+	var msg_lbl := Label.new()
+	msg_lbl.text = msg
+	msg_lbl.add_theme_font_size_override("font_size", 15)
+	msg_lbl.add_theme_color_override("font_color", Color(0.85, 0.85, 0.90))
+	msg_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	msg_lbl.anchor_left = 0.06; msg_lbl.anchor_right  = 0.94
+	msg_lbl.anchor_top  = 0.50; msg_lbl.anchor_bottom = 0.60
+	overlay.add_child(msg_lbl)
+	add_child(overlay)
+	await get_tree().create_timer(2.2).timeout
+	if is_instance_valid(overlay): overlay.queue_free()
+
+# ══════════════════════════════════════════════════════════
+# 胜负结算界面
+# ══════════════════════════════════════════════════════════
+func _show_result_screen(won: bool) -> void:
+	var overlay := _make_overlay(Color(0.03, 0.04, 0.08, 0.92))
+	var vb := VBoxContainer.new()
+	vb.add_theme_constant_override("separation", 18)
+	vb.anchor_left = 0.25; vb.anchor_right  = 0.75
+	vb.anchor_top  = 0.25; vb.anchor_bottom = 0.78
+	overlay.add_child(vb)
+
+	if won:
+		_add_intro_label(vb, "★  实验成功  ★", 38, Color(0.40, 1.00, 0.65))
+		_add_intro_label(vb, "所有结构节点已瓦解，反应链完成", 16, Color(0.75, 0.90, 0.80))
+	else:
+		_add_intro_label(vb, "✖  实验失败", 38, Color(1.00, 0.40, 0.30))
+		_add_intro_label(vb, "团队全员无力化，战场被对方掌控", 16, Color(0.90, 0.70, 0.70))
+
+	_add_intro_label(vb, "共进行 %d 回合" % turn_number, 14, Color(0.65, 0.70, 0.80))
+	var env := bm.environment
+	_add_intro_label(vb,
+		"最终环境：%s" % env.get_summary(),
+		13, Color(0.55, 0.65, 0.80))
+
+	_add_intro_label(vb, "", 8, Color.WHITE)
+	var btn := Button.new()
+	btn.text = "↩  返回主菜单"
+	btn.add_theme_font_size_override("font_size", 17)
+	btn.custom_minimum_size = Vector2(220, 48)
+	btn.modulate = Color(0.60, 0.75, 1.00)
+	btn.pressed.connect(func():
+		get_tree().change_scene_to_file("res://scenes/menu/MainMenu.tscn"))
+	vb.add_child(btn)
+	add_child(overlay)
+
+# ── 通用半透明遮罩层 ──────────────────────────────────────
+func _make_overlay(bg_color: Color) -> Control:
+	var overlay := Control.new()
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	var bg := ColorRect.new()
+	bg.color = bg_color
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(bg)
+	return overlay
 
 func _make_margin(color: Color) -> MarginContainer:
 	var mc := MarginContainer.new()
@@ -333,7 +461,7 @@ func _begin_turn() -> void:
 	for c in _all_alive(): c.restore_energy_per_turn()
 	bm.phase_env_effects()
 	_update_all_chars(); _update_env_bar(); _flush_bm_log()
-	if _check_and_end(): return
+	if await _check_and_end(): return
 	for c in _all_alive():
 		if c.standby.is_empty(): c.draw_to_standby()
 	_update_all_chars()
@@ -568,7 +696,7 @@ func _resolve_turn() -> void:
 				_trigger_special_ending(b)
 				return
 
-	if _check_and_end(): return
+	if await _check_and_end(): return
 	prompt_lbl.text = "回合结束..."
 	await get_tree().create_timer(1.0).timeout
 	_begin_turn()
@@ -580,21 +708,21 @@ func _check_boss_phase_transitions() -> void:
 		var new_phase = boss.check_and_advance_phase()
 		if new_phase != null:
 			var p := new_phase as Boss.BossPhase
+			# 日志记录
 			_log_append("\n[color=#ffffff]══════════════════════════════[/color]")
-			_log_append("[color=%s]%s[/color]" % [
-				"#%02x%02x%02x" % [
-					int(p.phase_color.r * 255),
-					int(p.phase_color.g * 255),
-					int(p.phase_color.b * 255)],
-				p.entry_message])
+			if p.entry_message != "":
+				_log_append("[color=#ccaaff]%s[/color]" % p.entry_message)
 			_log_append("[color=#ffffff]══════════════════════════════[/color]\n")
-			# 如果有环境扰动，应用它
+			# 环境扰动
 			if not p.env_on_enter.is_empty():
 				var changes := bm.environment.apply_delta(p.env_on_enter)
 				if not changes.is_empty():
 					_log_append("[color=#88aaff][形态切换环境扰动] " + "  ".join(changes) + "[/color]")
 			_update_all_chars()
 			_update_env_bar()
+			# 戏剧性公告（异步，2秒后自动消失）
+			if p.entry_message != "":
+				_show_phase_announcement(p.phase_name, p.entry_message, p.phase_color)
 
 func _trigger_special_ending(boss: Boss) -> void:
 	phase = Phase.BATTLE_END
@@ -781,21 +909,17 @@ func _check_and_end() -> bool:
 	var w := bm.phase_check_victory()
 	if w == "": return false
 	phase = Phase.BATTLE_END
-	if w == "player":
+	var won: bool = (w == "player")
+	if won:
 		_log_append("\n[color=#44ffaa]★ 玩家队伍获胜！★[/color]")
-		prompt_lbl.text = "★ 玩家胜利！"
 	else:
 		_log_append("\n[color=#ff6644]✖ 敌方获胜[/color]")
-		prompt_lbl.text = "✖ 失败..."
 	_log_append("共 %d 回合  最终环境：%s" % [turn_number, bm.environment.get_summary()])
-	# 战斗结束后显示返回按钮
 	_clear_action_buttons()
-	var back_btn := Button.new()
-	back_btn.text = "↩  返回主菜单"
-	back_btn.custom_minimum_size = Vector2(180, 50)
-	back_btn.modulate = Color(0.60, 0.75, 1.00)
-	back_btn.pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/menu/MainMenu.tscn"))
-	action_row.add_child(back_btn)
+	prompt_lbl.text = "战斗结束"
+	# 短暂延迟后显示结算界面（让玩家看到最后一轮日志）
+	await get_tree().create_timer(1.5).timeout
+	_show_result_screen(won)
 	return true
 
 func _log_append(text: String) -> void:
